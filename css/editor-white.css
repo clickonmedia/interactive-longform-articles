@@ -1,0 +1,13 @@
+
+body#tinymce {
+    background-color: #fff !important;
+    color: #000;
+}
+
+	#tinymce p, #tinymce h1, #tinymce h2, #tinymce h6 {
+	    color: #000;
+	}
+
+	.caption {
+		color: #000;
+	}

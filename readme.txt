@@ -1,0 +1,26 @@
+=== Interactive Longform Articles ===
+
+Contributors: CLICKON Media, jpylisela
+Tags: interactive, multimedia, longform, journalism, article, scroll
+Requires at least: 3.0.1
+Tested up to: 4.9.1
+License: GPLv3 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+
+Interactive multimedia articles for longform journalism, with a background scroll effect.
+
+== Description ==
+
+Interactive longform articles, with a fading scroll effect.
+
+== Installation ==
+
+1. Upload the unzipped plugin files to the `/wp-content/plugins/` directory, or install the plugin through the WordPress plugins screen directly.
+2. Activate the plugin through the 'Plugins' screen in WordPress
+3. That's all! No configuration necessary.
+
+
+== Changelog ==
+
+= 1.0 =
+* First version

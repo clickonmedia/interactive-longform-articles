@@ -1,0 +1,132 @@
+
+/*
+	TinyMCE default styles
+*/
+
+#tinymce p, #tinymce h1, #tinymce h2, #tinymce h6 {
+    color: #fff;
+}
+
+/*
+	Intro styles
+*/
+	#tinymce .byline {
+		font-size: 16px;
+		margin-bottom: -0.5rem;
+	}
+
+/*
+	Longform article styles
+*/
+#tinymce h1, #tinymce h2, #tinymce p, #tinymce .byline {
+	max-width: 610px;
+	margin-right: auto;
+	margin-left: auto;
+	padding: 0 15px;
+}
+
+	#tinymce h2 {
+		font-size: 26px;
+		font-weight: 700;
+		margin-bottom: 1rem;
+	}
+
+	#tinymce p.intro-para {
+		font-size: 1.5rem;
+		letter-spacing: -.5px;
+		line-height: 2.1875rem;
+		font-weight: 400;
+		margin-bottom: 1.8125rem;
+	}
+
+	#tinymce p {
+	    font-size: 1.2rem;
+	    line-height: 1.615em;
+	    letter-spacing: -.003em;
+		font-weight: 400;
+		margin-bottom: 1.25rem;
+	}
+
+
+/*
+	Lead styles
+*/
+#tinymce h2.lead-title {
+	font-size: 30px;
+	line-height: 1.45em;
+	font-weight: 700;
+	margin-bottom: 1.25rem;
+}
+
+	#tinymce p.lead-subhead {
+		font-size: 1.55rem;
+		line-height: 36px;
+		font-weight: 500;
+	    letter-spacing: -.003em;
+	}
+
+	#tinymce p.lead-paragraph {
+	    font-size: 1.3125rem;
+	    line-height: 1.73em;
+	    font-weight: 500;
+	    letter-spacing: -.003em;
+	}
+
+		#tinymce blockquote p {
+			font-size: 36px;
+			font-weight: 700;
+			max-width: 580px;
+			margin-left: auto;
+			margin-right: auto;
+		    font-weight: 600;
+		    padding: 0;
+		}
+
+/*
+	Captions
+*/
+#tinymce .caption, #tinymce .caption-left, #tinymce .caption-center, #tinymce .caption-right {
+    font-size: 1rem;
+    line-height: 1.625;
+    font-weight: 600;
+    clear: both;
+    max-width: 230px;
+    text-transform: uppercase;
+}
+
+	#tinymce .caption p, #tinymce .caption-left p, #tinymce .caption-center p, #tinymce .caption-right p {
+	    font-weight: 600;
+	}
+
+/*
+	Positioning
+*/
+#tinymce .position-left, #tinymce .caption-left {
+	float: left;
+	width: fit-content;
+}
+
+#tinymce .position-center, #tinymce .caption-center {
+	margin-left: auto;
+	margin-right: auto;
+	width: fit-content;
+}
+
+#tinymce .position-right, #tinymce .caption-right {
+	float: right;
+	width: fit-content;
+}
+
+/*
+	Links
+*/
+#tinymce p a {
+	color: inherit;
+	-webkit-transition: opacity .6s;
+	transition: opacity .6s;
+}
+
+	#tinymce p a:hover {
+		color: inherit;
+		opacity: 0.6;
+	}
