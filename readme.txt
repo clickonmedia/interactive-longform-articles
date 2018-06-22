@@ -9,9 +9,17 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Interactive multimedia articles for longform journalism, with a background scroll effect.
 
+
 == Description ==
 
 Interactive longform articles, with a fading scroll effect.
+
+
+== Requirements ==
+
+Advanced Custom Fields Pro plugin:
+https://www.advancedcustomfields.com/pro
+
 
 == Installation ==
 

@@ -36,7 +36,7 @@ function int_admin_init(){
 	add_settings_section( $section, '', '', $page );
 
 	// Field
-	add_settings_field( 'int_option_enable_for_post_types', __( 'Enable for a specific post type:', 'interactive-longform-articles' ), 'int_enable_for_post_types', $page, $section );
+	add_settings_field( 'int_option_enable_for_post_types', __( 'Enable for post types:', 'interactive-longform-articles' ), 'int_enable_for_post_types', $page, $section );
 
 	add_settings_field( 'int_option_enable_post_type', __( 'Enable interactive articles as a post type', 'interactive-longform-articles' ), 'int_display_as_post_type', $page, $section );
 
