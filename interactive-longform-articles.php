@@ -5,8 +5,8 @@ Description: Interactive, multimedia articles for longform journalism
 Version:     1.2.14
 Author:      CLICKON Media
 Author URI:  https://www.clickon.co
-License:     GPL2
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
+License:     GPL3
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
 */
 require 'inc/options.php';
 
