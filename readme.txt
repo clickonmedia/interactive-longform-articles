@@ -15,6 +15,20 @@ Interactive multimedia articles for longform journalism, with a background scrol
 Interactive longform articles, with a fading scroll effect.
 
 
+== Description ==
+
+Interactive longform articles, with a fading scroll effect.
+
+
+== Examples ==
+
+https://www.theversed.com/90093/vague-a-lame-waves-of-the-soul
+
+https://www.theversed.com/88510/meet-the-extraordinary-racing-driver-who-went-from-navy-to-nascar
+
+https://www.theversed.com/88688/krav-maga-the-peacekeeper
+
+
 == Requirements ==
 
 Advanced Custom Fields Pro plugin:
