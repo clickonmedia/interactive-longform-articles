@@ -38,7 +38,7 @@ function interactive_enqueue_scripts( $hook ) {
 	    $plugin_data = get_plugin_data( __FILE__ );
 
     	// Enqueue styles
-    	wp_enqueue_style( 'interactive-longform-styles', plugins_url( '/css/style.css', __FILE__ ), false, $plugin_data['Version'] );
+    	wp_enqueue_style( 'interactive-longform-styles', plugins_url( '/css/style.min.css', __FILE__ ), false, $plugin_data['Version'] );
 
 	    // Enqueue the component scripts
 		wp_enqueue_script( 'jquery', plugins_url( '/js/jquery-3.3.1.min.js', __FILE__ ), array(), false, true );
@@ -625,7 +625,7 @@ add_action( 'after_setup_theme', 'interactive_setup' );
 	Add black and white WYSIWYG editor styles
 */
 function interactive_editor_admin_footer() {
-	$styles = plugins_url( '/css/editor-style.css', __FILE__ );
+	$styles = plugins_url( '/css/editor-style.min.css', __FILE__ );
 	$black_styles = plugins_url( '/css/editor-black.css', __FILE__ );
 	$white_styles = plugins_url( '/css/editor-white.css', __FILE__ );
 ?>

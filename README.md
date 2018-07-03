@@ -29,6 +29,17 @@ https://www.theversed.com/88688/krav-maga-the-peacekeeper
 * Wordpress 3.0+
 * Advanced Custom Fields Pro: https://www.advancedcustomfields.com/pro
 
+## Development
+
+```
+npm install
+gulp watch
+```
+
+The plugin uses SASS for styling. The files can be found at the /sass directory.
+
+https://sass-lang.com/guide
+
 ## License
 
 Licensed under GNU General Public License v3.0. See LICENSE for details

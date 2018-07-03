@@ -1,0 +1,41 @@
+{
+  "name": "interactive-longform-articles",
+  "version": "1.0.0",
+  "description": "Interactive, multimedia articles for longform journalism",
+  "scripts": {
+    "postinstall": ""
+  },
+  "engines": {
+    "npm": ">=2.1.8"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/clickonmedia/interactive-longform-articles.git"
+  },
+  "keywords": [
+    "wordpress",
+    "plugin",
+    "interactive",
+    "articles"
+  ],
+  "author": "CLICKON Media",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/clickonmedia/interactive-longform-articles/issues"
+  },
+  "homepage": "https://understrap.com",
+  "dependencies": {
+    "bootstrap": "^4.0.0",
+    "browser-sync": "^2.23.6",
+    "del": "^3.0.0",
+    "font-awesome": "^4.7.0",
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^3.9.2",
+    "gulp-plumber": "^1.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^3.1.0",
+    "gulp-sequence": "^0.4.6",
+    "gulp-watch": "^4.3.11",
+    "run-sequence": "^2.2.1"
+  }
+}
