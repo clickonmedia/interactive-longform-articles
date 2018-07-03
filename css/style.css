@@ -84,14 +84,11 @@
 html.interactive {
   font-size: 16px;
   padding: 0; }
-
-html.interactive body {
-  padding: 0 10px;
-  background: #000 !important; }
-
-/* Adblocker fix */
-html.interactive body.sponsored-post {
-  display: block !important; }
+  html.interactive body {
+    padding: 0 10px;
+    background: #000 !important; }
+    html.interactive body.sponsored-post {
+      display: block !important; }
 
 /*
 	 * 	Interactive Header
@@ -345,31 +342,6 @@ html.interactive body.sponsored-post {
     pointer-events: none; }
 
 /*
-		Dark style
-	*/
-.style-black .interactive-background {
-  background-color: #000; }
-
-/*
-		White style
-	*/
-.style-white {
-  color: #000; }
-  .style-white .interactive-background {
-    background-color: #fff; }
-  .style-white .caption, .style-white .caption-left, .style-white .caption-center, .style-white .caption-right {
-    color: #000; }
-
-.interactive-section.style-white .content div, .interactive-section.style-white p, .interactive-section.style-white h1, .interactive-section.style-white h2, .interactive-section.style-white h6 {
-  color: black; }
-
-.interactive-section.style-white blockquote p {
-  text-shadow: 0 0 5px rgba(0, 0, 0, 0.2); }
-
-.interactive-section.style-white.cover h1, .interactive-section.style-white.cover h2, .interactive-section.style-white.cover p, .interactive-section.style-white.cover p.byline, .interactive-section.style-white.cover p.intro-byline {
-  text-shadow: 0 0 5px rgba(0, 0, 0, 0.2); }
-
-/*
 	 * 	Interactive text
 	 */
 .interactive-text {
@@ -394,6 +366,31 @@ html.interactive body.sponsored-post {
     .interactive-text .content h2 a {
       text-decoration: underline;
       color: inherit; }
+
+/*
+		Dark style
+	*/
+.style-black .interactive-background {
+  background-color: #000; }
+
+/*
+		White style
+	*/
+.style-white {
+  color: #000; }
+  .style-white .interactive-background {
+    background-color: #fff; }
+  .style-white .caption, .style-white .caption-left, .style-white .caption-center, .style-white .caption-right {
+    color: #000; }
+
+.interactive-section.style-white .content div, .interactive-section.style-white p, .interactive-section.style-white h1, .interactive-section.style-white h2, .interactive-section.style-white h6 {
+  color: black; }
+
+.interactive-section.style-white blockquote p {
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.2); }
+
+.interactive-section.style-white.cover h1, .interactive-section.style-white.cover h2, .interactive-section.style-white.cover p, .interactive-section.style-white.cover p.byline, .interactive-section.style-white.cover p.intro-byline {
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.2); }
 
 /*
 		Links

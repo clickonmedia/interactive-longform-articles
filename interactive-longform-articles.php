@@ -625,7 +625,7 @@ add_action( 'after_setup_theme', 'interactive_setup' );
 	Add black and white WYSIWYG editor styles
 */
 function interactive_editor_admin_footer() {
-	$styles = plugins_url( '/css/editor-style.min.css', __FILE__ );
+	$styles = plugins_url( '/css/editor-style.css', __FILE__ );
 	$black_styles = plugins_url( '/css/editor-black.css', __FILE__ );
 	$white_styles = plugins_url( '/css/editor-white.css', __FILE__ );
 ?>
@@ -636,9 +636,6 @@ function interactive_editor_admin_footer() {
 	if ( acf ) {
 
 		acf.add_filter( 'wysiwyg_tinymce_settings', function( mceInit, id, $field ) {
-
-			console.log( 'ACF field', $field );
-			console.log( 'mceInit', mceInit );
 
 			if ( $field.hasClass( 'acf-field' ) ) {
 				 mceInit['content_css'] += ',' + '<?php echo $styles; ?>';
