@@ -281,10 +281,13 @@
 		}
 
 		.interactive-section.cover p.byline {
-			font-size: 16px;
-			margin-bottom: 0.5rem;
 			font-weight: 600;
 			margin-top: -0.5rem;
+			margin-bottom: 0.5rem;
+		}
+
+		.interactive-section p.byline {
+			font-size: 0.89em;
 			display: block;
 		}
 
