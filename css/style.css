@@ -285,6 +285,7 @@
 			margin-bottom: 0.5rem;
 			font-weight: 600;
 			margin-top: -0.5rem;
+			display: block;
 		}
 
 		/* Interactive embeds */
