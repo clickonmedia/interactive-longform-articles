@@ -64,30 +64,6 @@ function int_admin_init(){
 }
 add_action( 'admin_init', 'int_admin_init' );
 
-
-function int_display_in_posts() {
-	$field = get_option('int_option_enable_for_posts');
-	$checked = empty( $field ) ? '' : 'checked';
-
-	echo '<input type="checkbox" id="int_option_enable_for_posts" name="int_option_enable_for_posts" value="1" ' . $checked . ' /> Feature will be available for individual posts in "Posts" section<br>';
-}
-
-
-function int_display_in_projects() {
-	$field = get_option('int_option_enable_for_projects');
-	$checked = empty( $field ) ? '' : 'checked';
-
-	echo '<input type="checkbox" id="int_option_enable_for_projects" name="int_option_enable_for_projects" value="1" ' . $checked . ' /> Feature will be available for individual projects in "Projects" section<br>';
-}
-
-function int_display_in_casestudies() {
-
-	$field = get_option('int_option_enable_for_casestudies');
-	$checked = empty( $field ) ? '' : 'checked';
-
-	echo '<input type="checkbox" id="int_option_enable_for_casestudies" name="int_option_enable_for_casestudies" value="1" ' . $checked . ' /> Feature will be available for individual casestudies in "Case Studies" section<br>';
-}
-
 function int_enable_for_post_types() {
 
 	$post_types = array_keys( get_post_types() );
