@@ -2,7 +2,7 @@
 /*
 Plugin Name: Interactive Longform Articles
 Description: Interactive, multimedia articles for longform journalism
-Version:     1.2.14
+Version:     1.2.20
 Author:      CLICKON Media
 Author URI:  https://www.clickon.co
 License:     GPL3
@@ -38,11 +38,13 @@ function interactive_enqueue_scripts( $hook ) {
 	    $plugin_data = get_plugin_data( __FILE__ );
 
     	// Enqueue styles
+    	wp_enqueue_style( 'flexslider', plugins_url( '/css/flexslider.css', __FILE__ ), false, $plugin_data['Version'] );
     	wp_enqueue_style( 'interactive-longform-styles', plugins_url( '/css/style.min.css', __FILE__ ), false, $plugin_data['Version'] );
 
 	    // Enqueue the component scripts
 		wp_enqueue_script( 'jquery', plugins_url( '/js/jquery-3.3.1.min.js', __FILE__ ), array(), false, true );
 	    wp_enqueue_script( 'lodash', plugins_url( '/js/lodash.min.js', __FILE__ ), array(), false, true );
+	    wp_enqueue_script( 'flexslider', plugins_url( '/js/jquery.flexslider-min.js', __FILE__ ), array(), false, true );
 		wp_enqueue_script( 'interactive-longform-script', plugins_url( '/js/main.js', __FILE__ ), array( 'jquery', 'lodash' ), false, true );
 
 		// GA tracking options available via ajax_object
@@ -100,7 +102,7 @@ function interactive_create_article_post_type() {
 				'rewrite' => array(
 					'slug' => 'interactive'
 				),
-				'supports' => array('title')
+				'supports' => array('title', 'thumbnail')
 			)
 		);
 	}
@@ -259,6 +261,7 @@ function interactive_acf_add_fields() {
 			'large'	=> 'Lead text',
 			'default' => 'Body text',
 			'embed' => 'Video Embed',
+			'related' => 'Related articles',
 		);
 
 		// Add downloads if the option is enabled
@@ -313,7 +316,7 @@ function interactive_acf_add_fields() {
 
 		acf_add_local_field( array(
 			'key' => 'field_bg_image_mobile',
-			'label' => 'Mobile background image',
+			'label' => 'Mobile background image (optional)',
 			'name' => 'background-image-mobile',
 			'type' => 'image',
 			'return_format' => 'array',
@@ -327,7 +330,7 @@ function interactive_acf_add_fields() {
 				),
 			),
 			'parent' => 'field_repeater',
-			'instructions' => 'Optional (JPEG image, 9:16), at least 1300px (width) x 2310px (height).'
+			'instructions' => 'JPEG image 9:16, at least 1300px (width) x 2310px (height).'
 		));
 
 		acf_add_local_field( array(
@@ -505,6 +508,9 @@ function interactive_acf_add_fields() {
 			'instructions' => 'A simple video embed - If text is required, please use the text editor.'
 		));
 
+		/*
+			Downloads
+		*/
 		acf_add_local_field( array(
 			'key' => 'field_download_repeater',
 			'label' => 'Downloads',
@@ -537,6 +543,60 @@ function interactive_acf_add_fields() {
 			'instructions' => 'PDF format'
 		));
 
+		/*
+			Related articles
+		*/
+		acf_add_local_field( array(
+			'key' => 'field_related_repeater',
+			'label' => 'Related articles',
+			'name' => 'interactive-related',
+			'type' => 'repeater',
+			'collapsed' => 1,
+			'parent' => 'field_repeater',
+			'instructions' => 'Add related article',
+			'layout' => 'row',
+			'conditional_logic' => array (
+				array (
+					array (
+						'field' => 'field_section_style',
+						'operator' => '==',
+						'value' => 'related',
+					),
+				),
+			),
+			'required' => 0,
+			'instructions' => 'These articles will be listed in a Related articles section.'
+		));
+
+		acf_add_local_field( array(
+			'key' => 'field_related_repeater_image',
+			'label' => 'Image',
+			'name' => 'interactive-related-image',
+			'type' => 'file',
+			'return_format' => 'array',
+			'parent' => 'field_related_repeater',
+			'instructions' => ''
+		));
+
+		acf_add_local_field( array(
+			'key' => 'field_related_repeater_title',
+			'label' => 'Title',
+			'name' => 'interactive-related-title',
+			'type' => 'text',
+			'parent' => 'field_related_repeater',
+			'instructions' => ''
+		));
+
+		acf_add_local_field( array(
+			'key' => 'field_related_repeater_link',
+			'label' => 'URL',
+			'name' => 'interactive-related-link',
+			'type' => 'link',
+			'return_format' => 'array',
+			'parent' => 'field_related_repeater',
+			'instructions' => ''
+		));
+
 		acf_add_local_field( array(
 			'key' => 'field_text_black',
 			'label' => 'Text',
@@ -564,6 +624,11 @@ function interactive_acf_add_fields() {
 						'field' => 'field_section_style',
 						'operator' => '!=',
 						'value' => 'downloads',
+					),
+					array (
+						'field' => 'field_section_style',
+						'operator' => '!=',
+						'value' => 'related',
 					),
 				),
 			),
@@ -671,7 +736,7 @@ if ( ! function_exists( 'interactive_theme_dependencies' ) ) {
 	function interactive_theme_dependencies() {
 
 		if( ! function_exists('acf_add_local_field') ) {
-			echo '<div class="error"><p>' . __( 'Warning: The Interactive Longform Articles requires Advanced Custom Fields Pro plugin to function', 'streampress' ) . '</p></div>';
+			echo '<div class="error"><p>' . __( 'Warning: The Interactive Longform Articles requires Advanced Custom Fields Pro plugin to function' ) . '</p></div>';
 		}
 	}
 }
@@ -748,4 +813,58 @@ function int_post_is_interactive ( $post ) {
 
 add_action( 'rest_api_init', 'interactive_add_to_rest_api_data' );
 
+
+
+/**
+ *  Shortcode for showing the latest interactive articles
+ */
+// [interactive-list max="5"]
+function int_shortcode_interactive_list( $atts ) {
+
+    $atts = shortcode_atts( array(
+        'type' => 'strip',
+        'max' => 2,
+    ), $atts, 'interactive-list' );
+
+	$articles = new WP_Query( array(
+		'post_type' => 'interactive_article',
+		'posts_per_page' => $atts['max'],
+		'offset' => 0,
+		'ignore_sticky_posts' => true,
+		'has_password' => false,
+		'post__not_in' => array( get_the_ID() ),
+	    'meta_query' => array(
+	        array(
+	            'key' => 'interactive-enable',
+	            'value' => 'enabled',
+	            'compare' => 'LIKE'
+	        )
+	    )
+	));
+
+	$html = '<div class="flexslider"><ul class="slides">';
+
+	if ( $articles->have_posts() ) : ?>
+
+		<?php while ( $articles->have_posts() ) : $articles->the_post(); ?>
+
+			<?php
+				global $post;
+				$html .= '<li>
+							<a href="' . esc_url( get_permalink() ) . '" class="flex-item" style="background-image: url(' . get_the_post_thumbnail_url( $post->ID, 'interactive-sm' ) . ')">
+							    <p class="flex-caption">' . get_the_title() . '</p>
+						  	</a>
+						  </li>';
+			?>
+
+		<?php endwhile; ?>
+	<?php endif; ?>
+
+	<?php
+	$html .= '</ul></div>';
+
+    return $html;
+}
+
+add_shortcode( 'interactive-list', 'int_shortcode_interactive_list' );
 

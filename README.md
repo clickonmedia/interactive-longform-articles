@@ -40,6 +40,10 @@ The plugin uses SASS for styling. The files can be found at the /sass directory.
 
 https://sass-lang.com/guide
 
+## Miscellaneous
+
+add_theme_support( 'custom-logo' );
+
 ## License
 
 Licensed under GNU General Public License v3.0. See LICENSE for details

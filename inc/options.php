@@ -1,17 +1,8 @@
 <?php
 
-add_action( 'admin_menu', 'int_admin_add_page' );
-
-function int_admin_add_page() {
-	add_options_page(
-		__( 'Interactive Longform Article Options', 'interactive-longform-articles' ),
-		__( 'Interactive Longform Articles', 'interactive-longform-articles' ),
-		'publish_posts',
-		'interactive',
-		'int_longform_options_page'
-	);
-}
-
+/*
+	Settings page
+*/
 function int_longform_options_page() {
 ?>
 	<div class="wrap">
@@ -25,8 +16,22 @@ function int_longform_options_page() {
 <?php
 }
 
+function int_admin_add_page() {
+	add_options_page(
+		__( 'Interactive Longform Article Options', 'interactive-longform-articles' ),
+		__( 'Interactive Longform Articles', 'interactive-longform-articles' ),
+		'publish_posts',
+		'interactive',
+		'int_longform_options_page'
+	);
+}
 
-function int_admin_init(){
+add_action( 'admin_menu', 'int_admin_add_page' );
+
+/*
+	Settings sections and fields
+*/
+function interactive_admin_init(){
 
 	// Page
 	$page = 'interactive';
@@ -62,8 +67,11 @@ function int_admin_init(){
 		register_setting( $page, 'int_option_enable_for_' . $post_type );
 	}
 }
-add_action( 'admin_init', 'int_admin_init' );
+add_action( 'admin_init', 'interactive_admin_init' );
 
+/*
+	Post type selection
+*/
 function int_enable_for_post_types() {
 
 	$post_types = array_keys( get_post_types() );
@@ -79,6 +87,9 @@ function int_enable_for_post_types() {
 	}
 }
 
+/*
+	Interactive post type
+*/
 function int_display_as_post_type() {
 	$field = get_option('int_option_enable_post_type');
 	$checked = empty( $field ) ? '' : 'checked';
@@ -86,6 +97,9 @@ function int_display_as_post_type() {
 	echo '<input type="checkbox" id="int_option_enable_post_type" name="int_option_enable_post_type" value="1" ' . $checked . ' />';
 }
 
+/*
+	Downloads
+*/
 function int_display_downloads_section() {
 	$field = get_option('int_option_display_downloads');
 	$checked = empty( $field ) ? '' : 'checked';
@@ -93,6 +107,9 @@ function int_display_downloads_section() {
 	echo '<input type="checkbox" id="int_option_display_downloads" name="int_option_display_downloads" value="1" ' . $checked . ' />';
 }
 
+/*
+	Google Analytics
+*/
 function int_enable_google_analytics() {
 	$field = get_option('int_option_google_analytics');
 	$checked = empty( $field ) ? '' : 'checked';
@@ -100,6 +117,9 @@ function int_enable_google_analytics() {
 	echo '<input type="checkbox" id="int_option_google_analytics" name="int_option_google_analytics" value="1" ' . $checked . ' />';
 }
 
+/*
+	Google Analytics Tracker
+*/
 function int_tracker_name() {
 	$name = sanitize_text_field( get_option('int_option_tracker_name') );
 

@@ -171,6 +171,18 @@
 		// Display scroll icon
 		$('.js-scroll-icon').removeClass( 'transparent' );
 
+		// Flexslider - Related articles list
+		if ( $('.flexslider').length > 0 ) {
+
+			$('.flexslider').flexslider({
+				animation: "slide",
+			    itemWidth: 260,
+			    itemMargin: 5,
+			    startAt: 0
+			});
+		}
+
+		// Initialize
 		showHeader();
 		showCurrentBackground();
 		setupBackgroundVideo();
@@ -180,6 +192,7 @@
 		var throttleBackground = _.throttle( showCurrentBackground, 100 );
 		var throttleHeader = _.throttle( showHeader, 100 );
 
+		// Scroll actions
 		$window.on( 'scroll touchmove', function() {
 			throttleBackground();
 			throttleHeader();
@@ -197,6 +210,7 @@
 
 		}, 750 );
 
+		// Resize actions
 		$( window ).resize( function() {
 			throttleResize();
 		});

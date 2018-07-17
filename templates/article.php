@@ -8,8 +8,8 @@
 
 <?php
 	// Get header template
-	if( file_exists( get_template_directory() . '/interactive-longform-articles/header.php' ) ) {
-		include( get_template_directory() . '/interactive-longform-articles/header.php' );
+	if( file_exists( get_stylesheet_directory() . '/interactive-longform-articles/header.php' ) ) {
+		include( get_stylesheet_directory() . '/interactive-longform-articles/header.php' );
 	} else {
 		include( 'header.php' );
 	}
@@ -29,10 +29,48 @@
 					// Define section content
 					switch( $section['section-style'] ) {
 
+						case 'cover':
+							$content = ( $section['background-color'] == 'black' ) ? $section['text-black'] : $section['text-white'];
+							$content .= '<i class="ia-icon ia-icon-keyboard_arrow_down scroll-icon js-scroll-icon transparent"></i>';
+							break;
+
 						case 'embed':
 							$content = $section['interactive-video-embed'];
 							break;
 
+						// Related articles section
+						case 'related':
+
+							// Title row
+							$content = '<h2 class="title">Related articles</h2>';
+							$content .= '<div class="flexslider"><ul class="slides">';
+
+							// Related articles list
+							$related = $section['interactive-related'];
+
+							if ( ! empty( $related ) ) {
+
+								foreach ( $related as $rel ) {
+									$image = isset($rel['interactive-related-image']) ? $rel['interactive-related-image']['sizes']['large'] : '';
+									$title = $rel['interactive-related-title'];
+									$link = $rel['interactive-related-link'];
+
+									if ( !empty($image) && !empty($title) && !empty($link) ) {
+										$content .= '<li>';
+
+										$content .= '<a href="' . $link['url'] . '" class="flex-item" style="background-image: url(' . $image . ')">
+													    <p class="flex-caption">' . $title . '</p>
+												  	</a>';
+
+										$content .= '</li>';
+									}
+								}
+							}
+
+							$content .= '</ul></div>';
+							break;
+
+						// Downloads section
 						case 'downloads':
 							$content = '<div class="container-fluid">';
 							$content .= '<div class="row justify-content-center"><div class="col-12 col-sm-6">';
@@ -59,11 +97,6 @@
 
 							$content .= '</div></div>';
 							$content .= '</div>';
-							break;
-
-						case 'cover':
-							$content = ( $section['background-color'] == 'black' ) ? $section['text-black'] : $section['text-white'];
-							$content .= '<i class="ia-icon ia-icon-keyboard_arrow_down scroll-icon js-scroll-icon transparent"></i>';
 							break;
 
 						default:
@@ -144,8 +177,8 @@
 
 <?php
 	// Get header template
-	if( file_exists( get_template_directory() . '/interactive-longform-articles/footer.php' ) ) {
-		include( get_template_directory() . '/interactive-longform-articles/footer.php' );
+	if( file_exists( get_stylesheet_directory() . '/interactive-longform-articles/footer.php' ) ) {
+		include( get_stylesheet_directory() . '/interactive-longform-articles/footer.php' );
 	} else {
 		include('footer.php');
 	}
