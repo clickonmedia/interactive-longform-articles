@@ -40,7 +40,7 @@ function yourthemeprefix_yourcpt_metabox_register() {
         $cmb_repeat_test = new_cmb2_box( array(
             'id'            => $prefix . 'metaboxjff',
             'title'         => __( 'Repeatable Screen', 'your-text-domain' ),
-            'object_types' => array( 'post', 'page' ), // post type
+            'object_types' => array( 'post', 'page', 'interactive_article' ), // post type
             //'show_on'      => array( 'key' => 'page-template', 'value' => 'page-test.php' ),
             'context'       => 'normal',
             'priority'      => 'high',
@@ -211,7 +211,7 @@ function interactive_create_article_post_type() {
 				'rewrite' => array(
 					'slug' => 'interactive'
 				),
-				'supports' => array('title', 'thumbnail')
+				'supports' => array('title', 'thumbnail', 'page-attributes'),
 			)
 		);
 	}
