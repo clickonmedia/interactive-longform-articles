@@ -48,6 +48,7 @@ function yourthemeprefix_yourcpt_metabox_register() {
         // Repeatable Group
         $group_repeat_test = $cmb_repeat_test->add_field( array(
             'id'          => 'int_article_sections',
+            'classes'     => 'int-article-sections',
             'type'        => 'group',
             'options'     => array(
                 'group_title'   => __( 'Section', 'your-text-domain' ) . ' {#}', // {#} gets replaced by row number
@@ -60,6 +61,7 @@ function yourthemeprefix_yourcpt_metabox_register() {
 		$cmb_repeat_test->add_group_field( $group_repeat_test, array(
 			'name'             => 'Background Type',
 			'id'               => 'int_background_type',
+			'classes' 		   => 'int-background-type',
 			'type'             => 'radio',
 			'show_option_none' => false,
 			'options'          => array(
@@ -67,18 +69,21 @@ function yourthemeprefix_yourcpt_metabox_register() {
 				'image'   => __( 'Image', 'your-text-domain' ),
 				'video'     => __( 'Video', 'your-text-domain' ),
 			),
+			'default' => 'color'
 		));
 
 		$cmb_repeat_test->add_group_field( $group_repeat_test, array(
 			'name'             => 'Background Color',
 			'id'               => 'int_background_color',
+			'classes' 		   => 'int-background-color',
 			'type'             => 'radio',
 			'show_option_none' => false,
 			'options'          => array(
 				'black' => __( 'Black', 'your-text-domain' ),
 				'white'     => __( 'White', 'your-text-domain' ),
 			),
-			'show_on_cb' => 'cmb_only_show_for_background_color'
+			'default' => 'black',
+			'show_on_cb' => true,
 		));
 
         //* Image Field
@@ -86,6 +91,7 @@ function yourthemeprefix_yourcpt_metabox_register() {
 			'name'    => 'Background image',
 			'desc'    => 'Upload an image file',
 			'id'      => 'int_background_image',
+			'classes' => 'int-background-image',
 			'type'    => 'file',
 			// Optional:
 			'options' => array(
@@ -105,12 +111,14 @@ function yourthemeprefix_yourcpt_metabox_register() {
 				),
 			),
 			'preview_size' => 'medium', // Image size to use when previewing in the admin.
+			'show_on_cb' => true,
 		) );
 
         $cmb_repeat_test->add_group_field( $group_repeat_test, array(
 			'name'    => 'Background video',
 			'desc'    => 'Upload a video file',
 			'id'      => 'int_background_video',
+			'classes' => 'int-background-video',
 			'type'    => 'file',
 			// Optional:
 			'options' => array(
@@ -128,6 +136,7 @@ function yourthemeprefix_yourcpt_metabox_register() {
 				),
 			),
 			'preview_size' => 'medium', // Image size to use when previewing in the admin.
+			'show_on_cb' => true,
 		) );
 
 
@@ -150,7 +159,7 @@ function yourthemeprefix_yourcpt_metabox_register() {
         $cmb_repeat_test->add_group_field( $group_repeat_test, array(
 			'name'    => 'Text',
 			'desc'    => 'field description (optional)',
-			'id'      => 'wiki_test_wysiwyg',
+			'id'      => 'int_text_wysiwyg',
 			'type'    => 'wysiwyg',
 			'options' => array(),
 		) );
@@ -160,10 +169,11 @@ add_action( 'cmb2_init', 'yourthemeprefix_yourcpt_metabox_register' );
 
 
 /**
- * Only display a metabox if the page's 'status' is 'external'
+ * Only display a metabox if the page's Background type is 'color'
  * @param  object $cmb CMB2 object
  * @return bool        True/false whether to show the metabox
  */
+/*
 function cmb_only_show_for_background_color( $cmb ) {
 
 	$meta = get_post_meta( $cmb->object_id(), 'int_article_sections', 1 );
@@ -171,7 +181,7 @@ function cmb_only_show_for_background_color( $cmb ) {
 	// Only show if background type is 'color'
 	return !empty( $meta ) && 'color' === $meta[0]['int_background_type'];
 }
-
+*/
 
 /*
 	Utility function for checking for interactive article
@@ -180,16 +190,10 @@ function is_interactive() {
 
     global $post;
 
-    // ACF enabled
-    if ( function_exists( 'get_field' ) ) {
+	$meta = get_post_meta( get_the_ID(), 'int_article_sections', true );
 
-		$slug = get_page_template_slug( $post->ID );
-
-    	// Enabled for the specific article
-	    return is_single() && ( $slug == 'interactive-template.php' ) && !post_password_required();
-    }
-
-    return false;
+	// Interactive articles are enabled for this article
+    return !empty( $meta );
 }
 
 
@@ -266,7 +270,7 @@ function interactive_create_article_post_type() {
 				'rewrite' => array(
 					'slug' => 'interactive'
 				),
-				'supports' => array('title', 'thumbnail', 'page-attributes'),
+				'supports' => array('title', 'thumbnail'),
 			)
 		);
 	}

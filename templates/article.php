@@ -4,7 +4,6 @@
  *
  * @package understrap
  */
-
 	// Get header template
 	if( file_exists( get_stylesheet_directory() . '/interactive-longform-articles/header.php' ) ) {
 		include( get_stylesheet_directory() . '/interactive-longform-articles/header.php' );
@@ -13,7 +12,122 @@
 	}
 ?>
 
+
+	<!--
+	<div class="interactive-section default  transparent">
+									<div class='interactive-background' data-bg-xs='http://localhost-motor:8888/wp-content/uploads/2018/07/7-2.jpg' data-bg-sm='http://localhost-motor:8888/wp-content/uploads/2018/07/7-2.jpg' data-bg-md='http://localhost-motor:8888/wp-content/uploads/2018/07/7-2.jpg' data-bg-xl='http://localhost-motor:8888/wp-content/uploads/2018/07/7-2.jpg' style='background-position: center center; opacity: 1'></div>							<div class="interactive-text">
+			<div class="content">
+				<p>test</p>
+			</div>
+		</div>
+	</div>
+	-->
+
+
+
 	<?php
+
+		$sections = get_post_meta( get_the_ID(), 'int_article_sections', true );
+
+		if ( ! empty( $sections ) ) {
+
+			foreach ( $sections as $section ) {
+
+				// Define section content
+				// $content = ( $section['background-color'] == 'black' ) ? $section['text-black'] : $section['text-white'];
+				$content = $section['int_text_wysiwyg'];
+
+				// Define section background
+				$background = '';
+				$progress = '';
+				$color = '';
+				// $style = empty( $section['section-style'] ) ? 'default' : $section['section-style'];
+				$style = 'default';
+				$opacity = '1';
+				$align = 'center center';
+
+				switch( $section['int_background_type'] ) {
+					case 'image':
+
+						/*
+						$opacity = round( intval( $section['background-opacity'] ) / 100, 2 );
+
+						// Desktop BG image
+						$xl = isset( $section['background-image']['sizes']['interactive-xl'] ) ? $section['background-image']['sizes']['interactive-xl'] : $section['background-image']['large'];
+
+						// Tablet BG image
+						$md = $section['background-image']['sizes']['large'];
+
+						// Mobile BG image
+						if( empty( $section['background-image-mobile'] ) ) {
+							$xs = $section['background-image']['sizes']['large'];
+							$sm = $section['background-image']['sizes']['large'];
+						} else {
+							$xs = isset( $section['background-image-mobile']['sizes']['interactive-sm'] ) ? $section['background-image-mobile']['sizes']['interactive-sm'] : $section['background-image-mobile']['large'];
+							$sm = $xs;
+						}
+						*/
+
+						$xs = $section['int_background_image'];
+						$sm = $section['int_background_image'];
+						$md = $section['int_background_image'];
+						$xl = $section['int_background_image'];
+
+						// Markup
+						$background = "<div class='interactive-background' data-bg-xs='" . $xs . "' data-bg-sm='" . $sm . "' data-bg-md='" . $md . "' data-bg-xl='" . $xl . "' style='background-position: " . $align . "; opacity: " . $opacity . "'></div>";
+						break;
+
+					case 'color':
+						// $color = 'style-' . $section['background-color'];
+						$color = 'style-' . $section['int_background_color'];
+						$background = "<div class='interactive-background'></div>";
+						break;
+
+					case 'video':
+
+						// $opacity = round( intval( $section['background-opacity'] ) / 100, 2 );
+
+						$background = "<div class='interactive-background' style='background-position: " . $align . "; opacity: " . $opacity . "'>";
+
+						// $poster = $section['background-poster']['sizes']['large'];
+						$poster = '';
+						$video = $section['int_background_color'];
+
+						$background .= '<video poster="' . $poster . '" data-src-xs="' . $video . '" data-src-md="' . $video . '" data-src-xl="' . $video . '" preload="auto" width="16" height="9" autoplay loop muted></video>';
+
+						$background .= "</div>";
+						break;
+				}
+
+				if( empty($content) ) {
+					$progress = '<progress value="0"></progress>';
+				}
+
+				?>
+
+					<div class="interactive-section <?php echo $style; ?> <?php echo $color; ?> transparent">
+						<?php echo $progress; ?>
+						<?php echo $background; ?>
+						<div class="interactive-text">
+							<div class="content">
+								<?php echo $content; ?>
+							</div>
+						</div>
+					</div>
+
+				<?php
+			}
+
+		}
+
+
+	?>
+
+
+
+
+	<?php
+		/*
 		if( function_exists( 'get_field' ) ) {
 
 			$sections = get_field( 'interactive-section' );
@@ -171,6 +285,7 @@
 
 			}
 		}
+		*/
 	?>
 
 <?php

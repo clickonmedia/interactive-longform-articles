@@ -34,8 +34,8 @@ function metabox_switcher( $post ){
 				        }
 				    }
 				};
-            	
-                jQuery(document).ready(function($){
+
+                jQuery(document).ready( function( $ ) {
 
                 	// Get the current post type
                 	var post_type = getUrlParameter("post_type");
@@ -64,6 +64,43 @@ function metabox_switcher( $post ){
                             //You should clear out all metabox values here;
                             metabox.hide();
                         }
+                    });
+
+
+                    var toggleSection = function( $el ) {
+
+                    	var name = $el.attr("name");
+                    	var option = $el.val();
+
+                    	// Background type
+                    	if( name.indexOf("int_background_type") !== -1 ) {
+
+                    		// Background color
+                    		var show_color = (option === "color");
+                    		$(".int-background-color").toggleClass( "hidden", !show_color );
+
+	                    	// Background image
+	                		var show_image = (option === "image");
+	                		$(".int-background-image").toggleClass("hidden", !show_image );
+
+	                    	// Background video
+	                 		var show_video = (option === "video");
+	                		$(".int-background-video").toggleClass("hidden", !show_video );
+                    	}
+                    }
+
+                    /*
+                    	Toggle fields depending on section type
+                    */
+                    $( "#int_article_cmb_box" ).on( "click", ".int-background-type input", function(e) {
+                    	toggleSection( $(e.currentTarget) );
+                    });
+
+                    /*
+                    	Toggle fields depending on section type / on load
+                    */
+                    $( ".int-background-type input:checked" ).each( function( i ) {
+                    	toggleSection( $(this) );
                     });
                 });
             </script>
