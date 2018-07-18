@@ -19,7 +19,26 @@ function metabox_switcher( $post ){
             </style>
 
             <script type="text/javascript">
+
+            	var getUrlParameter = function getUrlParameter(sParam) {
+				    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+				        sURLVariables = sPageURL.split("&"),
+				        sParameterName,
+				        i;
+
+				    for (i = 0; i < sURLVariables.length; i++) {
+				        sParameterName = sURLVariables[i].split("=");
+
+				        if (sParameterName[0] === sParam) {
+				            return sParameterName[1] === undefined ? true : sParameterName[1];
+				        }
+				    }
+				};
+            	
                 jQuery(document).ready(function($){
+
+                	// Get the current post type
+                	var post_type = getUrlParameter("post_type");
 
                     //You can find this in the value of the Page Template dropdown
                     var templateName = \'interactive-template.php\';
@@ -31,7 +50,7 @@ function metabox_switcher( $post ){
                     var metabox = $(\'#'.$metabox_selector_id.'\');
 
                     //On DOM ready, check if your page template is selected
-                    if(currentTemplate.val() === templateName){
+                    if(currentTemplate.val() === templateName || post_type === "interactive_article" ){
                         metabox.show();
                     }
 

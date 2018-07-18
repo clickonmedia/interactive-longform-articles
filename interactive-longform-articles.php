@@ -34,12 +34,10 @@ function yourthemeprefix_yourcpt_metabox_register() {
 	// if ( 'foobar.php' == get_post_meta( $post->ID, '_wp_page_template', true ) ) {
 	// }
 
-        $prefix = '_cmb_';
-
         $cmb_repeat_test = new_cmb2_box( array(
             'id'            => 'int_article_cmb_box',
             'title'         => __( 'Repeatable Section', 'your-text-domain' ),
-            'object_types' => array( 'post', 'page' ), // post type
+            'object_types' => array( 'post', 'page', 'interactive_article' ), // post type
             //'show_on'      => array( 'key' => 'page-template', 'value' => 'page-test.php' ),
             'context'       => 'normal',
             'priority'      => 'high',
@@ -268,7 +266,7 @@ function interactive_create_article_post_type() {
 				'rewrite' => array(
 					'slug' => 'interactive'
 				),
-				'supports' => array('title', 'thumbnail', 'page-attributes')
+				'supports' => array('title', 'thumbnail', 'page-attributes'),
 			)
 		);
 	}
