@@ -1,8 +1,8 @@
 <?php
 /*
 Plugin Name: Interactive Longform Articles
-Description: Interactive, multimedia articles for longform journalism
-Version:     1.2.20
+Description: Interactive multimedia articles for longform journalism
+Version:     2.0.0
 Author:      CLICKON Media
 Author URI:  https://www.clickon.co
 License:     GPL3
@@ -20,7 +20,7 @@ require_once __DIR__ . '/cmb2/init.php';
 /**
  * Adding the page templates
  *
- * 
+ *
  */
 require_once __DIR__ . '/pagetemplater.php';
 
@@ -33,13 +33,12 @@ function yourthemeprefix_yourcpt_metabox_register() {
 
 	// if ( 'foobar.php' == get_post_meta( $post->ID, '_wp_page_template', true ) ) {
 	// }
-        	
+
         $prefix = '_cmb_';
 
-
         $cmb_repeat_test = new_cmb2_box( array(
-            'id'            => $prefix . 'metaboxjff',
-            'title'         => __( 'Repeatable Screen', 'your-text-domain' ),
+            'id'            => 'int_article_cmb_box',
+            'title'         => __( 'Repeatable Section', 'your-text-domain' ),
             'object_types' => array( 'post', 'page' ), // post type
             //'show_on'      => array( 'key' => 'page-template', 'value' => 'page-test.php' ),
             'context'       => 'normal',
@@ -50,25 +49,97 @@ function yourthemeprefix_yourcpt_metabox_register() {
 
         // Repeatable Group
         $group_repeat_test = $cmb_repeat_test->add_field( array(
-            'id'          => $prefix . 'metaboxjff_sections',
+            'id'          => 'int_article_sections',
             'type'        => 'group',
             'options'     => array(
-                'group_title'   => __( 'Screen', 'your-text-domain' ) . ' {#}', // {#} gets replaced by row number
-                'add_button'    => __( 'Add another Screen', 'your-text-domain' ),
-                'remove_button' => __( 'Remove Screen', 'your-text-domain' ),
+                'group_title'   => __( 'Section', 'your-text-domain' ) . ' {#}', // {#} gets replaced by row number
+                'add_button'    => __( 'Add another Section', 'your-text-domain' ),
+                'remove_button' => __( 'Remove Section', 'your-text-domain' ),
                 'sortable'      => true, // beta
             ),
         ) );
 
+		$cmb_repeat_test->add_group_field( $group_repeat_test, array(
+			'name'             => 'Background Type',
+			'id'               => 'int_background_type',
+			'type'             => 'radio',
+			'show_option_none' => false,
+			'options'          => array(
+				'color' => __( 'Color', 'your-text-domain' ),
+				'image'   => __( 'Image', 'your-text-domain' ),
+				'video'     => __( 'Video', 'your-text-domain' ),
+			),
+		));
 
-        //* Title
+		$cmb_repeat_test->add_group_field( $group_repeat_test, array(
+			'name'             => 'Background Color',
+			'id'               => 'int_background_color',
+			'type'             => 'radio',
+			'show_option_none' => false,
+			'options'          => array(
+				'black' => __( 'Black', 'your-text-domain' ),
+				'white'     => __( 'White', 'your-text-domain' ),
+			),
+			'show_on_cb' => 'cmb_only_show_for_background_color'
+		));
+
+        //* Image Field
+        $cmb_repeat_test->add_group_field( $group_repeat_test, array(
+			'name'    => 'Background image',
+			'desc'    => 'Upload an image file',
+			'id'      => 'int_background_image',
+			'type'    => 'file',
+			// Optional:
+			'options' => array(
+				'url' => true, // Hide the text input for the url
+			),
+			'text'    => array(
+				'add_upload_file_text' => 'Add Image' // Change upload button text. Default: "Add or Upload File"
+			),
+			// query_args are passed to wp.media's library query.
+			'query_args' => array(
+				// 'type' => 'application/pdf', // Make library only display PDFs.
+				// Or only allow gif, jpg, or png images
+				'type' => array(
+				 	'image/gif',
+				 	'image/jpeg',
+				 	'image/png',
+				),
+			),
+			'preview_size' => 'medium', // Image size to use when previewing in the admin.
+		) );
+
+        $cmb_repeat_test->add_group_field( $group_repeat_test, array(
+			'name'    => 'Background video',
+			'desc'    => 'Upload a video file',
+			'id'      => 'int_background_video',
+			'type'    => 'file',
+			// Optional:
+			'options' => array(
+				'url' => true, // Hide the text input for the url
+			),
+			'text'    => array(
+				'add_upload_file_text' => 'Add an MP4 video file' // Change upload button text. Default: "Add or Upload File"
+			),
+			// query_args are passed to wp.media's library query.
+			'query_args' => array(
+				// 'type' => 'application/pdf', // Make library only display PDFs.
+				// Or only video formats
+				'type' => array(
+				 	'video/mp4'
+				),
+			),
+			'preview_size' => 'medium', // Image size to use when previewing in the admin.
+		) );
+
+
+        /* Title
         $cmb_repeat_test->add_group_field( $group_repeat_test, array(
             'name'    => __( 'Test Title', 'your-text-domain' ),
             'id'      => $prefix . 'test_title_2',
             'type'    => 'text',
         ) );
-        
-
+       	*/
 
         // //* Text Area
         // $cmb_repeat_test->add_group_field( $group_repeat_test, array(
@@ -79,45 +150,30 @@ function yourthemeprefix_yourcpt_metabox_register() {
         // ) );
 
         $cmb_repeat_test->add_group_field( $group_repeat_test, array(
-			'name'    => 'Test wysiwyg',
+			'name'    => 'Text',
 			'desc'    => 'field description (optional)',
 			'id'      => 'wiki_test_wysiwyg',
 			'type'    => 'wysiwyg',
 			'options' => array(),
 		) );
-
-
-
-        //* Image Field
-        $cmb_repeat_test->add_group_field( $group_repeat_test, array(
-			'name'    => 'Test File',
-			'desc'    => 'Upload an image or enter an URL.',
-			'id'      => 'wiki_test_image',
-			'type'    => 'file',
-			// Optional:
-			'options' => array(
-				'url' => false, // Hide the text input for the url
-			),
-			'text'    => array(
-				'add_upload_file_text' => 'Add File' // Change upload button text. Default: "Add or Upload File"
-			),
-			// query_args are passed to wp.media's library query.
-			'query_args' => array(
-				'type' => 'application/pdf', // Make library only display PDFs.
-				// Or only allow gif, jpg, or png images
-				// 'type' => array(
-				// 	'image/gif',
-				// 	'image/jpeg',
-				// 	'image/png',
-				// ),
-			),
-			'preview_size' => 'large', // Image size to use when previewing in the admin.
-		) );
-        
-        
 }
 
 add_action( 'cmb2_init', 'yourthemeprefix_yourcpt_metabox_register' );
+
+
+/**
+ * Only display a metabox if the page's 'status' is 'external'
+ * @param  object $cmb CMB2 object
+ * @return bool        True/false whether to show the metabox
+ */
+function cmb_only_show_for_background_color( $cmb ) {
+
+	$meta = get_post_meta( $cmb->object_id(), 'int_article_sections', 1 );
+
+	// Only show if background type is 'color'
+	return !empty( $meta ) && 'color' === $meta[0]['int_background_type'];
+}
+
 
 /*
 	Utility function for checking for interactive article
@@ -129,8 +185,10 @@ function is_interactive() {
     // ACF enabled
     if ( function_exists( 'get_field' ) ) {
 
+		$slug = get_page_template_slug( $post->ID );
+
     	// Enabled for the specific article
-	    return is_single() && get_field( 'interactive-enable', $post->ID ) && !post_password_required();
+	    return is_single() && ( $slug == 'interactive-template.php' ) && !post_password_required();
     }
 
     return false;
@@ -172,21 +230,20 @@ add_action( 'wp_enqueue_scripts', 'interactive_enqueue_scripts' );
 
 
 
-/*
-	HTML template for the interactive article
-*/
+
 function interactive_longform_custom_template( $single ) {
 
-    if ( is_interactive() ) {
+    global $wp_query, $post;
 
-    	$template = dirname(__FILE__) . '/templates/article.php';
-
-        if ( file_exists( $template ) ) {
-            return $template;
+    // Checks for single template by post type
+    if ( $post->post_type == 'interactive_article' ) {
+        if ( file_exists( plugin_dir_path( __FILE__ ) . '/interactive-template.php' ) ) {
+            return plugin_dir_path( __FILE__ ) . '/interactive-template.php';
         }
     }
 
     return $single;
+
 }
 
 add_filter( 'single_template', 'interactive_longform_custom_template' );
@@ -211,7 +268,7 @@ function interactive_create_article_post_type() {
 				'rewrite' => array(
 					'slug' => 'interactive'
 				),
-				'supports' => array('title', 'thumbnail')
+				'supports' => array('title', 'thumbnail', 'page-attributes')
 			)
 		);
 	}
@@ -917,7 +974,8 @@ function interactive_add_to_rest_api_data(){
 }
 
 function int_post_is_interactive ( $post ) {
-	return function_exists( 'get_field' ) && get_field( 'interactive-enable', $post['id'] );
+	$slug = get_page_template_slug( $post['id'] );
+	return function_exists( 'get_field' ) && ( $slug == 'interactive-template.php' );
 }
 
 add_action( 'rest_api_init', 'interactive_add_to_rest_api_data' );

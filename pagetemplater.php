@@ -22,7 +22,7 @@ function metabox_switcher( $post ){
                 jQuery(document).ready(function($){
 
                     //You can find this in the value of the Page Template dropdown
-                    var templateName = \'goodtobebad-template.php\';
+                    var templateName = \'interactive-template.php\';
 
                     //Page template in the publishing options
                     var currentTemplate = $(\'#page_template\');
@@ -125,7 +125,8 @@ class PageTemplater {
 
 		// Add your templates to this array.
 		$this->templates = array(
-			'goodtobebad-template.php' => 'It\'s Good to Be Bad',
+			'interactive-template.php' => 'Interactive Article',
+			'goodtobebad-template.php' => 'Good To Be Bad',
 		);
 
 	}
@@ -141,7 +142,7 @@ class PageTemplater {
 
 	/**
 	 * Adds our template to the pages cache in order to trick WordPress
-	 * into thinking the template file exists where it doens't really exist.
+	 * into thinking the template file exists where it doesn't really exist.
 	 */
 	public function register_project_templates( $atts ) {
 

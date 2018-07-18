@@ -4,9 +4,7 @@
  *
  * @package understrap
  */
-?>
 
-<?php
 	// Get header template
 	if( file_exists( get_stylesheet_directory() . '/interactive-longform-articles/header.php' ) ) {
 		include( get_stylesheet_directory() . '/interactive-longform-articles/header.php' );
