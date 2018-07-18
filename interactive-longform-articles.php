@@ -447,7 +447,7 @@ function interactive_acf_add_fields() {
 				),
 			),
 			'parent' => 'field_repeater',
-			'instructions' => 'GIF image (max 3MB)'
+			'instructions' => 'GIF image (max 2MB)'
 		));
 
 		acf_add_local_field( array(
@@ -466,7 +466,7 @@ function interactive_acf_add_fields() {
 				),
 			),
 			'parent' => 'field_repeater',
-			'instructions' => 'MP4, 16:9, 10-15 sec (max 5MB)'
+			'instructions' => 'MP4, 16:9, 10-15 sec (max 3MB)'
 		));
 
 		acf_add_local_field( array(
@@ -485,7 +485,7 @@ function interactive_acf_add_fields() {
 				),
 			),
 			'parent' => 'field_repeater',
-			'instructions' => 'MP4, 16:9, 10-15 sec (max 5MB)'
+			'instructions' => 'MP4, 16:9, 10-15 sec (max 3MB)'
 		));
 
 		acf_add_local_field( array(
