@@ -488,6 +488,44 @@ p a {
           font-size: 1.55rem;
           line-height: 36px; } }
 
+/*
+	Related articles - Flexslider
+*/
+.interactive-section .flexslider {
+  background: transparent;
+  border: none;
+  max-width: 610px;
+  margin: 0 auto; }
+
+.interactive-section .flexslider .flex-item {
+  display: block;
+  min-width: 260px;
+  min-height: 160px;
+  position: relative;
+  background-size: cover;
+  background-position: center center; }
+
+.interactive-section .flex-caption {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  color: white;
+  width: 100%;
+  padding: 2%;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: 0;
+  margin: 0;
+  max-width: none;
+  text-align: center; }
+
+.flex-direction-nav a:before {
+  font-size: 30px;
+  color: rgba(255, 255, 255, 0.9); }
+
 /* Large screen */
 @media all and (min-width: 1550px) {
   .interactive-section .scroll-icon {
