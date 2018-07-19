@@ -10,7 +10,7 @@ function metabox_switcher( $post ){
     // if( $post->post_type === 'page' || $post->post_type === 'post' ){
 
         #Locate the ID of your metabox with Developer tools
-        $metabox_selector_id = '_cmb_metaboxjff';
+        $metabox_selector_id = 'postbox-container-2';
 
         echo '
             <style type="text/css">
