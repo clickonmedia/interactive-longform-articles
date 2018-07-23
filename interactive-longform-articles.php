@@ -156,25 +156,64 @@ function yourthemeprefix_yourcpt_metabox_register() {
         //     'options' => array( 'textarea_rows' => 8, ),
         // ) );
 
+
+
+		$style_formats = array(
+		    array(
+		        'title' => 'Intro Paragraph',
+		        'block' => 'p',
+		        'classes' => 'intro-para',
+		        'exact' => true
+		    ),
+		    array(
+		        'title' => 'Byline',
+		        'block' => 'p',
+		        'classes' => 'byline',
+		        'exact' => true
+		    ),
+		    array(
+		        'title' => 'Caption (left)',
+		        'block' => 'div',
+		        'classes' => 'caption-left',
+		        'exact' => true
+		    ),
+		    array(
+		        'title' => 'Caption (center)',
+		        'block' => 'div',
+		        'classes' => 'caption-center',
+		        'exact' => true
+		    ),
+		    array(
+		        'title' => 'Caption (right)',
+		        'block' => 'div',
+		        'classes' => 'caption-right',
+		        'exact' => true
+		    ),
+		);
+
         $cmb_repeat_test->add_group_field( $group_repeat_test, array(
 			'name'    => 'Text',
-			'desc'    => 'field description (optional)',
+			'desc'    => '',
 			'id'      => 'int_text_wysiwyg',
 			'type'    => 'wysiwyg',
 			'options' => array(
 			    'wpautop' => true, // use wpautop?
 			    'media_buttons' => true, // show insert/upload button(s)
-			    'textarea_name' => $editor_id, // set the textarea name to something different, square brackets [] can be used here
+			    'textarea_name' => '', // set the textarea name to something different, square brackets [] can be used here
 			    'textarea_rows' => get_option('default_post_edit_rows', 10), // rows="..."
 			    'tabindex' => '',
 			    'editor_css' => '', // intended for extra styles for both visual and HTML editors buttons, needs to include the `<style>` tags, can use "scoped".
 			    'editor_class' => '', // add extra class(es) to the editor textarea
 			    'teeny' => false, // output the minimal editor config used in Press This
 			    'dfw' => false, // replace the default fullscreen with DFW (needs specific css)
-			    'tinymce' => true, // load TinyMCE, can be used to pass settings directly to TinyMCE using an array()
+			    'tinymce' => array(
+			    	'style_formats' => json_encode( $style_formats ),
+			    	'block_formats' => "Paragraph=p; Title=h2;"
+			    ),  // load TinyMCE, can be used to pass settings directly to TinyMCE using an array()
 			    'quicktags' => true // load Quicktags, can be used to pass settings directly to Quicktags using an array()
 			),
 		) );
+
 }
 
 add_action( 'cmb2_init', 'yourthemeprefix_yourcpt_metabox_register' );
@@ -878,6 +917,9 @@ function interactive_editor_admin_footer() {
 <script type="text/javascript">
 (function($) {
 
+	console.log('add editor style');
+
+	/*
 	if ( acf ) {
 
 		acf.add_filter( 'wysiwyg_tinymce_settings', function( mceInit, id, $field ) {
@@ -897,6 +939,7 @@ function interactive_editor_admin_footer() {
 			return mceInit;
 		});
 	}
+	*/
 
 })( jQuery );
 </script>
