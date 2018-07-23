@@ -58,7 +58,6 @@ function metabox_switcher( $post ){
                     currentTemplate.change(function(e) {
                         if(currentTemplate.val() === templateName){
                             metabox.show();
-                            //alert("hi motherfucker");
                         }
                         else{
                             //You should clear out all metabox values here;
@@ -72,26 +71,46 @@ function metabox_switcher( $post ){
                     	var option = $el.val();
                     	var name = $el.attr("name");
 
+                    	// Section type
+                    	if( name.indexOf("int_section_type") !== -1 ) {
+
+                    		console.log("section", option);
+
+                    		// Hide editor for certain types
+                    		var hide_editor = ["embed", "related"].indexOf( option ) !== -1;
+                    		$section.find(".int-text-default").toggleClass( "hidden", hide_editor );
+                    	}
+
                     	// Background type
                     	if( name.indexOf("int_background_type") !== -1 ) {
+
+                    		console.log("background", option);
 
                     		// Background color
                     		var show_color = (option === "color");
                     		$section.find(".int-background-color").toggleClass( "hidden", !show_color );
+                    		$section.find(".int-background-opacity").toggleClass( "hidden", show_color );
+                    		$section.find(".int-background-align").toggleClass( "hidden", show_color );
 
 	                    	// Background image
 	                		var show_image = (option === "image");
 	                		$section.find(".int-background-image").toggleClass("hidden", !show_image );
+	                		$section.find(".int-background-image-mobile").toggleClass("hidden", !show_image );
 
 	                    	// Background video
 	                 		var show_video = (option === "video");
 	                		$section.find(".int-background-video").toggleClass("hidden", !show_video );
+	                		$section.find(".int-background-video-mobile").toggleClass("hidden", !show_video );
+	                		$section.find(".int-background-video-poster").toggleClass("hidden", !show_video );
                     	}
                     }
 
                     /*
-                    	Toggle fields depending on section type
+                    	Toggle conditional field on click
                     */
+                    $( "#int_article_cmb_box" ).on( "click", ".int-section-type input", function(e) {
+                    	toggleSection( $(e.currentTarget) );
+                    });
                     $( "#int_article_cmb_box" ).on( "click", ".int-background-type input", function(e) {
                     	toggleSection( $(e.currentTarget) );
                     });
@@ -101,6 +120,10 @@ function metabox_switcher( $post ){
                     */
                     var toggleAllSections = function() {
                     	console.log( "toggle all" );
+
+	                    $( ".int-section-type input:checked" ).each( function( i ) {
+	                    	toggleSection( $(this) );
+	                    });
 
 	                    $( ".int-background-type input:checked" ).each( function( i ) {
 	                    	toggleSection( $(this) );

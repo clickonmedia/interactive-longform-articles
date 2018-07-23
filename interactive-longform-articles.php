@@ -28,6 +28,52 @@ require_once __DIR__ . '/pagetemplater.php';
 require 'inc/options.php';
 
 
+/*
+	Add field type for a range input
+
+	TODO: Save input data
+*/
+function cmb2_render_callback_for_range( $field, $value, $object_id, $object_type, $field_type ) {
+
+	// make sure we specify each part of the value we need.
+	$value = wp_parse_args( $value, array(
+		'range'      => '100'
+	) );
+
+	$id = $field_type->_id();
+	$name = $field_type->_name();
+	?>
+
+	<div class="alignleft">
+		<input type="range" id=<?php echo $id; ?> name=<?php echo $name; ?> value="<?php echo $value['range']; ?>"
+	           min="0" max="100" />
+	</div>
+
+	<br class="clear">
+
+	<?php
+	echo $field_type->_desc( true );
+}
+
+add_action( 'cmb2_render_range', 'cmb2_render_callback_for_range', 10, 5 );
+
+
+function cmb2_sanitize_range_callback( $override_value, $value ) {
+
+	if ( ! is_numeric( $value ) ) {
+		$value = '100';
+	}
+
+	$value = "33";
+
+	return $value;
+}
+add_filter( 'cmb2_sanitize_range', 'cmb2_sanitize_range_callback', 10, 2 );
+
+
+
+
+
 function int_metabox_register() {
 
 
@@ -59,6 +105,25 @@ function int_metabox_register() {
         ) );
 
 		$cmb_box->add_group_field( $group_sections, array(
+			'name'             => 'Section Type',
+			'id'               => 'int_section_type',
+			'classes' 		   => 'int-section-type',
+			'type'             => 'radio',
+			'show_option_none' => false,
+			'options'          => array(
+				'cover' 	=> __( 'Cover page (the first section)', 'your-text-domain' ),
+				'large'   	=> __( 'Lead text', 'your-text-domain' ),
+				'default'   => __( 'Body text', 'your-text-domain' ),
+				'embed'     => __( 'Video embed', 'your-text-domain' ),
+				'related'	=> __( 'Related articles', 'your-text-domain' ),
+			),
+			'default' => 'default'
+		));
+
+        /*
+        	Background Type
+        */
+		$cmb_box->add_group_field( $group_sections, array(
 			'name'             => 'Background Type',
 			'id'               => 'int_background_type',
 			'classes' 		   => 'int-background-type',
@@ -72,6 +137,7 @@ function int_metabox_register() {
 			'default' => 'color'
 		));
 
+		// Background Color
 		$cmb_box->add_group_field( $group_sections, array(
 			'name'             => 'Background Color',
 			'id'               => 'int_background_color',
@@ -86,10 +152,10 @@ function int_metabox_register() {
 			'show_on_cb' => true,
 		));
 
-        //* Image Field
+        // Background image
         $cmb_box->add_group_field( $group_sections, array(
 			'name'    => 'Background image',
-			'desc'    => 'Upload an image file',
+			'desc'    => 'JPEG image (16:9), at least 2600px (width) x 1465px (height)',
 			'id'      => 'int_background_image',
 			'classes' => 'int-background-image',
 			'type'    => 'file',
@@ -102,8 +168,6 @@ function int_metabox_register() {
 			),
 			// query_args are passed to wp.media's library query.
 			'query_args' => array(
-				// 'type' => 'application/pdf', // Make library only display PDFs.
-				// Or only allow gif, jpg, or png images
 				'type' => array(
 				 	'image/gif',
 				 	'image/jpeg',
@@ -114,6 +178,33 @@ function int_metabox_register() {
 			'show_on_cb' => true,
 		) );
 
+        // Mobile background image
+        $cmb_box->add_group_field( $group_sections, array(
+			'name'    => 'Mobile background image (optional)',
+			'desc'    => 'JPEG image 9:16, at least 1300px (width) x 2310px (height)',
+			'id'      => 'int_background_image_mobile',
+			'classes' => 'int-background-image-mobile',
+			'type'    => 'file',
+			// Optional:
+			'options' => array(
+				'url' => true, // Hide the text input for the url
+			),
+			'text'    => array(
+				'add_upload_file_text' => 'Add Image' // Change upload button text. Default: "Add or Upload File"
+			),
+			// query_args are passed to wp.media's library query.
+			'query_args' => array(
+				'type' => array(
+				 	'image/gif',
+				 	'image/jpeg',
+				 	'image/png',
+				),
+			),
+			'preview_size' => 'medium', // Image size to use when previewing in the admin.
+			'show_on_cb' => true,
+		) );
+
+        // Background video
         $cmb_box->add_group_field( $group_sections, array(
 			'name'    => 'Background video',
 			'desc'    => 'Upload a video file',
@@ -139,22 +230,99 @@ function int_metabox_register() {
 			'show_on_cb' => true,
 		) );
 
-
-        /* Title
+        // Video - mobile
         $cmb_box->add_group_field( $group_sections, array(
-            'name'    => __( 'Test Title', 'your-text-domain' ),
-            'id'      => $prefix . 'test_title_2',
-            'type'    => 'text',
-        ) );
-       	*/
+			'name'    => 'Mobile background video',
+			'desc'    => 'Upload a GIF file',
+			'id'      => 'int_background_video_mobile',
+			'classes' => 'int-background-video-mobile',
+			'type'    => 'file',
+			'options' => array(
+				'url' => true,
+			),
+			'text'    => array(
+				'add_upload_file_text' => 'Add a GIF file'
+			),
+			'query_args' => array(
+				'type' => array(
+				 	'image/gif',
+				),
+			),
+			'preview_size' => 'medium',
+			'show_on_cb' => true,
+		) );
 
-        // //* Text Area
-        // $cmb_box->add_group_field( $group_sections, array(
-        //     'name'    => __( 'Test Content', 'your-text-domain' ),
-        //     'id'      => $prefix . 'test_content_2',
-        //     'type'    => 'textarea',
-        //     'options' => array( 'textarea_rows' => 8, ),
-        // ) );
+        // Video - screenshot/poster
+        $cmb_box->add_group_field( $group_sections, array(
+			'name'    => 'Screenshot for background video ',
+			'desc'    => 'Upload a JPG screenshot image (max. 300 kb)',
+			'id'      => 'int_background_video_poster',
+			'classes' => 'int-background-video-poster',
+			'type'    => 'file',
+			'options' => array(
+				'url' => true,
+			),
+			'text'    => array(
+				'add_upload_file_text' => 'Add a JPG screenshot image'
+			),
+			'query_args' => array(
+				'type' => array(
+				 	'image/jpeg',
+				 	'image/png',
+				),
+			),
+			'preview_size' => 'medium',
+			'show_on_cb' => true,
+		) );
+
+        // Background Color
+		$cmb_box->add_group_field( $group_sections, array(
+			'name'             => 'Background Color',
+			'id'               => 'int_background_color',
+			'classes' 		   => 'int-background-color',
+			'type'             => 'radio',
+			'show_option_none' => false,
+			'options'          => array(
+				'black' => __( 'Black', 'your-text-domain' ),
+				'white'     => __( 'White', 'your-text-domain' ),
+			),
+			'default' => 'black',
+			'show_on_cb' => true,
+		));
+
+        // Opacity
+		$cmb_box->add_group_field( $group_sections, array(
+			'name'             => 'Brightness',
+			'id'               => 'int_background_opacity',
+			'classes' 		   => 'int-background-opacity',
+			'type'             => 'range',
+			'desc'			   => '',
+			'show_option_none' => false,
+			'default' => '100',
+			'show_on_cb' => true,
+		));
+
+        // Background alignment
+		$cmb_box->add_group_field( $group_sections, array(
+			'name'             => __( 'Background alignment', 'your-text-domain' ),
+			'id'               => 'int_background_align',
+			'classes' 		   => 'int-background-align',
+			'type'             => 'radio',
+			'show_option_none' => false,
+			'options' => array(
+				'left center'	=>  __( 'left center', 'your-text-domain' ),
+				'left top'	=>  __( 'left top', 'your-text-domain' ),
+				'left bottom'	=>  __( 'left bottom', 'your-text-domain' ),
+				'center center'	=>  __( 'center center', 'your-text-domain' ),
+				'center top'	=>  __( 'center top', 'your-text-domain' ),
+				'center bottom'	=>  __( 'center bottom', 'your-text-domain' ),
+				'right center'	=>  __( 'right center', 'your-text-domain' ),
+				'right top'	=>  __( 'right top', 'your-text-domain' ),
+				'right bottom'	=>  __( 'right bottom', 'your-text-domain' ),
+			),
+			'default' => 'center center',
+			'show_on_cb' => true,
+		));
 
         /*
         	Default TinyMCE editor
