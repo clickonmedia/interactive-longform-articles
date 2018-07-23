@@ -28,13 +28,13 @@ require_once __DIR__ . '/pagetemplater.php';
 require 'inc/options.php';
 
 
-function yourthemeprefix_yourcpt_metabox_register() {
+function int_metabox_register() {
 
 
 	// if ( 'foobar.php' == get_post_meta( $post->ID, '_wp_page_template', true ) ) {
 	// }
 
-        $cmb_repeat_test = new_cmb2_box( array(
+        $cmb_box = new_cmb2_box( array(
             'id'            => 'int_article_cmb_box',
             'title'         => __( 'Repeatable Section', 'your-text-domain' ),
             'object_types' => array( 'post', 'page', 'interactive_article' ), // post type
@@ -46,7 +46,7 @@ function yourthemeprefix_yourcpt_metabox_register() {
 
 
         // Repeatable Group
-        $group_repeat_test = $cmb_repeat_test->add_field( array(
+        $group_sections = $cmb_box->add_field( array(
             'id'          => 'int_article_sections',
             'classes'     => 'int-article-sections',
             'type'        => 'group',
@@ -58,7 +58,7 @@ function yourthemeprefix_yourcpt_metabox_register() {
             ),
         ) );
 
-		$cmb_repeat_test->add_group_field( $group_repeat_test, array(
+		$cmb_box->add_group_field( $group_sections, array(
 			'name'             => 'Background Type',
 			'id'               => 'int_background_type',
 			'classes' 		   => 'int-background-type',
@@ -72,7 +72,7 @@ function yourthemeprefix_yourcpt_metabox_register() {
 			'default' => 'color'
 		));
 
-		$cmb_repeat_test->add_group_field( $group_repeat_test, array(
+		$cmb_box->add_group_field( $group_sections, array(
 			'name'             => 'Background Color',
 			'id'               => 'int_background_color',
 			'classes' 		   => 'int-background-color',
@@ -87,7 +87,7 @@ function yourthemeprefix_yourcpt_metabox_register() {
 		));
 
         //* Image Field
-        $cmb_repeat_test->add_group_field( $group_repeat_test, array(
+        $cmb_box->add_group_field( $group_sections, array(
 			'name'    => 'Background image',
 			'desc'    => 'Upload an image file',
 			'id'      => 'int_background_image',
@@ -114,7 +114,7 @@ function yourthemeprefix_yourcpt_metabox_register() {
 			'show_on_cb' => true,
 		) );
 
-        $cmb_repeat_test->add_group_field( $group_repeat_test, array(
+        $cmb_box->add_group_field( $group_sections, array(
 			'name'    => 'Background video',
 			'desc'    => 'Upload a video file',
 			'id'      => 'int_background_video',
@@ -141,7 +141,7 @@ function yourthemeprefix_yourcpt_metabox_register() {
 
 
         /* Title
-        $cmb_repeat_test->add_group_field( $group_repeat_test, array(
+        $cmb_box->add_group_field( $group_sections, array(
             'name'    => __( 'Test Title', 'your-text-domain' ),
             'id'      => $prefix . 'test_title_2',
             'type'    => 'text',
@@ -149,15 +149,16 @@ function yourthemeprefix_yourcpt_metabox_register() {
        	*/
 
         // //* Text Area
-        // $cmb_repeat_test->add_group_field( $group_repeat_test, array(
+        // $cmb_box->add_group_field( $group_sections, array(
         //     'name'    => __( 'Test Content', 'your-text-domain' ),
         //     'id'      => $prefix . 'test_content_2',
         //     'type'    => 'textarea',
         //     'options' => array( 'textarea_rows' => 8, ),
         // ) );
 
-
-
+        /*
+        	Default TinyMCE editor
+        */
 		$style_formats = array(
 		    array(
 		        'title' => 'Intro Paragraph',
@@ -191,32 +192,49 @@ function yourthemeprefix_yourcpt_metabox_register() {
 		    ),
 		);
 
-        $cmb_repeat_test->add_group_field( $group_repeat_test, array(
+		$content_css = plugins_url( '/css/editor-style.css', __FILE__ ) . ', ' . plugins_url( '/css/editor-white.css', __FILE__ );
+
+		$editor_args = array(
 			'name'    => 'Text',
 			'desc'    => '',
-			'id'      => 'int_text_wysiwyg',
+			'id'      => 'int_text_default',
+			'classes' => 'int-text-default',
 			'type'    => 'wysiwyg',
 			'options' => array(
-			    'wpautop' => true, // use wpautop?
+			    'wpautop' => false, // use wpautop?
 			    'media_buttons' => true, // show insert/upload button(s)
 			    'textarea_name' => '', // set the textarea name to something different, square brackets [] can be used here
-			    'textarea_rows' => get_option('default_post_edit_rows', 10), // rows="..."
+			    'textarea_rows' => get_option( 'default_post_edit_rows', 10 ), // rows="..."
 			    'tabindex' => '',
 			    'editor_css' => '', // intended for extra styles for both visual and HTML editors buttons, needs to include the `<style>` tags, can use "scoped".
-			    'editor_class' => '', // add extra class(es) to the editor textarea
+			    'editor_class' => 'white_whatever', // add extra class(es) to the editor textarea
 			    'teeny' => false, // output the minimal editor config used in Press This
 			    'dfw' => false, // replace the default fullscreen with DFW (needs specific css)
 			    'tinymce' => array(
 			    	'style_formats' => json_encode( $style_formats ),
-			    	'block_formats' => "Paragraph=p; Title=h2;"
+			    	'block_formats' => "Paragraph=p; Title=h2;",
+			    	'content_css' => $content_css
 			    ),  // load TinyMCE, can be used to pass settings directly to TinyMCE using an array()
 			    'quicktags' => true // load Quicktags, can be used to pass settings directly to Quicktags using an array()
 			),
-		) );
+		);
 
+        $cmb_box->add_group_field( $group_sections, $editor_args );
 }
 
-add_action( 'cmb2_init', 'yourthemeprefix_yourcpt_metabox_register' );
+add_action( 'cmb2_init', 'int_metabox_register' );
+
+
+/**
+ * Only display a metabox if the page's 'status' is 'external'
+ * @param  object $cmb CMB2 object
+ * @return bool        True/false whether to show the metabox
+
+function cmb_only_show_for_white_color( $cmb ) {
+	$color = get_post_meta( $cmb->object_id(), 'int_background_color', 1 );
+	return 'white' === $color;
+}
+ */
 
 
 /**

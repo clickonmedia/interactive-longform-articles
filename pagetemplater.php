@@ -55,7 +55,7 @@ function metabox_switcher( $post ){
                     }
 
                     //Bind a change event to make sure we show or hide the metabox based on user selection of a template
-                    currentTemplate.change(function(e){
+                    currentTemplate.change(function(e) {
                         if(currentTemplate.val() === templateName){
                             metabox.show();
                             //alert("hi motherfucker");
@@ -66,26 +66,26 @@ function metabox_switcher( $post ){
                         }
                     });
 
-
                     var toggleSection = function( $el ) {
 
-                    	var name = $el.attr("name");
+                    	var $section = $el.parents(".cmb-repeatable-grouping");
                     	var option = $el.val();
+                    	var name = $el.attr("name");
 
                     	// Background type
                     	if( name.indexOf("int_background_type") !== -1 ) {
 
                     		// Background color
                     		var show_color = (option === "color");
-                    		$(".int-background-color").toggleClass( "hidden", !show_color );
+                    		$section.find(".int-background-color").toggleClass( "hidden", !show_color );
 
 	                    	// Background image
 	                		var show_image = (option === "image");
-	                		$(".int-background-image").toggleClass("hidden", !show_image );
+	                		$section.find(".int-background-image").toggleClass("hidden", !show_image );
 
 	                    	// Background video
 	                 		var show_video = (option === "video");
-	                		$(".int-background-video").toggleClass("hidden", !show_video );
+	                		$section.find(".int-background-video").toggleClass("hidden", !show_video );
                     	}
                     }
 
@@ -97,11 +97,23 @@ function metabox_switcher( $post ){
                     });
 
                     /*
-                    	Toggle fields depending on section type / on load
+                    	Toggle all conditional fields
                     */
-                    $( ".int-background-type input:checked" ).each( function( i ) {
-                    	toggleSection( $(this) );
+                    var toggleAllSections = function() {
+                    	console.log( "toggle all" );
+
+	                    $( ".int-background-type input:checked" ).each( function( i ) {
+	                    	toggleSection( $(this) );
+	                    });
+                    }
+
+                    // Add new row
+                    $( "#int_article_cmb_box" ).on( "click", ".cmb-add-group-row", function(e) {
+                    	toggleAllSections();
                     });
+
+                    // On page ready
+                    toggleAllSections();
                 });
             </script>
         ';

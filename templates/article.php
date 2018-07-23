@@ -35,7 +35,7 @@
 
 				// Define section content
 				// $content = ( $section['background-color'] == 'black' ) ? $section['text-black'] : $section['text-white'];
-				$content = $section['int_text_wysiwyg'];
+				$content = !empty($section['int_text_default']) ? $section['int_text_default'] : '';
 
 				// Define section background
 				$background = '';
@@ -91,7 +91,7 @@
 
 						// $poster = $section['background-poster']['sizes']['large'];
 						$poster = '';
-						$video = $section['int_background_color'];
+						$video = $section['int_background_video'];
 
 						$background .= '<video poster="' . $poster . '" data-src-xs="' . $video . '" data-src-md="' . $video . '" data-src-xl="' . $video . '" preload="auto" width="16" height="9" autoplay loop muted></video>';
 
