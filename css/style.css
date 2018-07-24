@@ -78,6 +78,95 @@
 .ia-icon-twitter:before {
   content: "\e901"; }
 
+.interactive-container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto; }
+
+.interactive-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px; }
+
+.interactive-row > div {
+  position: relative;
+  width: 100%;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin: 0 auto; }
+
+.interactive-col-25 {
+  flex: 0 0 25%;
+  max-width: 25%; }
+
+.interactive-col-50 {
+  flex: 0 0 50%;
+  max-width: 50%; }
+
+.interactive-col-100 {
+  flex: 0 0 100%;
+  max-width: 100%; }
+
+/*
+	Small screen breakpoint
+*/
+@media screen and (min-width: 576px) {
+  .interactive-col-sm-25 {
+    flex: 0 0 25%;
+    max-width: 25%; }
+  .interactive-col-sm-50 {
+    flex: 0 0 50%;
+    max-width: 50%; }
+  .interactive-col-sm-100 {
+    flex: 0 0 100%;
+    max-width: 100%; } }
+
+/*
+	Medium-sized screen breakpoint
+*/
+@media screen and (min-width: 768px) {
+  .interactive-col-md-25 {
+    flex: 0 0 25%;
+    max-width: 25%; }
+  .interactive-col-md-50 {
+    flex: 0 0 50%;
+    max-width: 50%; }
+  .interactive-col-md-100 {
+    flex: 0 0 100%;
+    max-width: 100%; } }
+
+/*
+	Large screen breakpoint
+*/
+@media screen and (min-width: 992px) {
+  .interactive-col-lg-25 {
+    flex: 0 0 25%;
+    max-width: 25%; }
+  .interactive-col-lg-50 {
+    flex: 0 0 50%;
+    max-width: 50%; }
+  .interactive-col-lg-100 {
+    flex: 0 0 100%;
+    max-width: 100%; } }
+
+/*
+	Extra large screen breakpoint
+*/
+@media screen and (min-width: 1200px) {
+  .interactive-col-xl-25 {
+    flex: 0 0 25%;
+    max-width: 25%; }
+  .interactive-col-xl-50 {
+    flex: 0 0 50%;
+    max-width: 50%; }
+  .interactive-col-xl-100 {
+    flex: 0 0 100%;
+    max-width: 100%; } }
+
 /*
  * 	Main styling for the plugin
  */

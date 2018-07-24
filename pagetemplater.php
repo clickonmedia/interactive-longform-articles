@@ -76,9 +76,22 @@ function metabox_switcher( $post ){
 
                     		console.log("section", option);
 
-                    		// Hide editor for certain types
-                    		var hide_editor = ["embed", "related"].indexOf( option ) !== -1;
-                    		$section.find(".int-text-default").toggleClass( "hidden", hide_editor );
+                    		switch( option ) {
+                    			case "embed":
+		                    		$section.find(".int-video-embed").removeClass( "hidden" );
+		                    		$section.find(".int-text-default").addClass( "hidden" );
+		                    		$section.find(".int-downloads").addClass( "hidden" );
+		                    		break;
+		                    	case "downloads":
+		                    		$section.find(".int-downloads").removeClass( "hidden" );
+		                    		$section.find(".int-text-default").addClass( "hidden" );
+		                    		$section.find(".int-video-embed").addClass( "hidden" );
+		                    		break;
+		                    	default:
+		                    		$section.find(".int-text-default").removeClass( "hidden" );
+		                    		$section.find(".int-downloads").addClass( "hidden" );
+		                    		$section.find(".int-video-embed").addClass( "hidden" );
+		                    }
                     	}
 
                     	// Background type

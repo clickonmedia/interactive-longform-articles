@@ -12,19 +12,6 @@
 	}
 ?>
 
-
-	<!--
-	<div class="interactive-section default  transparent">
-									<div class='interactive-background' data-bg-xs='http://localhost-motor:8888/wp-content/uploads/2018/07/7-2.jpg' data-bg-sm='http://localhost-motor:8888/wp-content/uploads/2018/07/7-2.jpg' data-bg-md='http://localhost-motor:8888/wp-content/uploads/2018/07/7-2.jpg' data-bg-xl='http://localhost-motor:8888/wp-content/uploads/2018/07/7-2.jpg' style='background-position: center center; opacity: 1'></div>							<div class="interactive-text">
-			<div class="content">
-				<p>test</p>
-			</div>
-		</div>
-	</div>
-	-->
-
-
-
 	<?php
 
 		$sections = get_post_meta( get_the_ID(), 'int_article_sections', true );
@@ -35,7 +22,7 @@
 
 				// Define section content
 				// $content = ( $section['background-color'] == 'black' ) ? $section['text-black'] : $section['text-white'];
-				$content = !empty($section['int_text_default']) ? $section['int_text_default'] : '';
+				// $content = !empty( $section['int_text_default'] ) ? $section['int_text_default'] : '';
 
 				// Define section background
 				$background = '';
@@ -46,12 +33,60 @@
 				$opacity = '1';
 				$align = 'center center';
 
+				/*
+					Section type
+				*/
+				switch( $section['int_section_type'] ) {
+
+					case 'cover':
+						// $content = ( $section['background-color'] == 'black' ) ? $section['text-black'] : $section['text-white'];
+						$content = $section['int_text_default'];
+						$content .= '<i class="ia-icon ia-icon-keyboard_arrow_down scroll-icon js-scroll-icon transparent"></i>';
+						break;
+
+					case 'embed':
+						$content = $section['int_video_embed'];
+						break;
+
+					// Downloads section
+					case 'downloads':
+						$content = '<div class="interactive-container">';
+						$content .= '<div class="interactive-row justify-content-center"><div class="interactive-col-100 interactive-col-sm-50">';
+
+						// Downloads title row
+						$content .= '<div class="interactive-row"><div class="interactive-col-100"><h2 class="title">Downloads</h2></div></div>';
+
+						// Downloads list
+						$downloads = $section['int_downloads'];
+
+						if ( ! empty( $downloads ) ) {
+							foreach ( $downloads as $att_id => $att_url ) {
+								if ( $att_url ) {
+									$content .= '<div class="interactive-row file">';
+									$content .= '<div class="interactive-col-50">' . get_the_title( $att_id ) . '</div>';
+									$content .= '<div class="interactive-col-50"><a href="' . $att_url . '" target="_blank">Download</a></div>';
+									$content .= '</div>';
+								}
+							}
+						}
+
+						$content .= '</div></div>';
+						$content .= '</div>';
+						break;
+
+					default:
+						$content = !empty( $section['int_text_default'] ) ? $section['int_text_default'] : '';
+				}
+
+				/*
+					Background type
+				*/
 				switch( $section['int_background_type'] ) {
 					case 'image':
 
-						/*
-						$opacity = round( intval( $section['background-opacity'] ) / 100, 2 );
+						$opacity = round( intval( $section['int_background_opacity'] ) / 100, 2 );
 
+						/*
 						// Desktop BG image
 						$xl = isset( $section['background-image']['sizes']['interactive-xl'] ) ? $section['background-image']['sizes']['interactive-xl'] : $section['background-image']['large'];
 
@@ -68,7 +103,7 @@
 						}
 						*/
 
-						$xs = $section['int_background_image'];
+						$xs = empty( $section['int_background_image_mobile'] ) ? $section['int_background_image'] : $section['int_background_image_mobile'];
 						$sm = $section['int_background_image'];
 						$md = $section['int_background_image'];
 						$xl = $section['int_background_image'];
@@ -85,21 +120,21 @@
 
 					case 'video':
 
-						// $opacity = round( intval( $section['background-opacity'] ) / 100, 2 );
+						$opacity = round( intval( $section['int_background_opacity'] ) / 100, 2 );
 
 						$background = "<div class='interactive-background' style='background-position: " . $align . "; opacity: " . $opacity . "'>";
 
-						// $poster = $section['background-poster']['sizes']['large'];
-						$poster = '';
-						$video = $section['int_background_video'];
+						$poster = empty( $section['int_background_video_poster'] ) ? '' : $section['int_background_video_poster'];
+						$video = empty( $section['int_background_video'] ) ? '' : $section['int_background_video'];
+						$mobile = empty( $section['int_background_video_mobile'] ) ? '' : $section['int_background_video_mobile'];
 
-						$background .= '<video poster="' . $poster . '" data-src-xs="' . $video . '" data-src-md="' . $video . '" data-src-xl="' . $video . '" preload="auto" width="16" height="9" autoplay loop muted></video>';
+						$background .= '<video poster="' . $poster . '" data-src-xs="' . $mobile . '" data-src-md="' . $video . '" data-src-xl="' . $video . '" preload="auto" width="16" height="9" autoplay loop muted></video>';
 
 						$background .= "</div>";
 						break;
 				}
 
-				if( empty($content) ) {
+				if( empty( $content ) ) {
 					$progress = '<progress value="0"></progress>';
 				}
 

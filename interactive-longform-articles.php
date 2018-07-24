@@ -49,10 +49,9 @@ function int_metabox_register() {
             'context'       => 'normal',
             'priority'      => 'high',
             'show_names'    => true,
-        ) );
+        ));
 
-
-        // Repeatable Group
+        // Repeatable Section Group
         $group_sections = $cmb->add_field( array(
             'id'          => $prefix . 'article_sections',
             'classes'     => 'int-article-sections',
@@ -65,14 +64,20 @@ function int_metabox_register() {
             ),
         ) );
 
-		$cmb->add_group_field( $group_sections, array(
-			'name'             => 'Address',
-			'id'               => $prefix . 'person_address',
-			'classes' 		   => 'int-person-address',
-			'type'             => 'address',
-			'desc'			   => 'Custom Address Field',
-			'show_on_cb' => true,
-		));
+        /*
+        	Section type
+        */
+		$section_types = array(
+			'cover' 	=> __( 'Cover page', 'your-text-domain' ),
+			'large'   	=> __( 'Lead text', 'your-text-domain' ),
+			'default'   => __( 'Body text', 'your-text-domain' ),
+			'embed'     => __( 'Video embed', 'your-text-domain' ),
+		);
+
+		// Add downloads if the option is enabled
+		if ( !empty( get_option( 'int_option_display_downloads' ) ) ) {
+			$section_types['downloads'] = __( 'Downloads', 'your-text-domain' );
+		}
 
 		$cmb->add_group_field( $group_sections, array(
 			'name'             => 'Section Type',
@@ -80,19 +85,11 @@ function int_metabox_register() {
 			'classes' 		   => 'int-section-type',
 			'type'             => 'radio',
 			'show_option_none' => false,
-			'options'          => array(
-				'cover' 	=> __( 'Cover page (the first section)', 'your-text-domain' ),
-				'large'   	=> __( 'Lead text', 'your-text-domain' ),
-				'default'   => __( 'Body text', 'your-text-domain' ),
-				'embed'     => __( 'Video embed', 'your-text-domain' ),
-				'related'	=> __( 'Related articles', 'your-text-domain' ),
-			),
+			'options'          => $section_types,
 			'default' => 'default'
 		));
 
-        /*
-        	Background Type
-        */
+        // Background Type
 		$cmb->add_group_field( $group_sections, array(
 			'name'             => 'Background Type',
 			'id'               => $prefix . 'background_type',
@@ -358,37 +355,45 @@ function int_metabox_register() {
 		);
 
         $cmb->add_group_field( $group_sections, $editor_args );
+
+        /*
+        	Video Embed
+        */
+		$cmb->add_group_field( $group_sections, array(
+			'name' => 'Video Embed',
+			'desc' => 'A simple video embed - If text is required, please use the text editor.',
+			'id'      => $prefix . 'video_embed',
+			'classes' => 'int-video-embed',
+			'type' => 'oembed',
+			'show_on_cb' => true,
+		) );
+
+        /*
+        	Downloads
+        */
+		if ( !empty( get_option( 'int_option_display_downloads' ) ) ) {
+
+			$cmb->add_group_field( $group_sections, array(
+				'name' => 'Downloads',
+				'desc' => 'The files uploaded here will be available in the downloads section.',
+				'id'      => $prefix . 'downloads',
+				'classes' => 'int-downloads',
+				'type' => 'file_list',
+				'show_on_cb' => true,
+				'text' => array(
+					'add_upload_files_text' => 'Add or Upload Files',
+					'remove_image_text' => 'Remove Image',
+					'file_text' => 'File:',
+					'file_download_text' => 'Download',
+					'remove_text' => 'Remove',
+				),
+			) );
+		}
+
 }
 
 add_action( 'cmb2_init', 'int_metabox_register' );
 
-
-/**
- * Only display a metabox if the page's 'status' is 'external'
- * @param  object $cmb CMB2 object
- * @return bool        True/false whether to show the metabox
-
-function cmb_only_show_for_white_color( $cmb ) {
-	$color = get_post_meta( $cmb->object_id(), 'int_background_color', 1 );
-	return 'white' === $color;
-}
- */
-
-
-/**
- * Only display a metabox if the page's Background type is 'color'
- * @param  object $cmb CMB2 object
- * @return bool        True/false whether to show the metabox
- */
-/*
-function cmb_only_show_for_background_color( $cmb ) {
-
-	$meta = get_post_meta( $cmb->object_id(), 'int_article_sections', 1 );
-
-	// Only show if background type is 'color'
-	return !empty( $meta ) && 'color' === $meta[0]['int_background_type'];
-}
-*/
 
 /*
 	Utility function for checking for interactive article
@@ -414,7 +419,6 @@ function interactive_enqueue_scripts( $hook ) {
 	    $plugin_data = get_plugin_data( __FILE__ );
 
     	// Enqueue styles
-    	// wp_enqueue_style( 'star', plugins_url( '/css/star.css', __FILE__ ), false, $plugin_data['Version'] );
     	wp_enqueue_style( 'flexslider', plugins_url( '/css/flexslider.css', __FILE__ ), false, $plugin_data['Version'] );
     	wp_enqueue_style( 'interactive-longform-styles', plugins_url( '/css/style.min.css', __FILE__ ), false, $plugin_data['Version'] );
 
@@ -881,7 +885,7 @@ function interactive_acf_add_fields() {
 				),
 			),
 			'required' => 0,
-			'instructions' => 'A simple video embed - If text is required, please use the text editor.'
+			'instructions' => 'Paste the video URL here - If text is required, please use a section type that has a text editor.'
 		));
 
 		/*
@@ -1059,69 +1063,6 @@ function interactive_setup() {
 }
 
 add_action( 'after_setup_theme', 'interactive_setup' );
-
-
-
-/*
-	Add black and white WYSIWYG editor styles
-*/
-function interactive_editor_admin_footer() {
-	$styles = plugins_url( '/css/editor-style.css', __FILE__ );
-	$black_styles = plugins_url( '/css/editor-black.css', __FILE__ );
-	$white_styles = plugins_url( '/css/editor-white.css', __FILE__ );
-?>
-
-<script type="text/javascript">
-(function($) {
-
-	console.log('add editor style');
-
-	/*
-	if ( acf ) {
-
-		acf.add_filter( 'wysiwyg_tinymce_settings', function( mceInit, id, $field ) {
-
-			if ( $field.hasClass( 'acf-field' ) ) {
-				 mceInit['content_css'] += ',' + '<?php echo $styles; ?>';
-			}
-
-			if ( $field.hasClass( 'acf-field-text-black' ) ) {
-				 mceInit['content_css'] += ',' + '<?php echo $black_styles; ?>';
-			}
-
-			if ( $field.hasClass( 'acf-field-text-white' ) ) {
-				 mceInit['content_css'] += ',' + '<?php echo $white_styles; ?>';
-			}
-
-			return mceInit;
-		});
-	}
-	*/
-
-})( jQuery );
-</script>
-
-<?php
-}
-
-add_action('acf/input/admin_footer', 'interactive_editor_admin_footer');
-
-
-
-/*
- * 	Check for plugin dependencies
- */
-if ( ! function_exists( 'interactive_theme_dependencies' ) ) {
-
-	function interactive_theme_dependencies() {
-
-		if( ! function_exists('acf_add_local_field') ) {
-			echo '<div class="error"><p>' . __( 'Warning: The Interactive Longform Articles requires Advanced Custom Fields Pro plugin to function' ) . '</p></div>';
-		}
-	}
-}
-
-add_action( 'admin_notices', 'interactive_theme_dependencies' );
 
 
 
