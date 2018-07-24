@@ -45,7 +45,7 @@
 						break;
 
 					case 'embed':
-						$content = $section['int_video_embed'];
+						$content = wp_oembed_get( $section['int_video_embed'], array( 'width' => 640, 'height' => 360 ) );
 						break;
 
 					// Downloads section

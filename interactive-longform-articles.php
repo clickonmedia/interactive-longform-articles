@@ -10,9 +10,8 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
- * Get the bootstrap!
- * (Update path to use cmb2 or CMB2, depending on the name of the folder.
- * Case-sensitive is important on some systems.)
+ * Initialize CMB2
+ * https://github.com/CMB2/CMB2
  */
 require_once __DIR__ . '/cmb2/init.php';
 
@@ -86,7 +85,7 @@ function int_metabox_register() {
 			'type'             => 'radio',
 			'show_option_none' => false,
 			'options'          => $section_types,
-			'default' => 'default'
+			'default' 		   => 'default'
 		));
 
         // Background Type
@@ -98,8 +97,8 @@ function int_metabox_register() {
 			'show_option_none' => false,
 			'options'          => array(
 				'color' => __( 'Color', 'your-text-domain' ),
-				'image'   => __( 'Image', 'your-text-domain' ),
-				'video'     => __( 'Video', 'your-text-domain' ),
+				'image' => __( 'Image', 'your-text-domain' ),
+				'video' => __( 'Video', 'your-text-domain' ),
 			),
 			'default' => 'color'
 		));
