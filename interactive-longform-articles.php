@@ -16,61 +16,20 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
  */
 require_once __DIR__ . '/cmb2/init.php';
 
+/**
+ * Custom CMB field types
+ */
+require_once __DIR__ . '/inc/custom-field-types.php';
+
+/**
+ * Settings page
+ */
+require_once __DIR__ . '/inc/options.php';
 
 /**
  * Adding the page templates
- *
- *
  */
 require_once __DIR__ . '/pagetemplater.php';
-
-
-require 'inc/options.php';
-
-
-/*
-	Add field type for a range input
-
-	TODO: Save input data
-*/
-function cmb2_render_callback_for_range( $field, $value, $object_id, $object_type, $field_type ) {
-
-	// make sure we specify each part of the value we need.
-	$value = wp_parse_args( $value, array(
-		'range'      => '100'
-	) );
-
-	$id = $field_type->_id();
-	$name = $field_type->_name();
-	?>
-
-	<div class="alignleft">
-		<input type="range" id=<?php echo $id; ?> name=<?php echo $name; ?> value="<?php echo $value['range']; ?>"
-	           min="0" max="100" />
-	</div>
-
-	<br class="clear">
-
-	<?php
-	echo $field_type->_desc( true );
-}
-
-add_action( 'cmb2_render_range', 'cmb2_render_callback_for_range', 10, 5 );
-
-
-function cmb2_sanitize_range_callback( $override_value, $value ) {
-
-	if ( ! is_numeric( $value ) ) {
-		$value = '100';
-	}
-
-	$value = "33";
-
-	return $value;
-}
-add_filter( 'cmb2_sanitize_range', 'cmb2_sanitize_range_callback', 10, 2 );
-
-
 
 
 
@@ -80,8 +39,10 @@ function int_metabox_register() {
 	// if ( 'foobar.php' == get_post_meta( $post->ID, '_wp_page_template', true ) ) {
 	// }
 
-        $cmb_box = new_cmb2_box( array(
-            'id'            => 'int_article_cmb_box',
+		$prefix = 'int_';
+
+        $cmb = new_cmb2_box( array(
+            'id'            => $prefix . 'article_cmb_box',
             'title'         => __( 'Repeatable Section', 'your-text-domain' ),
             'object_types' => array( 'post', 'page', 'interactive_article' ), // post type
             //'show_on'      => array( 'key' => 'page-template', 'value' => 'page-test.php' ),
@@ -92,8 +53,8 @@ function int_metabox_register() {
 
 
         // Repeatable Group
-        $group_sections = $cmb_box->add_field( array(
-            'id'          => 'int_article_sections',
+        $group_sections = $cmb->add_field( array(
+            'id'          => $prefix . 'article_sections',
             'classes'     => 'int-article-sections',
             'type'        => 'group',
             'options'     => array(
@@ -104,9 +65,18 @@ function int_metabox_register() {
             ),
         ) );
 
-		$cmb_box->add_group_field( $group_sections, array(
+		$cmb->add_group_field( $group_sections, array(
+			'name'             => 'Address',
+			'id'               => $prefix . 'person_address',
+			'classes' 		   => 'int-person-address',
+			'type'             => 'address',
+			'desc'			   => 'Custom Address Field',
+			'show_on_cb' => true,
+		));
+
+		$cmb->add_group_field( $group_sections, array(
 			'name'             => 'Section Type',
-			'id'               => 'int_section_type',
+			'id'               => $prefix . 'section_type',
 			'classes' 		   => 'int-section-type',
 			'type'             => 'radio',
 			'show_option_none' => false,
@@ -123,9 +93,9 @@ function int_metabox_register() {
         /*
         	Background Type
         */
-		$cmb_box->add_group_field( $group_sections, array(
+		$cmb->add_group_field( $group_sections, array(
 			'name'             => 'Background Type',
-			'id'               => 'int_background_type',
+			'id'               => $prefix . 'background_type',
 			'classes' 		   => 'int-background-type',
 			'type'             => 'radio',
 			'show_option_none' => false,
@@ -138,9 +108,9 @@ function int_metabox_register() {
 		));
 
 		// Background Color
-		$cmb_box->add_group_field( $group_sections, array(
+		$cmb->add_group_field( $group_sections, array(
 			'name'             => 'Background Color',
-			'id'               => 'int_background_color',
+			'id'               => $prefix . 'background_color',
 			'classes' 		   => 'int-background-color',
 			'type'             => 'radio',
 			'show_option_none' => false,
@@ -153,10 +123,10 @@ function int_metabox_register() {
 		));
 
         // Background image
-        $cmb_box->add_group_field( $group_sections, array(
+        $cmb->add_group_field( $group_sections, array(
 			'name'    => 'Background image',
 			'desc'    => 'JPEG image (16:9), at least 2600px (width) x 1465px (height)',
-			'id'      => 'int_background_image',
+			'id'      => $prefix . 'background_image',
 			'classes' => 'int-background-image',
 			'type'    => 'file',
 			// Optional:
@@ -179,10 +149,10 @@ function int_metabox_register() {
 		) );
 
         // Mobile background image
-        $cmb_box->add_group_field( $group_sections, array(
+        $cmb->add_group_field( $group_sections, array(
 			'name'    => 'Mobile background image (optional)',
 			'desc'    => 'JPEG image 9:16, at least 1300px (width) x 2310px (height)',
-			'id'      => 'int_background_image_mobile',
+			'id'      => $prefix . 'background_image_mobile',
 			'classes' => 'int-background-image-mobile',
 			'type'    => 'file',
 			// Optional:
@@ -205,10 +175,10 @@ function int_metabox_register() {
 		) );
 
         // Background video
-        $cmb_box->add_group_field( $group_sections, array(
+        $cmb->add_group_field( $group_sections, array(
 			'name'    => 'Background video',
 			'desc'    => 'Upload a video file',
-			'id'      => 'int_background_video',
+			'id'      => $prefix . 'background_video',
 			'classes' => 'int-background-video',
 			'type'    => 'file',
 			// Optional:
@@ -231,10 +201,10 @@ function int_metabox_register() {
 		) );
 
         // Video - mobile
-        $cmb_box->add_group_field( $group_sections, array(
+        $cmb->add_group_field( $group_sections, array(
 			'name'    => 'Mobile background video',
 			'desc'    => 'Upload a GIF file',
-			'id'      => 'int_background_video_mobile',
+			'id'      => $prefix . 'background_video_mobile',
 			'classes' => 'int-background-video-mobile',
 			'type'    => 'file',
 			'options' => array(
@@ -253,10 +223,10 @@ function int_metabox_register() {
 		) );
 
         // Video - screenshot/poster
-        $cmb_box->add_group_field( $group_sections, array(
+        $cmb->add_group_field( $group_sections, array(
 			'name'    => 'Screenshot for background video ',
 			'desc'    => 'Upload a JPG screenshot image (max. 300 kb)',
-			'id'      => 'int_background_video_poster',
+			'id'      => $prefix . 'background_video_poster',
 			'classes' => 'int-background-video-poster',
 			'type'    => 'file',
 			'options' => array(
@@ -276,9 +246,9 @@ function int_metabox_register() {
 		) );
 
         // Background Color
-		$cmb_box->add_group_field( $group_sections, array(
+		$cmb->add_group_field( $group_sections, array(
 			'name'             => 'Background Color',
-			'id'               => 'int_background_color',
+			'id'               => $prefix . 'background_color',
 			'classes' 		   => 'int-background-color',
 			'type'             => 'radio',
 			'show_option_none' => false,
@@ -291,11 +261,11 @@ function int_metabox_register() {
 		));
 
         // Opacity
-		$cmb_box->add_group_field( $group_sections, array(
+		$cmb->add_group_field( $group_sections, array(
 			'name'             => 'Brightness',
-			'id'               => 'int_background_opacity',
+			'id'               => $prefix . 'background_opacity',
 			'classes' 		   => 'int-background-opacity',
-			'type'             => 'range',
+			'type'             => 'range_input',
 			'desc'			   => '',
 			'show_option_none' => false,
 			'default' => '100',
@@ -303,9 +273,9 @@ function int_metabox_register() {
 		));
 
         // Background alignment
-		$cmb_box->add_group_field( $group_sections, array(
+		$cmb->add_group_field( $group_sections, array(
 			'name'             => __( 'Background alignment', 'your-text-domain' ),
-			'id'               => 'int_background_align',
+			'id'               => $prefix . 'background_align',
 			'classes' 		   => 'int-background-align',
 			'type'             => 'radio',
 			'show_option_none' => false,
@@ -365,7 +335,7 @@ function int_metabox_register() {
 		$editor_args = array(
 			'name'    => 'Text',
 			'desc'    => '',
-			'id'      => 'int_text_default',
+			'id'      => $prefix . 'text_default',
 			'classes' => 'int-text-default',
 			'type'    => 'wysiwyg',
 			'options' => array(
@@ -387,7 +357,7 @@ function int_metabox_register() {
 			),
 		);
 
-        $cmb_box->add_group_field( $group_sections, $editor_args );
+        $cmb->add_group_field( $group_sections, $editor_args );
 }
 
 add_action( 'cmb2_init', 'int_metabox_register' );
@@ -444,6 +414,7 @@ function interactive_enqueue_scripts( $hook ) {
 	    $plugin_data = get_plugin_data( __FILE__ );
 
     	// Enqueue styles
+    	// wp_enqueue_style( 'star', plugins_url( '/css/star.css', __FILE__ ), false, $plugin_data['Version'] );
     	wp_enqueue_style( 'flexslider', plugins_url( '/css/flexslider.css', __FILE__ ), false, $plugin_data['Version'] );
     	wp_enqueue_style( 'interactive-longform-styles', plugins_url( '/css/style.min.css', __FILE__ ), false, $plugin_data['Version'] );
 
