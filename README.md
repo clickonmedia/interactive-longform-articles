@@ -27,7 +27,6 @@ https://www.theversed.com/88688/krav-maga-the-peacekeeper
 ## Requirements
 
 * Wordpress 3.0+
-* Advanced Custom Fields Pro: https://www.advancedcustomfields.com/pro
 
 ## Development
 
@@ -42,7 +41,9 @@ https://sass-lang.com/guide
 
 ## Miscellaneous
 
-add_theme_support( 'custom-logo' );
+* Custom Logo can be added by adding custom logo to your theme: https://developer.wordpress.org/themes/functionality/custom-logo
+
+* Default header and footer can be customized by including a header.php or footer.php template in  "interactive" directory in the theme
 
 ## License
 

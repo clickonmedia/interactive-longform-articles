@@ -4,9 +4,10 @@
  *
  * @package understrap
  */
+
 	// Get header template
-	if( file_exists( get_stylesheet_directory() . '/interactive-longform-articles/header.php' ) ) {
-		include( get_stylesheet_directory() . '/interactive-longform-articles/header.php' );
+	if( file_exists( get_stylesheet_directory() . '/interactive/header.php' ) ) {
+		include( get_stylesheet_directory() . '/interactive/header.php' );
 	} else {
 		include( 'header.php' );
 	}
@@ -20,30 +21,30 @@
 
 			foreach ( $sections as $section ) {
 
-				// Define section content
+				// Section content
 				$content = '';
 
-				// Define section background
+				// Section background
 				$background = '';
 				$progress = '';
 				$color = '';
 				$type = empty( $section['int_section_type'] ) ? 'default' : $section['int_section_type'];
 
-				/*
-					Section type
-				*/
+				// Section type
 				switch( $section['int_section_type'] ) {
 
+					// Cover page
 					case 'cover':
 						$content = ( $section['int_background_color'] == 'black' ) ? $section['int_text_black'] : $section['int_text_white'];
 						$content .= '<i class="ia-icon ia-icon-keyboard_arrow_down scroll-icon js-scroll-icon transparent"></i>';
 						break;
 
+					// oEmbed
 					case 'embed':
 						$content = wp_oembed_get( $section['int_video_embed'], array( 'width' => 640, 'height' => 360 ) );
 						break;
 
-					// Downloads section
+					// Downloads
 					case 'downloads':
 						$content = '<div class="interactive-container">';
 						$content .= '<div class="interactive-row justify-content-center"><div class="interactive-col-100 interactive-col-sm-50">';
@@ -73,10 +74,10 @@
 						$content = ( $section['int_background_color'] == 'black' ) ? $section['int_text_black'] : $section['int_text_white'];
 				}
 
-				/*
-					Background type
-				*/
+				// Background type
 				switch( $section['int_background_type'] ) {
+
+					// Image background
 					case 'image':
 
 						$opacity = round( intval( $section['int_background_opacity'] ) / 100, 2 );
@@ -101,11 +102,13 @@
 						$background = "<div class='interactive-background' data-bg-xs='" . $xs . "' data-bg-sm='" . $sm . "' data-bg-md='" . $md . "' data-bg-xl='" . $xl . "' style='background-position: " . $align . "; opacity: " . $opacity . "'></div>";
 						break;
 
+					// Color background
 					case 'color':
 						$color = 'style-' . $section['int_background_color'];
 						$background = "<div class='interactive-background'></div>";
 						break;
 
+					// Video background
 					case 'video':
 						$opacity = round( intval( $section['int_background_opacity'] ) / 100, 2 );
 						$align = $section['int_background_align'];
@@ -122,6 +125,7 @@
 						break;
 				}
 
+				// Display progress indicator on pages without content
 				if( empty( $content ) ) {
 					$progress = '<progress value="0"></progress>';
 				}
@@ -144,9 +148,9 @@
 	?>
 
 <?php
-	// Get header template
-	if( file_exists( get_stylesheet_directory() . '/interactive-longform-articles/footer.php' ) ) {
-		include( get_stylesheet_directory() . '/interactive-longform-articles/footer.php' );
+	// Get footer template
+	if( file_exists( get_stylesheet_directory() . '/interactive/footer.php' ) ) {
+		include( get_stylesheet_directory() . '/interactive/footer.php' );
 	} else {
 		include('footer.php');
 	}

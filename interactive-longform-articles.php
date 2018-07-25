@@ -34,7 +34,6 @@ require_once __DIR__ . '/pagetemplater.php';
 
 function int_metabox_register() {
 
-
 	// if ( 'foobar.php' == get_post_meta( $post->ID, '_wp_page_template', true ) ) {
 	// }
 
@@ -453,8 +452,9 @@ function interactive_enqueue_scripts( $hook ) {
 add_action( 'wp_enqueue_scripts', 'interactive_enqueue_scripts' );
 
 
-
-
+/*
+	Add interactive article post type
+*/
 function interactive_longform_custom_template( $single ) {
 
     global $wp_query, $post;
@@ -497,8 +497,7 @@ function interactive_create_article_post_type() {
 		);
 	}
 }
-add_action( 'acf/init', 'interactive_create_article_post_type', 1 );
-
+add_action( 'init', 'interactive_create_article_post_type', 1 );
 
 
 /*
@@ -518,562 +517,15 @@ function interactive_longform_rewrite_flush() {
 register_activation_hook( __FILE__, 'interactive_longform_rewrite_flush' );
 
 
-
-/*
-	Add interactive article ACF editor formats
-*/
-function interactive_tiny_mce_before_init( $settings ) {
-
-	// ACF editors only
-	if ( strpos( $settings["body_class"], 'acf_content' ) !== false ) {
-
-		$style_formats = array(
-		    array(
-		        'title' => 'Intro Paragraph',
-		        'block' => 'p',
-		        'classes' => 'intro-para',
-		        'exact' => true
-		    ),
-		    array(
-		        'title' => 'Byline',
-		        'block' => 'p',
-		        'classes' => 'byline',
-		        'exact' => true
-		    ),
-		    array(
-		        'title' => 'Caption (left)',
-		        'block' => 'div',
-		        'classes' => 'caption-left',
-		        'exact' => true
-		    ),
-		    array(
-		        'title' => 'Caption (center)',
-		        'block' => 'div',
-		        'classes' => 'caption-center',
-		        'exact' => true
-		    ),
-		    array(
-		        'title' => 'Caption (right)',
-		        'block' => 'div',
-		        'classes' => 'caption-right',
-		        'exact' => true
-		    ),
-		);
-
-		$settings['style_formats'] = json_encode( $style_formats );
-
-		$settings['block_formats'] = "Paragraph=p; Title=h2;";
-	}
-
-	return $settings;
-}
-
-add_filter( 'tiny_mce_before_init', 'interactive_tiny_mce_before_init', 10 );
-
-
-
-/*
-	Add interactive article ACF fields
-*/
-function interactive_acf_add_fields() {
-
-	if( function_exists( 'acf_add_local_field_group' ) ) {
-
-		$location = array();
-
-		$post_types = array_keys( get_post_types() );
-
-		foreach( $post_types as $post_type ) {
-			$option = 'int_option_enable_for_' . $post_type;
-
-			if ( !empty( get_option( $option ) ) ) {
-				array_push( $location, array (
-					array (
-						'param' => 'post_type',
-						'operator' => '==',
-						'value' => $post_type,
-					),
-				));
-			}
-		}
-
-		acf_add_local_field_group( array(
-			'key' => 'group_sections',
-			'title' => 'Interactive sections',
-			'instruction_placement' => 'label',
-			'position' => 'normal',
-			'label_placement' => 'top',
-			'style' => 'seamless',
-			'fields' => array (),
-			'location' => $location
-		));
-	}
-
-	if( function_exists( 'acf_add_local_field' ) ) {
-
-		acf_add_local_field( array(
-			'key' => 'field_enable',
-			'label' => 'Interactive longform article',
-			'name' => 'interactive-enable',
-			'type' => 'checkbox',
-			'collapsed' => 1,
-			'parent' => 'group_sections',
-			'layout' => 'row',
-			'choices' => array(
-				'enabled'	=> 'Enable interactive article',
-			),
-			'required' => 0
-		));
-
-		acf_add_local_field( array(
-			'key' => 'field_repeater',
-			'label' => 'Interactive sections',
-			'name' => 'interactive-section',
-			'type' => 'repeater',
-			'collapsed' => 1,
-			'parent' => 'group_sections',
-			'instructions' => 'Add section backgrounds and text content',
-			'layout' => 'row',
-			'conditional_logic' => array (
-				array (
-					array (
-						'field' => 'field_enable',
-						'operator' => '==',
-						'value' => 'enabled',
-					),
-				),
-			),
-			'required' => 0
-		));
-
-		$choices = array(
-			'cover'	=> 'Cover page (the first section)',
-			'large'	=> 'Lead text',
-			'default' => 'Body text',
-			'embed' => 'Video Embed',
-			'related' => 'Related articles',
-		);
-
-		// Add downloads if the option is enabled
-		if ( !empty( get_option( 'int_option_display_downloads' ) ) ) {
-			$choices['downloads'] = 'Downloads';
-		}
-
-		acf_add_local_field( array(
-			'key' => 'field_section_style',
-			'label' => 'Section type',
-			'name' => 'section-style',
-			'type' => 'radio',
-			'choices' => $choices,
-			'parent' => 'field_repeater',
-			'default_value' => 'default',
-			'instructions' => ''
-		));
-
-		acf_add_local_field( array(
-			'key' => 'field_bg_type',
-			'label' => 'Background type',
-			'name' => 'background-type',
-			'type' => 'radio',
-			'choices' => array(
-				'color'	=> 'Color',
-				'image'	=> 'Image',
-				'video'	=> 'Video',
-			),
-			'parent' => 'field_repeater',
-			'default_value' => 'color',
-			'instructions' => 'Select background type'
-		));
-
-		acf_add_local_field( array(
-			'key' => 'field_bg_image',
-			'label' => 'Background image',
-			'name' => 'background-image',
-			'type' => 'image',
-			'return_format' => 'array',
-			'conditional_logic' => array (
-				array (
-					array (
-						'field' => 'field_bg_type',
-						'operator' => '==',
-						'value' => 'image',
-					),
-				),
-			),
-			'parent' => 'field_repeater',
-			'instructions' => 'JPEG image (16:9), at least 2600px (width) x 1465px (height)'
-		));
-
-		acf_add_local_field( array(
-			'key' => 'field_bg_image_mobile',
-			'label' => 'Mobile background image (optional)',
-			'name' => 'background-image-mobile',
-			'type' => 'image',
-			'return_format' => 'array',
-			'conditional_logic' => array (
-				array (
-					array (
-						'field' => 'field_bg_type',
-						'operator' => '==',
-						'value' => 'image',
-					),
-				),
-			),
-			'parent' => 'field_repeater',
-			'instructions' => 'JPEG image 9:16, at least 1300px (width) x 2310px (height).'
-		));
-
-		acf_add_local_field( array(
-			'key' => 'field_bg_opacity',
-			'label' => 'Brightness',
-			'name' => 'background-opacity',
-			'type' => 'range',
-			'return_format' => 'array',
-			'conditional_logic' => array (
-				array (
-					array (
-						'field' => 'field_bg_type',
-						'operator' => '==',
-						'value' => 'image',
-					),
-				),
-				array (
-					array (
-						'field' => 'field_bg_type',
-						'operator' => '==',
-						'value' => 'video',
-					),
-				),
-			),
-			'parent' => 'field_repeater',
-			'default_value' => 100,
-			'instructions' => ''
-		));
-
-		acf_add_local_field( array(
-			'key' => 'field_bg_align',
-			'label' => 'Background alignment',
-			'name' => 'background-align',
-			'type' => 'radio',
-			'choices' => array(
-				'left center'	=> 'left center',
-				'left top'	=> 'left top',
-				'left bottom'	=> 'left bottom',
-				'center center'	=> 'center center',
-				'center top'	=> 'center top',
-				'center bottom'	=> 'center bottom',
-				'right center'	=> 'right center',
-				'right top'	=> 'right top',
-				'right bottom'	=> 'right bottom',
-			),
-			'conditional_logic' => array (
-				array (
-					array (
-						'field' => 'field_bg_type',
-						'operator' => '==',
-						'value' => 'image',
-					),
-				),
-			),
-			'parent' => 'field_repeater',
-			'default_value' => 'center center',
-		));
-
-		acf_add_local_field( array(
-			'key' => 'field_bg_color',
-			'label' => 'Background color',
-			'name' => 'background-color',
-			'type' => 'radio',
-			'choices' => array(
-				'black'	=> 'Black',
-				'white'	=> 'White',
-			),
-			'conditional_logic' => array (
-				array (
-					array (
-						'field' => 'field_bg_type',
-						'operator' => '==',
-						'value' => 'color',
-					),
-				),
-			),
-			'parent' => 'field_repeater',
-			'default_value' => 'black',
-			'instructions' => ''
-		));
-
-		acf_add_local_field( array(
-			'key' => 'field_bg_poster',
-			'label' => 'Video screenshot',
-			'name' => 'background-poster',
-			'type' => 'image',
-			'return_format' => 'array',
-			'conditional_logic' => array (
-				array (
-					array (
-						'field' => 'field_bg_type',
-						'operator' => '==',
-						'value' => 'video',
-					),
-				),
-			),
-			'parent' => 'field_repeater',
-			'instructions' => 'JPEG image, 16:9 (max 200kB). Is displayed as a placeholder image while video is loading.'
-		));
-
-		acf_add_local_field( array(
-			'key' => 'field_bg_gif',
-			'label' => 'Mobile video',
-			'name' => 'background-gif',
-			'type' => 'file',
-			'return_format' => 'url',
-			'conditional_logic' => array (
-				array (
-					array (
-						'field' => 'field_bg_type',
-						'operator' => '==',
-						'value' => 'video',
-					),
-				),
-			),
-			'parent' => 'field_repeater',
-			'instructions' => 'GIF image (max 2MB)'
-		));
-
-		acf_add_local_field( array(
-			'key' => 'field_bg_video_md',
-			'label' => 'Medium-sized video (16:9)',
-			'name' => 'background-video-md',
-			'type' => 'file',
-			'return_format' => 'url',
-			'conditional_logic' => array (
-				array (
-					array (
-						'field' => 'field_bg_type',
-						'operator' => '==',
-						'value' => 'video',
-					),
-				),
-			),
-			'parent' => 'field_repeater',
-			'instructions' => 'MP4, 16:9, 10-15 sec (max 3MB)'
-		));
-
-		acf_add_local_field( array(
-			'key' => 'field_bg_video_xl',
-			'label' => 'Large video (16:9)',
-			'name' => 'background-video-xl',
-			'type' => 'file',
-			'return_format' => 'url',
-			'conditional_logic' => array (
-				array (
-					array (
-						'field' => 'field_bg_type',
-						'operator' => '==',
-						'value' => 'video',
-					),
-				),
-			),
-			'parent' => 'field_repeater',
-			'instructions' => 'MP4, 16:9, 10-15 sec (max 3MB)'
-		));
-
-		acf_add_local_field( array(
-			'key' => 'field_video_oembed',
-			'label' => 'Video Embed',
-			'name' => 'interactive-video-embed',
-			'type' => 'oembed',
-			'parent' => 'field_repeater',
-			'instructions' => 'Add download',
-			'conditional_logic' => array (
-				array (
-					array (
-						'field' => 'field_section_style',
-						'operator' => '==',
-						'value' => 'embed',
-					),
-				),
-			),
-			'required' => 0,
-			'instructions' => 'Paste the video URL here - If text is required, please use a section type that has a text editor.'
-		));
-
-		/*
-			Downloads
-		*/
-		acf_add_local_field( array(
-			'key' => 'field_download_repeater',
-			'label' => 'Downloads',
-			'name' => 'interactive-download',
-			'type' => 'repeater',
-			'collapsed' => 1,
-			'parent' => 'field_repeater',
-			'instructions' => 'Add download',
-			'layout' => 'row',
-			'conditional_logic' => array (
-				array (
-					array (
-						'field' => 'field_section_style',
-						'operator' => '==',
-						'value' => 'downloads',
-					),
-				),
-			),
-			'required' => 0,
-			'instructions' => 'The files uploaded here will be available in the downloads section.'
-		));
-
-		acf_add_local_field( array(
-			'key' => 'field_download_repeater_image',
-			'label' => 'File',
-			'name' => 'interactive-download-file',
-			'type' => 'file',
-			'return_format' => 'array',
-			'parent' => 'field_download_repeater',
-			'instructions' => 'PDF format'
-		));
-
-		/*
-			Related articles
-		*/
-		acf_add_local_field( array(
-			'key' => 'field_related_repeater',
-			'label' => 'Related articles',
-			'name' => 'interactive-related',
-			'type' => 'repeater',
-			'collapsed' => 1,
-			'parent' => 'field_repeater',
-			'instructions' => 'Add related article',
-			'layout' => 'row',
-			'conditional_logic' => array (
-				array (
-					array (
-						'field' => 'field_section_style',
-						'operator' => '==',
-						'value' => 'related',
-					),
-				),
-			),
-			'required' => 0,
-			'instructions' => 'These articles will be listed in a Related articles section.'
-		));
-
-		acf_add_local_field( array(
-			'key' => 'field_related_repeater_image',
-			'label' => 'Image',
-			'name' => 'interactive-related-image',
-			'type' => 'file',
-			'return_format' => 'array',
-			'parent' => 'field_related_repeater',
-			'instructions' => ''
-		));
-
-		acf_add_local_field( array(
-			'key' => 'field_related_repeater_title',
-			'label' => 'Title',
-			'name' => 'interactive-related-title',
-			'type' => 'text',
-			'parent' => 'field_related_repeater',
-			'instructions' => ''
-		));
-
-		acf_add_local_field( array(
-			'key' => 'field_related_repeater_link',
-			'label' => 'URL',
-			'name' => 'interactive-related-link',
-			'type' => 'link',
-			'return_format' => 'array',
-			'parent' => 'field_related_repeater',
-			'instructions' => ''
-		));
-
-		acf_add_local_field( array(
-			'key' => 'field_text_black',
-			'label' => 'Text',
-			'name' => 'text-black',
-			'type' => 'wysiwyg',
-			'parent' => 'field_repeater',
-			'conditional_logic' => array (
-				array (
-					array (
-						'field' => 'field_bg_color',
-						'operator' => '==',
-						'value' => 'black',
-					),
-					array (
-						'field' => 'field_bg_type',
-						'operator' => '!=',
-						'value' => 'none',
-					),
-					array (
-						'field' => 'field_section_style',
-						'operator' => '!=',
-						'value' => 'embed',
-					),
-					array (
-						'field' => 'field_section_style',
-						'operator' => '!=',
-						'value' => 'downloads',
-					),
-					array (
-						'field' => 'field_section_style',
-						'operator' => '!=',
-						'value' => 'related',
-					),
-				),
-			),
-			'instructions' => ''
-		));
-
-		acf_add_local_field( array(
-			'key' => 'field_text_white',
-			'label' => 'Text',
-			'name' => 'text-white',
-			'type' => 'wysiwyg',
-			'parent' => 'field_repeater',
-			'conditional_logic' => array (
-				array (
-					array (
-						'field' => 'field_bg_color',
-						'operator' => '==',
-						'value' => 'white',
-					),
-					array (
-						'field' => 'field_bg_type',
-						'operator' => '!=',
-						'value' => 'none',
-					),
-					array (
-						'field' => 'field_section_style',
-						'operator' => '!=',
-						'value' => 'embed',
-					),
-					array (
-						'field' => 'field_section_style',
-						'operator' => '!=',
-						'value' => 'downloads',
-					),
-				),
-			),
-			'instructions' => ''
-		));
-	}
-}
-
-add_action( 'acf/init', 'interactive_acf_add_fields', 10 );
-
-
-
-/*
-	Add interactive article image size
-*/
+/**
+ * Add interactive article custom image sizes
+ */
 function interactive_setup() {
 	add_image_size( 'interactive-sm', 1280, 2272, false );
 	add_image_size( 'interactive-xl', 2560, 1440, false );
 }
 
 add_action( 'after_setup_theme', 'interactive_setup' );
-
 
 
 /**
@@ -1138,24 +590,28 @@ function interactive_add_to_rest_api_data(){
     );
 }
 
+
+/**
+ *  Shortcode for showing the latest interactive articles
+ */
 function int_post_is_interactive ( $post ) {
 	$slug = get_page_template_slug( $post['id'] );
-	return function_exists( 'get_field' ) && ( $slug == 'interactive-template.php' );
+	return $slug == 'interactive-template.php';
 }
 
 add_action( 'rest_api_init', 'interactive_add_to_rest_api_data' );
 
 
-
 /**
  *  Shortcode for showing the latest interactive articles
+ *
+ *	For example: [interactive-list max="5"]
  */
-// [interactive-list max="5"]
 function int_shortcode_interactive_list( $atts ) {
 
     $atts = shortcode_atts( array(
         'type' => 'strip',
-        'max' => 2,
+        'max' => 3,
     ), $atts, 'interactive-list' );
 
 	$articles = new WP_Query( array(
