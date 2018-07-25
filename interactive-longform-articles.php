@@ -434,7 +434,7 @@ function interactive_enqueue_scripts( $hook ) {
 	    // Enqueue the component scripts
 		wp_enqueue_script( 'jquery', plugins_url( '/js/jquery-3.3.1.min.js', __FILE__ ), array(), false, true );
 	    wp_enqueue_script( 'lodash', plugins_url( '/js/lodash.min.js', __FILE__ ), array(), false, true );
-	    wp_enqueue_script( 'flexslider', plugins_url( '/js/jquery.flexslider-min.js', __FILE__ ), array(), false, true );
+    	wp_enqueue_script( 'flexslider', plugins_url( '/js/jquery.flexslider-min.js', __FILE__ ), array(), false, true );
 		wp_enqueue_script( 'interactive-longform-script', plugins_url( '/js/main.js', __FILE__ ), array( 'jquery', 'lodash' ), false, true );
 
 		// GA tracking options available via ajax_object
@@ -590,9 +590,8 @@ function interactive_add_to_rest_api_data(){
     );
 }
 
-
 /**
- *  Shortcode for showing the latest interactive articles
+ *  Check if post is interactive
  */
 function int_post_is_interactive ( $post ) {
 	$slug = get_page_template_slug( $post['id'] );

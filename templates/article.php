@@ -130,6 +130,9 @@
 					$progress = '<progress value="0"></progress>';
 				}
 
+				// Apply the_content filters for the section content
+				$content = apply_filters( 'the_content', $content );
+
 				?>
 
 					<div class="interactive-section <?php echo $type; ?> <?php echo $color; ?> transparent">
