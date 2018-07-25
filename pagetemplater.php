@@ -65,56 +65,114 @@ function metabox_switcher( $post ){
                         }
                     });
 
-                    var toggleSection = function( $el ) {
+					/**
+					* Toggles the visibility of the WYSIWYG text editors. By default, the editor is shown
+					* depending on the color selected by the background color input.
+					*
+					* @method toggleEditor
+					* @param {jQuery element} 		$container 	The container element for the section
+					* @param {String} 				color 		(Optional) To override default behaviour define editor color here.
+					*											To hide all editors, set parameter as "none".
+					*/
+                    var toggleEditor = function( $container, color ) {
+
+                    	// Hide all text editors by default
+                    	$container.find(".int-text").addClass( "hidden" );
+
+                    	if( typeof color === "undefined" ) {
+                    		// Display editor based on background color input
+                    		var color = $container.find(".int-background-color input:checked").val();
+                    		$container.find( ".int-text-" + color ).removeClass( "hidden" );
+
+                    	} else if ( typeof color === "string" ) {
+                    		// Display editor based on selected color
+                    		$container.find( ".int-text-" + color.toLowerCase() ).removeClass( "hidden" );
+                    	}
+                    }
+
+					/**
+					* Toggles the visibility of sections, depending on the clicked CMB2 input.
+					*
+					* @method toggleType
+					* @param {jQuery element} 	$el 		The form input that has been clicked
+					*/
+                    var toggleType = function( $el ) {
 
                     	var $section = $el.parents(".cmb-repeatable-grouping");
                     	var option = $el.val();
-                    	var name = $el.attr("name");
 
-                    	// Section type
-                    	if( name.indexOf("int_section_type") !== -1 ) {
+                		switch( option ) {
+                			case "embed":
+	                    		$section.find(".int-video-embed").removeClass( "hidden" );
+	                    		$section.find(".int-downloads").addClass( "hidden" );
+	                    		toggleEditor( $section, "none" );
+	                    		break;
+	                    	case "downloads":
+	                    		$section.find(".int-downloads").removeClass( "hidden" );
+	                    		$section.find(".int-video-embed").addClass( "hidden" );
+	                    		toggleEditor( $section, "none" );
+	                    		break;
+	                    	default:
+	                    		$section.find(".int-video-embed").addClass( "hidden" );
+	                    		$section.find(".int-downloads").addClass( "hidden" );
+	                    		toggleEditor( $section );
+	                    }
+                    }
 
-                    		console.log("section", option);
+					/**
+					* Toggles the visibility of sections, depending on the clicked CMB2 input.
+					*
+					* @method toggleBackground
+					* @param {jQuery element} 	$el 		The form input that has been clicked
+					*/
+                    var toggleBackground = function( $el ) {
 
-                    		switch( option ) {
-                    			case "embed":
-		                    		$section.find(".int-video-embed").removeClass( "hidden" );
-		                    		$section.find(".int-text-default").addClass( "hidden" );
-		                    		$section.find(".int-downloads").addClass( "hidden" );
-		                    		break;
-		                    	case "downloads":
-		                    		$section.find(".int-downloads").removeClass( "hidden" );
-		                    		$section.find(".int-text-default").addClass( "hidden" );
-		                    		$section.find(".int-video-embed").addClass( "hidden" );
-		                    		break;
-		                    	default:
-		                    		$section.find(".int-text-default").removeClass( "hidden" );
-		                    		$section.find(".int-downloads").addClass( "hidden" );
-		                    		$section.find(".int-video-embed").addClass( "hidden" );
-		                    }
-                    	}
+                    	var $section = $el.parents(".cmb-repeatable-grouping");
+                    	var option = $el.val();
 
-                    	// Background type
-                    	if( name.indexOf("int_background_type") !== -1 ) {
+                		// Hide by default
+                		$section.find(".int-background-color, .int-background-opacity, .int-background-align").addClass( "hidden" );
+                		$section.find(".int-background-image, .int-background-image-mobile").addClass("hidden" );
+                		$section.find(".int-background-video, .int-background-video-mobile, .int-background-video-poster").addClass("hidden" );
 
-                    		console.log("background", option);
+                		// Toggle editor color only if an editor is already visible
+                		var has_editor = !!$section.find( ".int-text:visible" ).length;
 
-                    		// Background color
-                    		var show_color = (option === "color");
-                    		$section.find(".int-background-color").toggleClass( "hidden", !show_color );
-                    		$section.find(".int-background-opacity").toggleClass( "hidden", show_color );
-                    		$section.find(".int-background-align").toggleClass( "hidden", show_color );
+                		// Display fields based on selection
+                		switch( option ) {
+                			case "color":
+	                    		$section.find(".int-background-color").removeClass( "hidden" );
+		                		if ( has_editor ) {
+		                			toggleEditor( $section );
+		                		}
+	                    		break;
+	                    	case "image":
+		                		$section.find(".int-background-image, .int-background-image-mobile").removeClass("hidden" );
+		                		if ( has_editor ) {
+		                			toggleEditor( $section, "black" );
+		                		}
+	                    		break;
+	                    	case "video":
+	                    		$section.find(".int-background-video, .int-background-video-mobile, .int-background-video-poster").removeClass("hidden" );
+		                		if ( has_editor ) {
+		                			toggleEditor( $section, "black" );
+		                		}
+	                    }
+                    }
 
-	                    	// Background image
-	                		var show_image = (option === "image");
-	                		$section.find(".int-background-image").toggleClass("hidden", !show_image );
-	                		$section.find(".int-background-image-mobile").toggleClass("hidden", !show_image );
+					/**
+					* Toggles the visibility of sections, depending on the clicked CMB2 input.
+					*
+					* @method toggleColor
+					* @param {jQuery element} 	$el 		The form input that has been clicked
+					*/
+                    var toggleColor = function( $el ) {
+                    	var $section = $el.parents(".cmb-repeatable-grouping");
+                    	var option = $el.val();
 
-	                    	// Background video
-	                 		var show_video = (option === "video");
-	                		$section.find(".int-background-video").toggleClass("hidden", !show_video );
-	                		$section.find(".int-background-video-mobile").toggleClass("hidden", !show_video );
-	                		$section.find(".int-background-video-poster").toggleClass("hidden", !show_video );
+                    	// Toggle editor color only if an editor is already visible
+                    	if( $section.find( ".int-text:visible" ).length ) {
+	                    	toggleEditor( $section, option );
                     	}
                     }
 
@@ -122,28 +180,34 @@ function metabox_switcher( $post ){
                     	Toggle conditional field on click
                     */
                     $( "#int_article_cmb_box" ).on( "click", ".int-section-type input", function(e) {
-                    	toggleSection( $(e.currentTarget) );
+                    	toggleType( $(e.currentTarget) );
                     });
                     $( "#int_article_cmb_box" ).on( "click", ".int-background-type input", function(e) {
-                    	toggleSection( $(e.currentTarget) );
+                    	toggleBackground( $(e.currentTarget) );
+                    });
+                    $( "#int_article_cmb_box" ).on( "click", ".int-background-color input", function(e) {
+                    	toggleColor( $(e.currentTarget) );
                     });
 
                     /*
                     	Toggle all conditional fields
                     */
                     var toggleAllSections = function() {
-                    	console.log( "toggle all" );
 
 	                    $( ".int-section-type input:checked" ).each( function( i ) {
-	                    	toggleSection( $(this) );
+	                    	toggleType( $(this) );
 	                    });
 
 	                    $( ".int-background-type input:checked" ).each( function( i ) {
-	                    	toggleSection( $(this) );
+	                    	toggleBackground( $(this) );
+	                    });
+
+	                    $( ".int-background-color input:checked" ).each( function( i ) {
+	                    	toggleColor( $(this) );
 	                    });
                     }
 
-                    // Add new row
+                    // Add new section
                     $( "#int_article_cmb_box" ).on( "click", ".cmb-add-group-row", function(e) {
                     	toggleAllSections();
                     });

@@ -73,7 +73,7 @@ function int_metabox_register() {
 			'embed'     => __( 'Video embed', 'your-text-domain' ),
 		);
 
-		// Add downloads if the option is enabled
+		// Add downloads if the option is enabled in settings
 		if ( !empty( get_option( 'int_option_display_downloads' ) ) ) {
 			$section_types['downloads'] = __( 'Downloads', 'your-text-domain' );
 		}
@@ -220,7 +220,7 @@ function int_metabox_register() {
 
         // Video - screenshot/poster
         $cmb->add_group_field( $group_sections, array(
-			'name'    => 'Screenshot for background video ',
+			'name'    => __( 'Screenshot for background video', 'your-text-domain' ),
 			'desc'    => 'Upload a JPG screenshot image (max. 300 kb)',
 			'id'      => $prefix . 'background_video_poster',
 			'classes' => 'int-background-video-poster',
@@ -243,7 +243,7 @@ function int_metabox_register() {
 
         // Background Color
 		$cmb->add_group_field( $group_sections, array(
-			'name'             => 'Background Color',
+			'name'             => __( 'Background color', 'your-text-domain' ),
 			'id'               => $prefix . 'background_color',
 			'classes' 		   => 'int-background-color',
 			'type'             => 'radio',
@@ -258,7 +258,7 @@ function int_metabox_register() {
 
         // Opacity
 		$cmb->add_group_field( $group_sections, array(
-			'name'             => 'Brightness',
+			'name'             => __( 'Brightness', 'your-text-domain' ),
 			'id'               => $prefix . 'background_opacity',
 			'classes' 		   => 'int-background-opacity',
 			'type'             => 'range_input',
@@ -291,7 +291,7 @@ function int_metabox_register() {
 		));
 
         /*
-        	Default TinyMCE editor
+        	TinyMCE editor (black background)
         */
 		$style_formats = array(
 		    array(
@@ -326,13 +326,13 @@ function int_metabox_register() {
 		    ),
 		);
 
-		$content_css = plugins_url( '/css/editor-style.css', __FILE__ ) . ', ' . plugins_url( '/css/editor-white.css', __FILE__ );
+		$editor_css_black = plugins_url( '/css/editor-style.css', __FILE__ ) . ', ' . plugins_url( '/css/editor-black.css', __FILE__ );
 
 		$editor_args = array(
 			'name'    => 'Text',
 			'desc'    => '',
-			'id'      => $prefix . 'text_default',
-			'classes' => 'int-text-default',
+			'id'      => $prefix . 'text_black',
+			'classes' => 'int-text int-text-black',
 			'type'    => 'wysiwyg',
 			'options' => array(
 			    'wpautop' => false, // use wpautop?
@@ -341,19 +341,30 @@ function int_metabox_register() {
 			    'textarea_rows' => get_option( 'default_post_edit_rows', 10 ), // rows="..."
 			    'tabindex' => '',
 			    'editor_css' => '', // intended for extra styles for both visual and HTML editors buttons, needs to include the `<style>` tags, can use "scoped".
-			    'editor_class' => 'white_whatever', // add extra class(es) to the editor textarea
+			    'editor_class' => '', // add extra class(es) to the editor textarea
 			    'teeny' => false, // output the minimal editor config used in Press This
 			    'dfw' => false, // replace the default fullscreen with DFW (needs specific css)
 			    'tinymce' => array(
 			    	'style_formats' => json_encode( $style_formats ),
 			    	'block_formats' => "Paragraph=p; Title=h2;",
-			    	'content_css' => $content_css
+			    	'content_css' => $editor_css_black
 			    ),  // load TinyMCE, can be used to pass settings directly to TinyMCE using an array()
 			    'quicktags' => true // load Quicktags, can be used to pass settings directly to Quicktags using an array()
 			),
 		);
 
         $cmb->add_group_field( $group_sections, $editor_args );
+
+        /*
+        	TinyMCE editor (white background)
+        */
+		$editor_css_white = plugins_url( '/css/editor-style.css', __FILE__ ) . ', ' . plugins_url( '/css/editor-white.css', __FILE__ );
+
+		$editor_args['id'] = $prefix . 'text_white';
+		$editor_args['classes'] = 'int-text int-text-white';
+		$editor_args['options']['tinymce']['content_css'] = $editor_css_white;
+
+		$cmb->add_group_field( $group_sections, $editor_args );
 
         /*
         	Video Embed
