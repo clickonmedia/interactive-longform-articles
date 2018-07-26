@@ -4,12 +4,15 @@
 add_action( 'admin_head-post.php', 'metabox_switcher' );
 add_action( 'admin_head-post-new.php', 'metabox_switcher' );
 
-function metabox_switcher( $post ){
+function metabox_switcher(){
+	global $post;
 
-    #Isolate to your specific post type
-    // if( $post->post_type === 'page' || $post->post_type === 'post' ){
+	$post_types = array( 'post', 'page', 'interactive_article' );
 
-        #Locate the ID of your metabox with Developer tools
+    # Isolate to specific post types
+    if( in_array( $post->post_type, $post_types ) ) {
+
+        # ID of the CMB2 metabox
         $metabox_selector_id = 'postbox-container-2';
 
         echo '
@@ -39,8 +42,6 @@ function metabox_switcher( $post ){
 
                 	// Get the current post type
                 	var post_type = getUrlParameter("post_type");
-
-                	console.log( "post_type", post_type );
 
                     //You can find this in the value of the Page Template dropdown
                     var templateName = \'interactive-template.php\';
@@ -222,7 +223,7 @@ function metabox_switcher( $post ){
                 });
             </script>
         ';
-    //}
+    }
 }
 
 class PageTemplater {

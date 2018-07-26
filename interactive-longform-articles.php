@@ -31,381 +31,372 @@ require_once __DIR__ . '/inc/options.php';
 require_once __DIR__ . '/pagetemplater.php';
 
 
-
+/**
+ * Create CMB2 metabox and related fields
+ */
 function int_metabox_register() {
 
-	// if ( 'foobar.php' == get_post_meta( $post->ID, '_wp_page_template', true ) ) {
-	// }
+	$prefix = 'int_';
 
-		$prefix = 'int_';
+    $cmb = new_cmb2_box( array(
+        'id'            => $prefix . 'article_cmb_box',
+        'title'         => __( 'Repeatable Section', 'your-text-domain' ),
+        'object_types' => array( 'post', 'page', 'interactive_article' ),
+        //'show_on'      => array( 'key' => 'page-template', 'value' => 'page-test.php' ),
+        'context'       => 'normal',
+        'priority'      => 'high',
+        'show_names'    => true,
+    ));
 
-        $cmb = new_cmb2_box( array(
-            'id'            => $prefix . 'article_cmb_box',
-            'title'         => __( 'Repeatable Section', 'your-text-domain' ),
-            'object_types' => array( 'post', 'page', 'interactive_article' ), // post type
-            //'show_on'      => array( 'key' => 'page-template', 'value' => 'page-test.php' ),
-            'context'       => 'normal',
-            'priority'      => 'high',
-            'show_names'    => true,
-        ));
+    // Repeatable Section Group
+    $group_sections = $cmb->add_field( array(
+        'id'          => $prefix . 'article_sections',
+        'classes'     => 'int-article-sections',
+        'type'        => 'group',
+        'options'     => array(
+            'group_title'   => __( 'Section', 'your-text-domain' ) . ' {#}', // {#} gets replaced by row number
+            'add_button'    => __( 'Add another Section', 'your-text-domain' ),
+            'remove_button' => __( 'Remove Section', 'your-text-domain' ),
+            'sortable'      => true, // beta
+        ),
+    ) );
 
-        // Repeatable Section Group
-        $group_sections = $cmb->add_field( array(
-            'id'          => $prefix . 'article_sections',
-            'classes'     => 'int-article-sections',
-            'type'        => 'group',
-            'options'     => array(
-                'group_title'   => __( 'Section', 'your-text-domain' ) . ' {#}', // {#} gets replaced by row number
-                'add_button'    => __( 'Add another Section', 'your-text-domain' ),
-                'remove_button' => __( 'Remove Section', 'your-text-domain' ),
-                'sortable'      => true, // beta
-            ),
-        ) );
+    // Section type
+	$section_types = array(
+		'cover' 	=> __( 'Cover page', 'your-text-domain' ),
+		'large'   	=> __( 'Lead text', 'your-text-domain' ),
+		'default'   => __( 'Body text', 'your-text-domain' ),
+		'embed'     => __( 'Video embed', 'your-text-domain' ),
+	);
 
-        /*
-        	Section type
-        */
-		$section_types = array(
-			'cover' 	=> __( 'Cover page', 'your-text-domain' ),
-			'large'   	=> __( 'Lead text', 'your-text-domain' ),
-			'default'   => __( 'Body text', 'your-text-domain' ),
-			'embed'     => __( 'Video embed', 'your-text-domain' ),
-		);
+	// Add downloads if the option is enabled in settings
+	if ( !empty( get_option( 'int_option_display_downloads' ) ) ) {
+		$section_types['downloads'] = __( 'Downloads', 'your-text-domain' );
+	}
 
-		// Add downloads if the option is enabled in settings
-		if ( !empty( get_option( 'int_option_display_downloads' ) ) ) {
-			$section_types['downloads'] = __( 'Downloads', 'your-text-domain' );
-		}
+	$cmb->add_group_field( $group_sections, array(
+		'name'             => 'Section Type',
+		'id'               => $prefix . 'section_type',
+		'classes' 		   => 'int-section-type',
+		'type'             => 'radio',
+		'show_option_none' => false,
+		'options'          => $section_types,
+		'default' 		   => 'default'
+	));
 
-		$cmb->add_group_field( $group_sections, array(
-			'name'             => 'Section Type',
-			'id'               => $prefix . 'section_type',
-			'classes' 		   => 'int-section-type',
-			'type'             => 'radio',
-			'show_option_none' => false,
-			'options'          => $section_types,
-			'default' 		   => 'default'
-		));
+    // Background Type
+	$cmb->add_group_field( $group_sections, array(
+		'name'             => 'Background Type',
+		'id'               => $prefix . 'background_type',
+		'classes' 		   => 'int-background-type',
+		'type'             => 'radio',
+		'show_option_none' => false,
+		'options'          => array(
+			'color' => __( 'Color', 'your-text-domain' ),
+			'image' => __( 'Image', 'your-text-domain' ),
+			'video' => __( 'Video', 'your-text-domain' ),
+		),
+		'default' => 'color'
+	));
 
-        // Background Type
-		$cmb->add_group_field( $group_sections, array(
-			'name'             => 'Background Type',
-			'id'               => $prefix . 'background_type',
-			'classes' 		   => 'int-background-type',
-			'type'             => 'radio',
-			'show_option_none' => false,
-			'options'          => array(
-				'color' => __( 'Color', 'your-text-domain' ),
-				'image' => __( 'Image', 'your-text-domain' ),
-				'video' => __( 'Video', 'your-text-domain' ),
+	// Background Color
+	$cmb->add_group_field( $group_sections, array(
+		'name'             => 'Background Color',
+		'id'               => $prefix . 'background_color',
+		'classes' 		   => 'int-background-color',
+		'type'             => 'radio',
+		'show_option_none' => false,
+		'options'          => array(
+			'black' => __( 'Black', 'your-text-domain' ),
+			'white'     => __( 'White', 'your-text-domain' ),
+		),
+		'default' => 'black',
+		'show_on_cb' => true,
+	));
+
+    // Background image
+    $cmb->add_group_field( $group_sections, array(
+		'name'    => 'Background image',
+		'desc'    => 'JPEG image (16:9), at least 2600px (width) x 1465px (height)',
+		'id'      => $prefix . 'background_image',
+		'classes' => 'int-background-image',
+		'type'    => 'file',
+		// Optional:
+		'options' => array(
+			'url' => true, // Hide the text input for the url
+		),
+		'text'    => array(
+			'add_upload_file_text' => 'Add Image' // Change upload button text. Default: "Add or Upload File"
+		),
+		// query_args are passed to wp.media's library query.
+		'query_args' => array(
+			'type' => array(
+			 	'image/gif',
+			 	'image/jpeg',
+			 	'image/png',
 			),
-			'default' => 'color'
-		));
+		),
+		'preview_size' => 'medium', // Image size to use when previewing in the admin.
+		'show_on_cb' => true,
+	) );
 
-		// Background Color
-		$cmb->add_group_field( $group_sections, array(
-			'name'             => 'Background Color',
-			'id'               => $prefix . 'background_color',
-			'classes' 		   => 'int-background-color',
-			'type'             => 'radio',
-			'show_option_none' => false,
-			'options'          => array(
-				'black' => __( 'Black', 'your-text-domain' ),
-				'white'     => __( 'White', 'your-text-domain' ),
+    // Mobile background image
+    $cmb->add_group_field( $group_sections, array(
+		'name'    => 'Mobile background image (optional)',
+		'desc'    => 'JPEG image 9:16, at least 1300px (width) x 2310px (height)',
+		'id'      => $prefix . 'background_image_mobile',
+		'classes' => 'int-background-image-mobile',
+		'type'    => 'file',
+		'options' => array(
+			'url' => true,
+		),
+		'text'    => array(
+			'add_upload_file_text' => 'Add Image'
+		),
+		'query_args' => array(
+			'type' => array(
+			 	'image/gif',
+			 	'image/jpeg',
+			 	'image/png',
 			),
-			'default' => 'black',
+		),
+		'preview_size' => 'medium',
+		'show_on_cb' => true,
+	) );
+
+    // Background video
+    $cmb->add_group_field( $group_sections, array(
+		'name'    => 'Background video',
+		'desc'    => 'Upload a video file',
+		'id'      => $prefix . 'background_video',
+		'classes' => 'int-background-video',
+		'type'    => 'file',
+		'options' => array(
+			'url' => true, // Hide the text input for the url
+		),
+		'text'    => array(
+			'add_upload_file_text' => 'Add an MP4 video file'
+		),
+		'query_args' => array(
+			'type' => array(
+			 	'video/mp4'
+			),
+		),
+		'preview_size' => 'medium',
+		'show_on_cb' => true,
+	) );
+
+    // Video - mobile
+    $cmb->add_group_field( $group_sections, array(
+		'name'    => 'Mobile background video',
+		'desc'    => 'Upload a GIF file',
+		'id'      => $prefix . 'background_video_mobile',
+		'classes' => 'int-background-video-mobile',
+		'type'    => 'file',
+		'options' => array(
+			'url' => true,
+		),
+		'text'    => array(
+			'add_upload_file_text' => 'Add a GIF file'
+		),
+		'query_args' => array(
+			'type' => array(
+			 	'image/gif',
+			),
+		),
+		'preview_size' => 'medium',
+		'show_on_cb' => true,
+	) );
+
+    // Video - screenshot/poster
+    $cmb->add_group_field( $group_sections, array(
+		'name'    => __( 'Screenshot for background video', 'your-text-domain' ),
+		'desc'    => 'Upload a JPG screenshot image (max. 300 kb)',
+		'id'      => $prefix . 'background_video_poster',
+		'classes' => 'int-background-video-poster',
+		'type'    => 'file',
+		'options' => array(
+			'url' => true,
+		),
+		'text'    => array(
+			'add_upload_file_text' => 'Add a JPG screenshot image'
+		),
+		'query_args' => array(
+			'type' => array(
+			 	'image/jpeg',
+			 	'image/png',
+			),
+		),
+		'preview_size' => 'medium',
+		'show_on_cb' => true,
+	) );
+
+    // Background Color
+	$cmb->add_group_field( $group_sections, array(
+		'name'             => __( 'Background color', 'your-text-domain' ),
+		'id'               => $prefix . 'background_color',
+		'classes' 		   => 'int-background-color',
+		'type'             => 'radio',
+		'show_option_none' => false,
+		'options'          => array(
+			'black' => __( 'Black', 'your-text-domain' ),
+			'white'     => __( 'White', 'your-text-domain' ),
+		),
+		'default' => 'black',
+		'show_on_cb' => true,
+	));
+
+    // Opacity
+	$cmb->add_group_field( $group_sections, array(
+		'name'             => __( 'Brightness', 'your-text-domain' ),
+		'id'               => $prefix . 'background_opacity',
+		'classes' 		   => 'int-background-opacity',
+		'type'             => 'range_input',
+		'desc'			   => '',
+		'show_option_none' => false,
+		'default' => '100',
+		'show_on_cb' => true,
+	));
+
+    // Background alignment
+	$cmb->add_group_field( $group_sections, array(
+		'name'             => __( 'Background alignment', 'your-text-domain' ),
+		'id'               => $prefix . 'background_align',
+		'classes' 		   => 'int-background-align',
+		'type'             => 'radio',
+		'show_option_none' => false,
+		'options' => array(
+			'left center'	=>  __( 'left center', 'your-text-domain' ),
+			'left top'	=>  __( 'left top', 'your-text-domain' ),
+			'left bottom'	=>  __( 'left bottom', 'your-text-domain' ),
+			'center center'	=>  __( 'center center', 'your-text-domain' ),
+			'center top'	=>  __( 'center top', 'your-text-domain' ),
+			'center bottom'	=>  __( 'center bottom', 'your-text-domain' ),
+			'right center'	=>  __( 'right center', 'your-text-domain' ),
+			'right top'	=>  __( 'right top', 'your-text-domain' ),
+			'right bottom'	=>  __( 'right bottom', 'your-text-domain' ),
+		),
+		'default' => 'center center',
+		'show_on_cb' => true,
+	));
+
+    /*
+    	TinyMCE editor (black background)
+    */
+	$style_formats = array(
+	    array(
+	        'title' => 'Intro Paragraph',
+	        'block' => 'p',
+	        'classes' => 'intro-para',
+	        'exact' => true
+	    ),
+	    array(
+	        'title' => 'Byline',
+	        'block' => 'p',
+	        'classes' => 'byline',
+	        'exact' => true
+	    ),
+	    array(
+	        'title' => 'Caption (left)',
+	        'block' => 'div',
+	        'classes' => 'caption-left',
+	        'exact' => true
+	    ),
+	    array(
+	        'title' => 'Caption (center)',
+	        'block' => 'div',
+	        'classes' => 'caption-center',
+	        'exact' => true
+	    ),
+	    array(
+	        'title' => 'Caption (right)',
+	        'block' => 'div',
+	        'classes' => 'caption-right',
+	        'exact' => true
+	    ),
+	);
+
+	$editor_css_black = plugins_url( '/css/editor-style.css', __FILE__ ) . ', ' . plugins_url( '/css/editor-black.css', __FILE__ );
+
+	$editor_args = array(
+		'name'    => 'Text',
+		'desc'    => '',
+		'id'      => $prefix . 'text_black',
+		'classes' => 'int-text int-text-black',
+		'type'    => 'wysiwyg',
+		'options' => array(
+		    'wpautop' => false, // use wpautop?
+		    'media_buttons' => true, // show insert/upload button(s)
+		    'textarea_name' => '', // set the textarea name to something different, square brackets [] can be used here
+		    'textarea_rows' => get_option( 'default_post_edit_rows', 10 ), // rows="..."
+		    'tabindex' => '',
+		    'editor_css' => '', // intended for extra styles for both visual and HTML editors buttons, needs to include the `<style>` tags, can use "scoped".
+		    'editor_class' => '', // add extra class(es) to the editor textarea
+		    'teeny' => false, // output the minimal editor config used in Press This
+		    'dfw' => false, // replace the default fullscreen with DFW (needs specific css)
+		    'tinymce' => array(
+		    	'style_formats' => json_encode( $style_formats ),
+		    	'block_formats' => "Paragraph=p; Title=h2;",
+		    	'content_css' => $editor_css_black,
+		    	'toolbar' => 'styleselect'
+		    ),  // load TinyMCE, can be used to pass settings directly to TinyMCE using an array()
+		    'quicktags' => true // load Quicktags, can be used to pass settings directly to Quicktags using an array()
+		),
+	);
+
+    $cmb->add_group_field( $group_sections, $editor_args );
+
+    /*
+    	TinyMCE editor (white background)
+    */
+	$editor_css_white = plugins_url( '/css/editor-style.css', __FILE__ ) . ', ' . plugins_url( '/css/editor-white.css', __FILE__ );
+
+	$editor_args['id'] = $prefix . 'text_white';
+	$editor_args['classes'] = 'int-text int-text-white';
+	$editor_args['options']['tinymce']['content_css'] = $editor_css_white;
+
+	$cmb->add_group_field( $group_sections, $editor_args );
+
+    /*
+    	Video Embed
+    */
+	$cmb->add_group_field( $group_sections, array(
+		'name' => 'Video Embed',
+		'desc' => 'A simple video embed - If text is required, please use the text editor.',
+		'id'      => $prefix . 'video_embed',
+		'classes' => 'int-video-embed',
+		'type' => 'oembed',
+		'show_on_cb' => true,
+	) );
+
+    /*
+    	Downloads
+    */
+	if ( !empty( get_option( 'int_option_display_downloads' ) ) ) {
+
+		$cmb->add_group_field( $group_sections, array(
+			'name' => 'Downloads',
+			'desc' => 'The files uploaded here will be available in the downloads section.',
+			'id'      => $prefix . 'downloads',
+			'classes' => 'int-downloads',
+			'type' => 'file_list',
 			'show_on_cb' => true,
-		));
-
-        // Background image
-        $cmb->add_group_field( $group_sections, array(
-			'name'    => 'Background image',
-			'desc'    => 'JPEG image (16:9), at least 2600px (width) x 1465px (height)',
-			'id'      => $prefix . 'background_image',
-			'classes' => 'int-background-image',
-			'type'    => 'file',
-			// Optional:
-			'options' => array(
-				'url' => true, // Hide the text input for the url
+			'text' => array(
+				'add_upload_files_text' => 'Add or Upload Files',
+				'remove_image_text' => 'Remove Image',
+				'file_text' => 'File:',
+				'file_download_text' => 'Download',
+				'remove_text' => 'Remove',
 			),
-			'text'    => array(
-				'add_upload_file_text' => 'Add Image' // Change upload button text. Default: "Add or Upload File"
-			),
-			// query_args are passed to wp.media's library query.
-			'query_args' => array(
-				'type' => array(
-				 	'image/gif',
-				 	'image/jpeg',
-				 	'image/png',
-				),
-			),
-			'preview_size' => 'medium', // Image size to use when previewing in the admin.
-			'show_on_cb' => true,
 		) );
-
-        // Mobile background image
-        $cmb->add_group_field( $group_sections, array(
-			'name'    => 'Mobile background image (optional)',
-			'desc'    => 'JPEG image 9:16, at least 1300px (width) x 2310px (height)',
-			'id'      => $prefix . 'background_image_mobile',
-			'classes' => 'int-background-image-mobile',
-			'type'    => 'file',
-			// Optional:
-			'options' => array(
-				'url' => true, // Hide the text input for the url
-			),
-			'text'    => array(
-				'add_upload_file_text' => 'Add Image' // Change upload button text. Default: "Add or Upload File"
-			),
-			// query_args are passed to wp.media's library query.
-			'query_args' => array(
-				'type' => array(
-				 	'image/gif',
-				 	'image/jpeg',
-				 	'image/png',
-				),
-			),
-			'preview_size' => 'medium', // Image size to use when previewing in the admin.
-			'show_on_cb' => true,
-		) );
-
-        // Background video
-        $cmb->add_group_field( $group_sections, array(
-			'name'    => 'Background video',
-			'desc'    => 'Upload a video file',
-			'id'      => $prefix . 'background_video',
-			'classes' => 'int-background-video',
-			'type'    => 'file',
-			// Optional:
-			'options' => array(
-				'url' => true, // Hide the text input for the url
-			),
-			'text'    => array(
-				'add_upload_file_text' => 'Add an MP4 video file' // Change upload button text. Default: "Add or Upload File"
-			),
-			// query_args are passed to wp.media's library query.
-			'query_args' => array(
-				// 'type' => 'application/pdf', // Make library only display PDFs.
-				// Or only video formats
-				'type' => array(
-				 	'video/mp4'
-				),
-			),
-			'preview_size' => 'medium', // Image size to use when previewing in the admin.
-			'show_on_cb' => true,
-		) );
-
-        // Video - mobile
-        $cmb->add_group_field( $group_sections, array(
-			'name'    => 'Mobile background video',
-			'desc'    => 'Upload a GIF file',
-			'id'      => $prefix . 'background_video_mobile',
-			'classes' => 'int-background-video-mobile',
-			'type'    => 'file',
-			'options' => array(
-				'url' => true,
-			),
-			'text'    => array(
-				'add_upload_file_text' => 'Add a GIF file'
-			),
-			'query_args' => array(
-				'type' => array(
-				 	'image/gif',
-				),
-			),
-			'preview_size' => 'medium',
-			'show_on_cb' => true,
-		) );
-
-        // Video - screenshot/poster
-        $cmb->add_group_field( $group_sections, array(
-			'name'    => __( 'Screenshot for background video', 'your-text-domain' ),
-			'desc'    => 'Upload a JPG screenshot image (max. 300 kb)',
-			'id'      => $prefix . 'background_video_poster',
-			'classes' => 'int-background-video-poster',
-			'type'    => 'file',
-			'options' => array(
-				'url' => true,
-			),
-			'text'    => array(
-				'add_upload_file_text' => 'Add a JPG screenshot image'
-			),
-			'query_args' => array(
-				'type' => array(
-				 	'image/jpeg',
-				 	'image/png',
-				),
-			),
-			'preview_size' => 'medium',
-			'show_on_cb' => true,
-		) );
-
-        // Background Color
-		$cmb->add_group_field( $group_sections, array(
-			'name'             => __( 'Background color', 'your-text-domain' ),
-			'id'               => $prefix . 'background_color',
-			'classes' 		   => 'int-background-color',
-			'type'             => 'radio',
-			'show_option_none' => false,
-			'options'          => array(
-				'black' => __( 'Black', 'your-text-domain' ),
-				'white'     => __( 'White', 'your-text-domain' ),
-			),
-			'default' => 'black',
-			'show_on_cb' => true,
-		));
-
-        // Opacity
-		$cmb->add_group_field( $group_sections, array(
-			'name'             => __( 'Brightness', 'your-text-domain' ),
-			'id'               => $prefix . 'background_opacity',
-			'classes' 		   => 'int-background-opacity',
-			'type'             => 'range_input',
-			'desc'			   => '',
-			'show_option_none' => false,
-			'default' => '100',
-			'show_on_cb' => true,
-		));
-
-        // Background alignment
-		$cmb->add_group_field( $group_sections, array(
-			'name'             => __( 'Background alignment', 'your-text-domain' ),
-			'id'               => $prefix . 'background_align',
-			'classes' 		   => 'int-background-align',
-			'type'             => 'radio',
-			'show_option_none' => false,
-			'options' => array(
-				'left center'	=>  __( 'left center', 'your-text-domain' ),
-				'left top'	=>  __( 'left top', 'your-text-domain' ),
-				'left bottom'	=>  __( 'left bottom', 'your-text-domain' ),
-				'center center'	=>  __( 'center center', 'your-text-domain' ),
-				'center top'	=>  __( 'center top', 'your-text-domain' ),
-				'center bottom'	=>  __( 'center bottom', 'your-text-domain' ),
-				'right center'	=>  __( 'right center', 'your-text-domain' ),
-				'right top'	=>  __( 'right top', 'your-text-domain' ),
-				'right bottom'	=>  __( 'right bottom', 'your-text-domain' ),
-			),
-			'default' => 'center center',
-			'show_on_cb' => true,
-		));
-
-        /*
-        	TinyMCE editor (black background)
-        */
-		$style_formats = array(
-		    array(
-		        'title' => 'Intro Paragraph',
-		        'block' => 'p',
-		        'classes' => 'intro-para',
-		        'exact' => true
-		    ),
-		    array(
-		        'title' => 'Byline',
-		        'block' => 'p',
-		        'classes' => 'byline',
-		        'exact' => true
-		    ),
-		    array(
-		        'title' => 'Caption (left)',
-		        'block' => 'div',
-		        'classes' => 'caption-left',
-		        'exact' => true
-		    ),
-		    array(
-		        'title' => 'Caption (center)',
-		        'block' => 'div',
-		        'classes' => 'caption-center',
-		        'exact' => true
-		    ),
-		    array(
-		        'title' => 'Caption (right)',
-		        'block' => 'div',
-		        'classes' => 'caption-right',
-		        'exact' => true
-		    ),
-		);
-
-		$editor_css_black = plugins_url( '/css/editor-style.css', __FILE__ ) . ', ' . plugins_url( '/css/editor-black.css', __FILE__ );
-
-		$editor_args = array(
-			'name'    => 'Text',
-			'desc'    => '',
-			'id'      => $prefix . 'text_black',
-			'classes' => 'int-text int-text-black',
-			'type'    => 'wysiwyg',
-			'options' => array(
-			    'wpautop' => false, // use wpautop?
-			    'media_buttons' => true, // show insert/upload button(s)
-			    'textarea_name' => '', // set the textarea name to something different, square brackets [] can be used here
-			    'textarea_rows' => get_option( 'default_post_edit_rows', 10 ), // rows="..."
-			    'tabindex' => '',
-			    'editor_css' => '', // intended for extra styles for both visual and HTML editors buttons, needs to include the `<style>` tags, can use "scoped".
-			    'editor_class' => '', // add extra class(es) to the editor textarea
-			    'teeny' => false, // output the minimal editor config used in Press This
-			    'dfw' => false, // replace the default fullscreen with DFW (needs specific css)
-			    'tinymce' => array(
-			    	'style_formats' => json_encode( $style_formats ),
-			    	'block_formats' => "Paragraph=p; Title=h2;",
-			    	'content_css' => $editor_css_black
-			    ),  // load TinyMCE, can be used to pass settings directly to TinyMCE using an array()
-			    'quicktags' => true // load Quicktags, can be used to pass settings directly to Quicktags using an array()
-			),
-		);
-
-        $cmb->add_group_field( $group_sections, $editor_args );
-
-        /*
-        	TinyMCE editor (white background)
-        */
-		$editor_css_white = plugins_url( '/css/editor-style.css', __FILE__ ) . ', ' . plugins_url( '/css/editor-white.css', __FILE__ );
-
-		$editor_args['id'] = $prefix . 'text_white';
-		$editor_args['classes'] = 'int-text int-text-white';
-		$editor_args['options']['tinymce']['content_css'] = $editor_css_white;
-
-		$cmb->add_group_field( $group_sections, $editor_args );
-
-        /*
-        	Video Embed
-        */
-		$cmb->add_group_field( $group_sections, array(
-			'name' => 'Video Embed',
-			'desc' => 'A simple video embed - If text is required, please use the text editor.',
-			'id'      => $prefix . 'video_embed',
-			'classes' => 'int-video-embed',
-			'type' => 'oembed',
-			'show_on_cb' => true,
-		) );
-
-        /*
-        	Downloads
-        */
-		if ( !empty( get_option( 'int_option_display_downloads' ) ) ) {
-
-			$cmb->add_group_field( $group_sections, array(
-				'name' => 'Downloads',
-				'desc' => 'The files uploaded here will be available in the downloads section.',
-				'id'      => $prefix . 'downloads',
-				'classes' => 'int-downloads',
-				'type' => 'file_list',
-				'show_on_cb' => true,
-				'text' => array(
-					'add_upload_files_text' => 'Add or Upload Files',
-					'remove_image_text' => 'Remove Image',
-					'file_text' => 'File:',
-					'file_download_text' => 'Download',
-					'remove_text' => 'Remove',
-				),
-			) );
-		}
-
+	}
 }
 
 add_action( 'cmb2_init', 'int_metabox_register' );
 
 
 /*
-	Utility function for checking for interactive article
+	Utility function for checking when the current post is interactive
 */
 function is_interactive() {
 
@@ -453,9 +444,9 @@ add_action( 'wp_enqueue_scripts', 'interactive_enqueue_scripts' );
 
 
 /*
-	Add interactive article post type
+	Use custom template for interactive_article custom post type
 */
-function interactive_longform_custom_template( $single ) {
+function interactive_article_custom_template( $single ) {
 
     global $wp_query, $post;
 
@@ -470,7 +461,7 @@ function interactive_longform_custom_template( $single ) {
 
 }
 
-add_filter( 'single_template', 'interactive_longform_custom_template' );
+add_filter( 'single_template', 'interactive_article_custom_template' );
 
 
 /*
@@ -529,50 +520,18 @@ add_action( 'after_setup_theme', 'interactive_setup' );
 
 
 /**
- * Removes buttons from the editor first row
+ * Adds styleselect formatting option to wysiwyg wp_editor
  */
-add_filter( 'mce_buttons', 'interactive_remove_tiny_mce_buttons_top');
-function interactive_remove_tiny_mce_buttons_top( $buttons ) {
-    $remove_buttons = array(
-        'wp_more', // read more link
-        'spellchecker',
-        'dfw', // distraction free writing mode
-    );
-    foreach ( $buttons as $button_key => $button_value ) {
-        if ( in_array( $button_value, $remove_buttons ) ) {
-            unset( $buttons[ $button_key ] );
-        }
-    }
-    return $buttons;
-}
+function interactive_tiny_mce_buttons_bottom( $buttons ) {
 
-
-/**
- * Removes buttons from the editor second row
- */
-add_filter( 'mce_buttons_2', 'interactive_remove_tiny_mce_buttons_bottom');
-
-function interactive_remove_tiny_mce_buttons_bottom( $buttons ) {
-    $remove_buttons = array(
-        'outdent',
-        'indent',
-        'removeformat', // clear formatting
-        'charmap', // special characters
-    );
-    foreach ( $buttons as $button_key => $button_value ) {
-        if ( in_array( $button_value, $remove_buttons ) ) {
-            unset( $buttons[ $button_key ] );
-        }
-    }
-
-    if( ! in_array( 'styleselect', $buttons )) {
-
-		//Add style selector to the beginning of the toolbar
+    if( is_interactive() && !in_array( 'styleselect', $buttons )) {
 		array_unshift( $buttons, 'styleselect' );
     }
 
     return $buttons;
 }
+
+add_filter( 'mce_buttons_2', 'interactive_tiny_mce_buttons_bottom');
 
 
 /**
@@ -583,7 +542,7 @@ function interactive_add_to_rest_api_data(){
     register_rest_field( 'post',
         'interactive',
         array(
-            'get_callback'    => 'int_post_is_interactive',
+            'get_callback'    => 'int_rest_api_is_interactive',
             'update_callback' => null,
             'schema'          => null,
         )
@@ -593,7 +552,7 @@ function interactive_add_to_rest_api_data(){
 /**
  *  Check if post is interactive
  */
-function int_post_is_interactive ( $post ) {
+function int_rest_api_is_interactive ( $post ) {
 	$slug = get_page_template_slug( $post['id'] );
 	return $slug == 'interactive-template.php';
 }
