@@ -4,7 +4,7 @@
 add_action( 'admin_head-post.php', 'metabox_switcher' );
 add_action( 'admin_head-post-new.php', 'metabox_switcher' );
 
-function metabox_switcher(){
+function metabox_switcher() {
 	global $post;
 
 	$post_types = array( 'post', 'page', 'interactive_article' );

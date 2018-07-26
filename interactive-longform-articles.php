@@ -398,14 +398,32 @@ add_action( 'cmb2_init', 'int_metabox_register' );
 /*
 	Utility function for checking when the current post is interactive
 */
-function is_interactive() {
+function is_interactive_article() {
+	global $post;
 
-    global $post;
+	// Page template
+	if ( 'interactive-template.php' == get_page_template_slug( $post->ID ) ) {
+		return true;
+	}
 
-	$meta = get_post_meta( get_the_ID(), 'int_article_sections', true );
+	// Custom post type
+	if ( 'interactive_article' == $post->post_type ) {
+		return true;
+	}
 
-	// Interactive articles are enabled for this article
-    return !empty( $meta );
+    return false;
+}
+
+
+/*
+	Utility function for checking when the post uses the interactive-list shortcode
+*/
+function interactive_has_shortcode() {
+	global $post;
+
+	$sections = get_post_meta( $post->ID, 'int_article_sections', true );
+
+    return has_shortcode( serialize( $sections ), 'interactive-list' );
 }
 
 
@@ -414,18 +432,23 @@ function is_interactive() {
 */
 function interactive_enqueue_scripts( $hook ) {
 
-    if ( is_interactive() ) {
+    if ( is_interactive_article() ) {
 
 	    $plugin_data = get_plugin_data( __FILE__ );
 
     	// Enqueue styles
-    	wp_enqueue_style( 'flexslider', plugins_url( '/css/flexslider.css', __FILE__ ), false, $plugin_data['Version'] );
+    	if( interactive_has_shortcode() ) {
+    		wp_enqueue_style( 'flexslider', plugins_url( '/css/flexslider.css', __FILE__ ), false, $plugin_data['Version'] );
+    	}
     	wp_enqueue_style( 'interactive-longform-styles', plugins_url( '/css/style.min.css', __FILE__ ), false, $plugin_data['Version'] );
 
-	    // Enqueue the component scripts
+	    // Enqueue scripts
 		wp_enqueue_script( 'jquery', plugins_url( '/js/jquery-3.3.1.min.js', __FILE__ ), array(), false, true );
 	    wp_enqueue_script( 'lodash', plugins_url( '/js/lodash.min.js', __FILE__ ), array(), false, true );
-    	wp_enqueue_script( 'flexslider', plugins_url( '/js/jquery.flexslider-min.js', __FILE__ ), array(), false, true );
+
+	    if( interactive_has_shortcode() ) {
+    		wp_enqueue_script( 'flexslider', plugins_url( '/js/jquery.flexslider-min.js', __FILE__ ), array(), false, true );
+    	}
 		wp_enqueue_script( 'interactive-longform-script', plugins_url( '/js/main.js', __FILE__ ), array( 'jquery', 'lodash' ), false, true );
 
 		// GA tracking options available via ajax_object
@@ -524,7 +547,7 @@ add_action( 'after_setup_theme', 'interactive_setup' );
  */
 function interactive_tiny_mce_buttons_bottom( $buttons ) {
 
-    if( is_interactive() && !in_array( 'styleselect', $buttons )) {
+    if( is_interactive_article() && !in_array( 'styleselect', $buttons )) {
 		array_unshift( $buttons, 'styleselect' );
     }
 
