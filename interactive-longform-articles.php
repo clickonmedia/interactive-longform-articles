@@ -614,7 +614,7 @@ function int_shortcode_interactive_list( $atts ) {
     ), $atts, 'interactive-list' );
 
 	$articles = new WP_Query( array(
-		'post_type' => 'interactive_article',
+		'post_type' => 'post',
 		'posts_per_page' => $atts['max'],
 		'offset' => 0,
 		'ignore_sticky_posts' => true,
@@ -622,9 +622,8 @@ function int_shortcode_interactive_list( $atts ) {
 		'post__not_in' => array( get_the_ID() ),
 	    'meta_query' => array(
 	        array(
-	            'key' => 'interactive-enable',
-	            'value' => 'enabled',
-	            'compare' => 'LIKE'
+	            'key' => 'int_article_sections',
+	            'compare' => 'EXISTS'
 	        )
 	    )
 	));

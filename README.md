@@ -24,6 +24,18 @@ https://www.theversed.com/88688/krav-maga-the-peacekeeper
 ... * Text content
 6. Publish article
 
+### Custom logo
+
+* A custom logo can be added by enabling Custom Logo for the theme: https://developer.wordpress.org/themes/functionality/custom-logo
+
+### Header and footer
+
+* Default header and footer can be customized by including a header.php or footer.php template in  "interactive" directory in the theme
+
+### Shortcode
+
+* A carousel list of interactive articles can be added by using shortcode [interactive-list max="3"]. Max parameter indicates the maximum amount of articles listed.
+
 ## Requirements
 
 * Wordpress 3.0+
@@ -38,12 +50,6 @@ gulp watch
 The plugin uses SASS for styling. The files can be found at the /sass directory.
 
 https://sass-lang.com/guide
-
-## Miscellaneous
-
-* Custom Logo can be added by adding custom logo to your theme: https://developer.wordpress.org/themes/functionality/custom-logo
-
-* Default header and footer can be customized by including a header.php or footer.php template in  "interactive" directory in the theme
 
 ## License
 
