@@ -609,7 +609,7 @@ add_action( 'rest_api_init', 'interactive_add_to_rest_api_data' );
 function int_shortcode_interactive_list( $atts ) {
 
     $atts = shortcode_atts( array(
-        'type' => 'strip',
+        'type' => 'carousel',
         'max' => 3,
     ), $atts, 'interactive-list' );
 

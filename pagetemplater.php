@@ -131,14 +131,15 @@ function metabox_switcher( $post ){
                     	var option = $el.val();
 
                 		// Hide by default
-                		$section.find(".int-background-color, .int-background-opacity, .int-background-align").addClass( "hidden" );
-                		$section.find(".int-background-image, .int-background-image-mobile").addClass("hidden" );
-                		$section.find(".int-background-video, .int-background-video-mobile, .int-background-video-poster").addClass("hidden" );
+                		$section.find( ".int-background-color" ).addClass( "hidden" );
+                		$section.find( ".int-background-image, .int-background-image-mobile" ).addClass( "hidden" );
+                		$section.find( ".int-background-video, .int-background-video-mobile, .int-background-video-poster" ).addClass( "hidden" );
+                		$section.find( ".int-background-opacity, .int-background-align" ).addClass( "hidden" );
 
                 		// Toggle editor color only if an editor is already visible
                 		var has_editor = !!$section.find( ".int-text:visible" ).length;
 
-                		// Display fields based on selection
+                		// Display fields based on option selected
                 		switch( option ) {
                 			case "color":
 	                    		$section.find(".int-background-color").removeClass( "hidden" );
@@ -148,12 +149,14 @@ function metabox_switcher( $post ){
 	                    		break;
 	                    	case "image":
 		                		$section.find(".int-background-image, .int-background-image-mobile").removeClass("hidden" );
+		                		$section.find( ".int-background-opacity, .int-background-align" ).removeClass( "hidden" );
 		                		if ( has_editor ) {
 		                			toggleEditor( $section, "black" );
 		                		}
 	                    		break;
 	                    	case "video":
 	                    		$section.find(".int-background-video, .int-background-video-mobile, .int-background-video-poster").removeClass("hidden" );
+	                    		$section.find( ".int-background-opacity, .int-background-align" ).removeClass( "hidden" );
 		                		if ( has_editor ) {
 		                			toggleEditor( $section, "black" );
 		                		}
@@ -294,7 +297,6 @@ class PageTemplater {
 		// Add your templates to this array.
 		$this->templates = array(
 			'interactive-template.php' => 'Interactive Article',
-			'goodtobebad-template.php' => 'Good To Be Bad',
 		);
 
 	}

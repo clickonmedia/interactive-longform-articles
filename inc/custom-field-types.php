@@ -14,10 +14,12 @@
  * @return void
  */
 function cmb2_render_range_input_field_type( $field, $escaped_value, $object_id, $object_type, $field_type_object ) {
-	$value = empty( $escaped_value ) ? '100' : $escaped_value;
-	$html = '<input type="range" id="' . $field->args['_id'] . '" name="' . $field->args['_name'] . '" min="0" max="100" value="' . $value . '" />';
 
+	$value = empty( $escaped_value ) ? '100' : $escaped_value;
+
+	$html = '<input type="range" id="' . $field->args['_id'] . '" name="' . $field->args['_name'] . '" min="0" max="100" value="' . $value . '" />';
 	$html .= $field_type_object->_desc( true );
+
 	echo $html; // WPCS: XSS ok.
 }
 add_action( 'cmb2_render_range_input', 'cmb2_render_range_input_field_type', 10, 5 );
