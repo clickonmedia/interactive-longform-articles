@@ -34,7 +34,7 @@ https://www.theversed.com/88688/krav-maga-the-peacekeeper
 
 ### Shortcode
 
-* A carousel list of interactive articles can be added by using shortcode [interactive-list max="3"]. Max parameter indicates the maximum amount of articles listed.
+* A carousel list of interactive articles can be added by using shortcode [interactive-list max="3"]. "Max" parameter indicates the maximum amount of articles listed. Requires that featured images are set for all articles.
 
 ## Requirements
 

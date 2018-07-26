@@ -614,7 +614,7 @@ function int_shortcode_interactive_list( $atts ) {
     ), $atts, 'interactive-list' );
 
 	$articles = new WP_Query( array(
-		'post_type' => 'post',
+		'post_type' => array('post', 'page', 'interactive-article'),
 		'posts_per_page' => $atts['max'],
 		'offset' => 0,
 		'ignore_sticky_posts' => true,

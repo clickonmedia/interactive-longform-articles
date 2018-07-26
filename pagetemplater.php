@@ -40,6 +40,8 @@ function metabox_switcher( $post ){
                 	// Get the current post type
                 	var post_type = getUrlParameter("post_type");
 
+                	console.log( "post_type", post_type );
+
                     //You can find this in the value of the Page Template dropdown
                     var templateName = \'interactive-template.php\';
 
@@ -50,7 +52,7 @@ function metabox_switcher( $post ){
                     var metabox = $(\'#'.$metabox_selector_id.'\');
 
                     //On DOM ready, check if your page template is selected
-                    if(currentTemplate.val() === templateName || post_type === "interactive_article" ){
+                    if(currentTemplate.val() === templateName || $( "body" ).hasClass( "post-type-interactive_article" ) ){
                         metabox.show();
                     }
 

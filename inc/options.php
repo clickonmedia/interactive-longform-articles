@@ -41,8 +41,6 @@ function interactive_admin_init(){
 	add_settings_section( $section, '', '', $page );
 
 	// Field
-	add_settings_field( 'int_option_enable_for_post_types', __( 'Enable for post types:', 'interactive-longform-articles' ), 'int_enable_for_post_types', $page, $section );
-
 	add_settings_field( 'int_option_enable_post_type', __( 'Enable interactive articles as a post type', 'interactive-longform-articles' ), 'int_display_as_post_type', $page, $section );
 
 	add_settings_field( 'int_option_display_downloads', __( 'Display downloads section', 'interactive-longform-articles' ), 'int_display_downloads_section', $page, $section );
@@ -68,24 +66,6 @@ function interactive_admin_init(){
 	}
 }
 add_action( 'admin_init', 'interactive_admin_init' );
-
-/*
-	Post type selection
-*/
-function int_enable_for_post_types() {
-
-	$post_types = array_keys( get_post_types() );
-
-	foreach( $post_types as $post_type ) {
-
-		$option = 'int_option_enable_for_' . $post_type;
-
-		$field = get_option( $option );
-		$checked = empty( $field ) ? '' : 'checked';
-
-		echo '<input type="checkbox" id="' . $option . '" name="' . $option . '" value="1" ' . $checked . ' /> ' . $post_type . '<br>';
-	}
-}
 
 /*
 	Interactive post type
