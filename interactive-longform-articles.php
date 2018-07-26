@@ -613,13 +613,15 @@ function int_shortcode_interactive_list( $atts ) {
         'max' => 3,
     ), $atts, 'interactive-list' );
 
+    $post_id = get_the_ID();
+
 	$articles = new WP_Query( array(
-		'post_type' => array('post', 'page', 'interactive-article'),
+		'post_type' => array( 'post', 'page', 'interactive_article' ),
 		'posts_per_page' => $atts['max'],
 		'offset' => 0,
 		'ignore_sticky_posts' => true,
 		'has_password' => false,
-		'post__not_in' => array( get_the_ID() ),
+		'post__not_in' => array( $post_id ),
 	    'meta_query' => array(
 	        array(
 	            'key' => 'int_article_sections',
