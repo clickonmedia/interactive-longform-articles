@@ -254,7 +254,6 @@ function int_metabox_register() {
 		'type'             => 'range_input',
 		'desc'			   => '',
 		'show_option_none' => false,
-		'default' => '100',
 		'show_on_cb' => true,
 	));
 
@@ -665,4 +664,3 @@ function int_shortcode_interactive_list( $atts ) {
 }
 
 add_shortcode( 'interactive-list', 'int_shortcode_interactive_list' );
-
