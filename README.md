@@ -14,7 +14,7 @@ https://www.theversed.com/88688/krav-maga-the-peacekeeper
 
 1. Upload the unzipped plugin files to the `/wp-content/plugins/` directory, or install the plugin through the WordPress plugins screen directly.
 2. Activate the plugin through the 'Plugins' screen in WordPress
-3. Add a new post and select "Interactive article" as the template on the right sidebar
+3. Add a new post or page and select "Interactive article" as the template on the right sidebar
 4. Add sections for the article. For each section, choose:
 ... * Section type
 ... * Background

@@ -467,6 +467,21 @@ add_action( 'wp_enqueue_scripts', 'interactive_enqueue_scripts' );
 
 
 /*
+	JS scripts for WP admin
+*/
+function interactive_enqueue_admin_scripts($hook) {
+
+    if ( in_array( $hook, array( 'post.php', 'post-new.php' ) ) ) {
+    	wp_enqueue_script( 'interactive-admin-script', plugin_dir_url(__FILE__) . 'js/admin.js' );
+    }
+
+    return;
+}
+
+add_action('admin_enqueue_scripts', 'interactive_enqueue_admin_scripts');
+
+
+/*
 	Use custom template for interactive_article custom post type
 */
 function interactive_article_custom_template( $single ) {

@@ -1,10 +1,6 @@
 <?php
 
-
-add_action( 'admin_head-post.php', 'metabox_switcher' );
-add_action( 'admin_head-post-new.php', 'metabox_switcher' );
-
-function metabox_switcher() {
+function page_templater_metabox_hide() {
 	global $post;
 
 	$post_types = array( 'post', 'page', 'interactive_article' );
@@ -13,218 +9,34 @@ function metabox_switcher() {
     if( in_array( $post->post_type, $post_types ) ) {
 
         # ID of the CMB2 metabox
-        $metabox_selector_id = 'postbox-container-2';
+        $metabox_selector_id = 'int_article_cmb_box';
 
         echo '
             <style type="text/css">
                 /* Hide your metabox so there is no latency flash of your metabox before being hidden */
-                #'.$metabox_selector_id.'{display:none;}
+                #' . $metabox_selector_id  . ' {display:none;}
             </style>
-
-            <script type="text/javascript">
-
-            	var getUrlParameter = function getUrlParameter(sParam) {
-				    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-				        sURLVariables = sPageURL.split("&"),
-				        sParameterName,
-				        i;
-
-				    for (i = 0; i < sURLVariables.length; i++) {
-				        sParameterName = sURLVariables[i].split("=");
-
-				        if (sParameterName[0] === sParam) {
-				            return sParameterName[1] === undefined ? true : sParameterName[1];
-				        }
-				    }
-				};
-
-                jQuery(document).ready( function( $ ) {
-
-                	// Get the current post type
-                	var post_type = getUrlParameter("post_type");
-
-                    //You can find this in the value of the Page Template dropdown
-                    var templateName = \'interactive-template.php\';
-
-                    //Page template in the publishing options
-                    var currentTemplate = $(\'#page_template\');
-
-                    //Identify your metabox
-                    var metabox = $(\'#'.$metabox_selector_id.'\');
-
-                    //On DOM ready, check if your page template is selected
-                    if(currentTemplate.val() === templateName || $( "body" ).hasClass( "post-type-interactive_article" ) ){
-                        metabox.show();
-                    }
-
-                    //Bind a change event to make sure we show or hide the metabox based on user selection of a template
-                    currentTemplate.change(function(e) {
-                        if(currentTemplate.val() === templateName){
-                            metabox.show();
-                        }
-                        else{
-                            //You should clear out all metabox values here;
-                            metabox.hide();
-                        }
-                    });
-
-					/**
-					* Toggles the visibility of the WYSIWYG text editors. By default, the editor is shown
-					* depending on the color selected by the background color input.
-					*
-					* @method toggleEditor
-					* @param {jQuery element} 		$container 	The container element for the section
-					* @param {String} 				color 		(Optional) To override default behaviour define editor color here.
-					*											To hide all editors, set parameter as "none".
-					*/
-                    var toggleEditor = function( $container, color ) {
-
-                    	// Hide all text editors by default
-                    	$container.find(".int-text").addClass( "hidden" );
-
-                    	if( typeof color === "undefined" ) {
-                    		// Display editor based on background color input
-                    		var color = $container.find(".int-background-color input:checked").val();
-                    		$container.find( ".int-text-" + color ).removeClass( "hidden" );
-
-                    	} else if ( typeof color === "string" ) {
-                    		// Display editor based on selected color
-                    		$container.find( ".int-text-" + color.toLowerCase() ).removeClass( "hidden" );
-                    	}
-                    }
-
-					/**
-					* Toggles the visibility of sections, depending on the clicked CMB2 input.
-					*
-					* @method toggleType
-					* @param {jQuery element} 	$el 		The form input that has been clicked
-					*/
-                    var toggleType = function( $el ) {
-
-                    	var $section = $el.parents(".cmb-repeatable-grouping");
-                    	var option = $el.val();
-
-                		switch( option ) {
-                			case "embed":
-	                    		$section.find(".int-video-embed").removeClass( "hidden" );
-	                    		$section.find(".int-downloads").addClass( "hidden" );
-	                    		toggleEditor( $section, "none" );
-	                    		break;
-	                    	case "downloads":
-	                    		$section.find(".int-downloads").removeClass( "hidden" );
-	                    		$section.find(".int-video-embed").addClass( "hidden" );
-	                    		toggleEditor( $section, "none" );
-	                    		break;
-	                    	default:
-	                    		$section.find(".int-video-embed").addClass( "hidden" );
-	                    		$section.find(".int-downloads").addClass( "hidden" );
-	                    		toggleEditor( $section );
-	                    }
-                    }
-
-					/**
-					* Toggles the visibility of sections, depending on the clicked CMB2 input.
-					*
-					* @method toggleBackground
-					* @param {jQuery element} 	$el 		The form input that has been clicked
-					*/
-                    var toggleBackground = function( $el ) {
-
-                    	var $section = $el.parents(".cmb-repeatable-grouping");
-                    	var option = $el.val();
-
-                		// Hide by default
-                		$section.find( ".int-background-color" ).addClass( "hidden" );
-                		$section.find( ".int-background-image, .int-background-image-mobile" ).addClass( "hidden" );
-                		$section.find( ".int-background-video, .int-background-video-mobile, .int-background-video-poster" ).addClass( "hidden" );
-                		$section.find( ".int-background-opacity, .int-background-align" ).addClass( "hidden" );
-
-                		// Toggle editor color only if an editor is already visible
-                		var has_editor = !!$section.find( ".int-text:visible" ).length;
-
-                		// Display fields based on option selected
-                		switch( option ) {
-                			case "color":
-	                    		$section.find(".int-background-color").removeClass( "hidden" );
-		                		if ( has_editor ) {
-		                			toggleEditor( $section );
-		                		}
-	                    		break;
-	                    	case "image":
-		                		$section.find(".int-background-image, .int-background-image-mobile").removeClass("hidden" );
-		                		$section.find( ".int-background-opacity, .int-background-align" ).removeClass( "hidden" );
-		                		if ( has_editor ) {
-		                			toggleEditor( $section, "black" );
-		                		}
-	                    		break;
-	                    	case "video":
-	                    		$section.find(".int-background-video, .int-background-video-mobile, .int-background-video-poster").removeClass("hidden" );
-	                    		$section.find( ".int-background-opacity, .int-background-align" ).removeClass( "hidden" );
-		                		if ( has_editor ) {
-		                			toggleEditor( $section, "black" );
-		                		}
-	                    }
-                    }
-
-					/**
-					* Toggles the visibility of sections, depending on the clicked CMB2 input.
-					*
-					* @method toggleColor
-					* @param {jQuery element} 	$el 		The form input that has been clicked
-					*/
-                    var toggleColor = function( $el ) {
-                    	var $section = $el.parents(".cmb-repeatable-grouping");
-                    	var option = $el.val();
-
-                    	// Toggle editor color only if an editor is already visible
-                    	if( $section.find( ".int-text:visible" ).length ) {
-	                    	toggleEditor( $section, option );
-                    	}
-                    }
-
-                    /*
-                    	Toggle conditional field on click
-                    */
-                    $( "#int_article_cmb_box" ).on( "click", ".int-section-type input", function(e) {
-                    	toggleType( $(e.currentTarget) );
-                    });
-                    $( "#int_article_cmb_box" ).on( "click", ".int-background-type input", function(e) {
-                    	toggleBackground( $(e.currentTarget) );
-                    });
-                    $( "#int_article_cmb_box" ).on( "click", ".int-background-color input", function(e) {
-                    	toggleColor( $(e.currentTarget) );
-                    });
-
-                    /*
-                    	Toggle all conditional fields
-                    */
-                    var toggleAllSections = function() {
-
-	                    $( ".int-section-type input:checked" ).each( function( i ) {
-	                    	toggleType( $(this) );
-	                    });
-
-	                    $( ".int-background-type input:checked" ).each( function( i ) {
-	                    	toggleBackground( $(this) );
-	                    });
-
-	                    $( ".int-background-color input:checked" ).each( function( i ) {
-	                    	toggleColor( $(this) );
-	                    });
-                    }
-
-                    // Add new section
-                    $( "#int_article_cmb_box" ).on( "click", ".cmb-add-group-row", function(e) {
-                    	toggleAllSections();
-                    });
-
-                    // On page ready
-                    toggleAllSections();
-                });
-            </script>
         ';
     }
 }
+
+add_action( 'admin_head-post.php', 'page_templater_metabox_hide' );
+add_action( 'admin_head-post-new.php', 'page_templater_metabox_hide' );
+
+/*
+	JS scripts for WP admin
+*/
+function page_templater_admin_script($hook) {
+
+    if ( in_array( $hook, array( 'post.php', 'post-new.php' ) ) ) {
+    	wp_enqueue_script( 'interactive-page-templater', plugin_dir_url(__FILE__) . 'js/page-templater.js' );
+    }
+
+    return;
+}
+
+add_action('admin_enqueue_scripts', 'page_templater_admin_script');
+
 
 class PageTemplater {
 
