@@ -362,7 +362,7 @@ function int_metabox_register() {
     */
 	$cmb->add_group_field( $group_sections, array(
 		'name' => 'Video Embed',
-		'desc' => 'A simple video embed - If text is required, please use the text editor.',
+		'desc' => 'A simple video URL embed - If text is required, please use the text editor.',
 		'id'      => $prefix . 'video_embed',
 		'classes' => 'int-video-embed',
 		'type' => 'oembed',

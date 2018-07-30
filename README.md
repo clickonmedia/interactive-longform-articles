@@ -24,6 +24,10 @@ https://www.theversed.com/88688/krav-maga-the-peacekeeper
 ... * Text content
 6. Publish article
 
+### Text editor
+
+* Click 'Toolbar Toggle' icon to reveal more text formatting options under the 'Formats' dropdown.
+
 ### Custom logo
 
 * A custom logo can be added by enabling Custom Logo for the theme: https://developer.wordpress.org/themes/functionality/custom-logo
