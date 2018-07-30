@@ -434,7 +434,7 @@ function interactive_enqueue_scripts( $hook ) {
 
     if ( is_interactive_article() ) {
 
-	    $plugin_data = get_plugin_data( __FILE__ );
+		$plugin_data = get_file_data( __FILE__, array( 'Version' => 'Version' ), false );
 
     	// Enqueue styles
     	if( interactive_has_shortcode() ) {
