@@ -460,6 +460,19 @@ function interactive_enqueue_scripts( $hook ) {
 		    	'tracker_name' => get_option('int_option_tracker_name'),
 		    )
 		);
+
+		// Inline styles
+        $color = get_option( 'int_option_progress_color' );
+        $custom_css = "
+			.interactive-section progress[value]::-webkit-progress-value {
+				background-color: {$color};
+			}
+
+			.interactive-section progress[value]::-moz-progress-bar {
+				background: {$color};
+			}
+                ";
+        wp_add_inline_style( 'interactive-longform-styles', $custom_css );
     }
 }
 

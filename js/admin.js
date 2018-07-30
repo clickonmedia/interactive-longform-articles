@@ -134,8 +134,6 @@
         // Toggle all conditional fields
         var toggleAllSections = function() {
 
-        	console.log('toggle all');
-
             $( ".int-section-type input:checked" ).each( function( i ) {
             	toggleType( $(this) );
             });

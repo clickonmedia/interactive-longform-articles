@@ -49,6 +49,8 @@ function interactive_admin_init(){
 
 	add_settings_field( 'int_option_tracker_name', __( 'Name of the Google Analytics tracker', 'interactive-longform-articles' ), 'int_tracker_name', $page, $section );
 
+	add_settings_field( 'int_option_progress_color', __( 'Progress indicator color', 'interactive-longform-articles' ), 'int_progress_color', $page, $section );
+
 	// Register settings
 	register_setting( $page, 'int_option_enable_for_posts' );
 	register_setting( $page, 'int_option_enable_for_projects' );
@@ -57,6 +59,7 @@ function interactive_admin_init(){
 	register_setting( $page, 'int_option_display_downloads' );
 	register_setting( $page, 'int_option_google_analytics' );
 	register_setting( $page, 'int_option_tracker_name' );
+	register_setting( $page, 'int_option_progress_color' );
 
 	// Register settings for specific post types
 	$post_types = array_keys( get_post_types() );
@@ -104,5 +107,15 @@ function int_tracker_name() {
 	$name = sanitize_text_field( get_option('int_option_tracker_name') );
 
 	echo '<input type="text" id="int_option_tracker_name" name="int_option_tracker_name" value="' . $name . '"  /> (Leave empty if none exists).<br>';
+}
+
+/*
+	Progress indicator color
+*/
+function int_progress_color() {
+	$color = sanitize_text_field( get_option('int_option_progress_color') );
+	$color = empty( $color ) ? '#333' : $color;
+
+	echo '<input type="text" id="int_option_progress_color" name="int_option_progress_color" value="' . $color . '"  /> (Shown on sections that have no content)';
 }
 

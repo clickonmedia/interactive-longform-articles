@@ -52,6 +52,7 @@ https://www.theversed.com/88688/krav-maga-the-peacekeeper
 
 ```
 npm install
+gulp default
 gulp watch
 ```
 
