@@ -134,6 +134,8 @@
         // Toggle all conditional fields
         var toggleAllSections = function() {
 
+        	console.log('toggle all');
+
             $( ".int-section-type input:checked" ).each( function( i ) {
             	toggleType( $(this) );
             });
@@ -149,6 +151,11 @@
 
         // Add new section
         $metabox.on( "click", ".cmb-add-group-row", function(e) {
+        	toggleAllSections();
+        });
+
+        // Move row up/down
+        $metabox.on( "click", ".cmb-shift-rows", function(e) {
         	toggleAllSections();
         });
 
