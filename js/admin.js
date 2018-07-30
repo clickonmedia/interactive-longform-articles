@@ -72,7 +72,7 @@
     		$section.find( ".int-background-color" ).addClass( "hidden" );
     		$section.find( ".int-background-image, .int-background-image-mobile" ).addClass( "hidden" );
     		$section.find( ".int-background-video, .int-background-video-mobile, .int-background-video-poster" ).addClass( "hidden" );
-    		// $section.find( ".int-background-opacity, .int-background-align" ).addClass( "hidden" );
+    		$section.find( ".int-background-opacity, .int-background-align" ).addClass( "hidden" );
 
     		// Toggle editor color only if an editor is already visible
     		var has_editor = !!$section.find( ".int-text:visible" ).length;
