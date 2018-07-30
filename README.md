@@ -14,19 +14,23 @@ https://www.theversed.com/88688/krav-maga-the-peacekeeper
 
 1. Upload the unzipped plugin files to the `/wp-content/plugins/` directory, or install the plugin through the WordPress plugins screen directly.
 2. Activate the plugin through the 'Plugins' screen in WordPress
-3. Go to Settings > Interactive Longform Articles
-⋅⋅⋅ * Enable interative articles for the relevant post types
-⋅⋅⋅ * Configure other settings (optional)
-4. Add a new post and select "Enable interactive article"
-5. Add sections for the article. For each section, choose:
+3. Add a new post and select "Interactive article" as the template on the right sidebar
+4. Add sections for the article. For each section, choose:
 ... * Section type
 ... * Background
 ... * Text content
-6. Publish article
+5. Publish article
 
-### Text editor
+### Settings
 
-* Click 'Toolbar Toggle' icon to reveal more text formatting options under the 'Formats' dropdown.
+* In Settings > Interactive Longform Articles, you can:
+... * Enable Interactive Articles as a separate post type
+... * Enable optional sections
+... * Add Google Analytics Event tracking
+
+### Text formatting
+
+* Click 'Toolbar Toggle' icon to reveal more text formatting options under the 'Formats' option.
 
 ### Custom logo
 
