@@ -10,6 +10,8 @@ https://www.theversed.com/90093/vague-a-lame-waves-of-the-soul
 
 https://www.theversed.com/88688/krav-maga-the-peacekeeper
 
+![Screenshot](https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif)
+
 ## Usage
 
 1. Upload the unzipped plugin files to the `/wp-content/plugins/` directory, or install the plugin through the WordPress plugins screen directly.
