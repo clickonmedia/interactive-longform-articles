@@ -10,7 +10,7 @@ https://www.theversed.com/90093/vague-a-lame-waves-of-the-soul
 
 https://www.theversed.com/88688/krav-maga-the-peacekeeper
 
-![Screenshot](https://jpylisela.com/assets/screen-5-480-15s-10fps.gif)
+![Screencast](https://github.com/clickonmedia/interactive-longform-articles/blob/v2-dev/img/screen-480-15s-10fps.gif?raw=true)
 
 ## Usage
 
