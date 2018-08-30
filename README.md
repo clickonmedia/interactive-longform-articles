@@ -2,7 +2,7 @@
 
 Interactive multimedia articles, with a background scroll effect. Wordpress plugin for for longform journalism.
 
-![Screencast](https://github.com/clickonmedia/interactive-longform-articles/blob/v2-dev/img/screen-480-15s-10fps.gif?raw=true)
+![Screencast](https://github.com/clickonmedia/screenshots/raw/master/interactive-480-15s-10fps.gif)
 
 ## Examples
 
