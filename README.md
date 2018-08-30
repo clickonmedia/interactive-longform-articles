@@ -2,9 +2,9 @@
 
 Interactive multimedia articles, with a background scroll effect. Wordpress plugin for for longform journalism.
 
-## Examples
-
 ![Screencast](https://github.com/clickonmedia/interactive-longform-articles/blob/v2-dev/img/screen-480-15s-10fps.gif?raw=true)
+
+## Examples
 
 https://www.theversed.com/88510/meet-the-extraordinary-racing-driver-who-went-from-navy-to-nascar
 
