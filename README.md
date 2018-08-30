@@ -4,13 +4,13 @@ Interactive multimedia articles, with a background scroll effect. Wordpress plug
 
 ## Examples
 
+![Screencast](https://github.com/clickonmedia/interactive-longform-articles/blob/v2-dev/img/screen-480-15s-10fps.gif?raw=true)
+
 https://www.theversed.com/88510/meet-the-extraordinary-racing-driver-who-went-from-navy-to-nascar
 
 https://www.theversed.com/90093/vague-a-lame-waves-of-the-soul
 
 https://www.theversed.com/88688/krav-maga-the-peacekeeper
-
-![Screencast](https://github.com/clickonmedia/interactive-longform-articles/blob/v2-dev/img/screen-480-15s-10fps.gif?raw=true)
 
 ## Usage
 
