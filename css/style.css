@@ -164,7 +164,7 @@ html.interactive {
   padding: 0; }
   html.interactive body {
     padding: 0 10px;
-    background: #000 !important; }
+    background: #000; }
     html.interactive body.sponsored-post {
       display: block !important; }
 
@@ -187,7 +187,7 @@ html.interactive {
   -o-transition: opacity 0.6s;
   transition: opacity 0.6s; }
   .interactive-header.opaque {
-    opacity: 1 !important; }
+    opacity: 1; }
   .interactive-header a {
     -webkit-transition: opacity 0.3s;
     -moz-transition: opacity 0.3s;
@@ -222,10 +222,9 @@ html.interactive {
     text-align: right;
     padding: 13px 20px; }
     .interactive-header .social-share a.link {
-      font-family: 'Font Awesome 5 Brands';
+      display: inline-block;
       font-size: 18px;
       color: white;
-      display: inline-block;
       margin-left: 18px;
       opacity: 0.8; }
       .interactive-header .social-share a.link.twitter {
@@ -270,30 +269,36 @@ html.interactive {
     height: 4px;
     opacity: 0.9; }
   .interactive-section progress[value] {
-    -webkit-appearance: none;
-    appearance: none;
     border: none;
-    display: block; }
+    display: block;
+    -webkit-appearance: none;
+    appearance: none; }
   .interactive-section progress[value]::-webkit-progress-bar {
     background-color: transparent;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
     border-radius: 2px;
     -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
     -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset; }
   .interactive-section progress[value]::-webkit-progress-value {
-    border-radius: 2px;
-    background-size: 35px 20px, 100% 100%, 100% 100%; }
+    background-size: 35px 20px, 100% 100%, 100% 100%;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px; }
   .interactive-section progress[value]::-moz-progress-bar {
-    border-radius: 2px;
     -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
     -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset; }
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px; }
   .interactive-section .scroll-icon {
-    font-size: 3vw;
-    color: white;
     position: fixed;
     bottom: 2px;
     left: 50%;
+    font-size: 3vw;
+    color: #fff;
     opacity: 0.9;
     -webkit-transition: opacity 0.8s ease 0.35s;
     -moz-transition: opacity 0.8s ease 0.35s;

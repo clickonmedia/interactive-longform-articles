@@ -6,15 +6,17 @@
  */
 
 	// Get header template
-	if( file_exists( get_stylesheet_directory() . '/interactive/header.php' ) ) {
-		include( get_stylesheet_directory() . '/interactive/header.php' );
+	$custom_header = get_stylesheet_directory() . '/interactive/header.php';
+
+	if( file_exists( $custom_header ) ) {
+		include( $custom_header );
 	} else {
 		include( 'header.php' );
 	}
 ?>
 
 	<?php
-
+	
 		$sections = get_post_meta( get_the_ID(), 'int_article_sections', true );
 
 		if ( ! empty( $sections ) ) {
@@ -152,9 +154,11 @@
 
 <?php
 	// Get footer template
-	if( file_exists( get_stylesheet_directory() . '/interactive/footer.php' ) ) {
-		include( get_stylesheet_directory() . '/interactive/footer.php' );
+	$custom_footer = get_stylesheet_directory() . '/interactive/footer.php';
+
+	if( file_exists( $custom_footer ) ) {
+		include( $custom_footer );
 	} else {
-		include('footer.php');
+		include( 'footer.php' );
 	}
 ?>

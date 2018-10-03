@@ -9,6 +9,10 @@ License:     GPL3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+
 /**
  * Initialize CMB2
  * https://github.com/CMB2/CMB2

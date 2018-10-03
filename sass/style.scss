@@ -14,7 +14,7 @@
 
 		body {
 			padding: 0 $padding;
-			background: $black !important;
+			background: $black;
 
 			// Adblocker fix
 			&.sponsored-post {
@@ -40,7 +40,7 @@
 		@include transition(opacity 0.6s);
 
 		&.opaque {
-			opacity: 1 !important;
+			opacity: 1;
 		}
 
 		a {
@@ -81,10 +81,9 @@
 			padding: 13px 20px;
 
 			a.link {
-				font-family: 'Font Awesome 5 Brands';
+				display: inline-block;
 				font-size: 18px;
 				color: white;
-				display: inline-block;
 				margin-left: 18px;
 				opacity: 0.8;
 
@@ -121,34 +120,33 @@
 		}
 
 		progress[value] {
-			-webkit-appearance: none;
-			appearance: none;
 			border: none;
 			display: block;
+			@include appearance(none);
 		}
 
 		progress[value]::-webkit-progress-bar {
 			background-color: transparent;
-			border-radius: 2px;
+			@include border-radius(2px);
 			@include box-shadow(0 2px 5px rgba(0, 0, 0, 0.25) inset);
 		}
 
 		progress[value]::-webkit-progress-value {
-			border-radius: 2px;
 			background-size: 35px 20px, 100% 100%, 100% 100%;
+			@include border-radius(2px);
 		}
 
 		progress[value]::-moz-progress-bar {
-			border-radius: 2px;
 			@include box-shadow(0 2px 5px rgba(0, 0, 0, 0.25) inset);
+			@include border-radius(2px);
 		}
 
 		.scroll-icon {
-			font-size: 3vw;
-			color: white;
 			position: fixed;
 			bottom: 2px;
 			left: 50%;
+			font-size: 3vw;
+			color: $white;
 			opacity: 0.9;
 			@include transition(opacity 0.8s ease 0.35s);
 			@include translateX(-50%);
