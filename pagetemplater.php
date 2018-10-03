@@ -60,7 +60,6 @@ class PageTemplater {
 		}
 
 		return self::$instance;
-
 	}
 
 	/**
@@ -69,7 +68,6 @@ class PageTemplater {
 	private function __construct() {
 
 		$this->templates = array();
-
 
 		// Add a filter to the attributes metabox to inject template into the cache.
 		if ( version_compare( floatval( get_bloginfo( 'version' ) ), '4.7', '<' ) ) {
@@ -91,7 +89,6 @@ class PageTemplater {
 			add_filter(
 				'theme_page_templates', array( $this, 'add_new_template' )
 			);
-
 		}
 
 		// Add a filter to the save post to inject out template into the page cache
@@ -100,7 +97,6 @@ class PageTemplater {
 			array( $this, 'register_project_templates' )
 		);
 
-
 		// Add a filter to the template include to determine if the page has our
 		// template assigned and return it's path
 		add_filter(
@@ -108,12 +104,10 @@ class PageTemplater {
 			array( $this, 'view_project_template')
 		);
 
-
 		// Add your templates to this array.
 		$this->templates = array(
 			'interactive-template.php' => 'Interactive Article',
 		);
-
 	}
 
 	/**
@@ -153,7 +147,6 @@ class PageTemplater {
 		wp_cache_add( $cache_key, $templates, 'themes', 1800 );
 
 		return $atts;
-
 	}
 
 	/**
@@ -196,7 +189,6 @@ class PageTemplater {
 
 		// Return template
 		return $template;
-
 	}
 
 }

@@ -1,4 +1,16 @@
 
+.hidden {
+	display: none !important;
+}
+
+.transparent {
+	opacity: 0 !important;
+}
+
+.fixed {
+	position: fixed !important;
+}
+
 .justify-content-center {
     justify-content: center !important;
 }
