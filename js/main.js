@@ -6,7 +6,7 @@
 	var $header = $( '.interactive-header' );
 	var $section = $( '.interactive-section' );
 
-	// initial first screen
+	// Initial first screen
 	var index = Math.floor( $window.scrollTop() / $window.height() );
 	var progressIndex = 0;
 	var active, breakpoint, prev, next, start;

@@ -33,7 +33,7 @@
 				$type = empty( $section['int_section_type'] ) ? 'default' : $section['int_section_type'];
 
 				// Section type
-				switch( $section['int_section_type'] ) {
+				switch ( $section['int_section_type'] ) {
 
 					// Cover page
 					case 'cover':
@@ -77,7 +77,7 @@
 				}
 
 				// Background type
-				switch( $section['int_background_type'] ) {
+				switch ( $section['int_background_type'] ) {
 
 					// Image background
 					case 'image':

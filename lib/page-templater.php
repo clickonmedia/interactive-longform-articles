@@ -1,44 +1,6 @@
 <?php
 
-function page_templater_metabox_hide() {
-	global $post;
-
-	$post_types = array( 'post', 'page', 'interactive_article' );
-
-    # Isolate to specific post types
-    if( in_array( $post->post_type, $post_types ) ) {
-
-        # ID of the CMB2 metabox
-        $metabox_selector_id = 'int_article_cmb_box';
-
-        echo '
-            <style type="text/css">
-                /* Hide your metabox so there is no latency flash of your metabox before being hidden */
-                #' . $metabox_selector_id  . ' {display:none;}
-            </style>
-        ';
-    }
-}
-
-add_action( 'admin_head-post.php', 'page_templater_metabox_hide' );
-add_action( 'admin_head-post-new.php', 'page_templater_metabox_hide' );
-
-/*
-	JS scripts for WP admin
-*/
-function page_templater_admin_script($hook) {
-
-    if ( in_array( $hook, array( 'post.php', 'post-new.php' ) ) ) {
-    	wp_enqueue_script( 'interactive-page-templater', plugin_dir_url(__FILE__) . 'js/page-templater.js' );
-    }
-
-    return;
-}
-
-add_action('admin_enqueue_scripts', 'page_templater_admin_script');
-
-
-class PageTemplater {
+class Page_Templater {
 
 	/**
 	 * A reference to an instance of this class.
@@ -51,27 +13,27 @@ class PageTemplater {
 	protected $templates;
 
 	/**
-	 * Returns an instance of this class.
+	 * Plugin folder path
 	 */
-	public static function get_instance() {
+	private $path;
 
-		if ( null == self::$instance ) {
-			self::$instance = new PageTemplater();
-		}
-
-		return self::$instance;
-	}
+	/**
+	 * Plugin folder URL
+	 */
+	private $url;
 
 	/**
 	 * Initializes the plugin by setting filters and administration functions.
 	 */
 	private function __construct() {
+		$this->path = trailingslashit( dirname( dirname( __FILE__ )         ) );
+		$this->url  = trailingslashit( dirname( plugins_url( '', __FILE__ ) ) );
 
 		$this->templates = array();
 
 		// Add a filter to the attributes metabox to inject template into the cache.
 		if ( version_compare( floatval( get_bloginfo( 'version' ) ), '4.7', '<' ) ) {
-
+			
 			// 4.6 and older
 			add_filter(
 				'page_attributes_dropdown_pages_args',
@@ -91,17 +53,29 @@ class PageTemplater {
 			);
 		}
 
+		// Hide metabox initially for specific post types
+		add_action(
+			'admin_head-post.php', array( $this,  'metabox_hide' )
+		);
+
+		add_action(
+			'admin_head-post-new.php', array( $this,  'metabox_hide' )
+		);
+
+		// Enqueue admin js script
+		add_action(
+			'admin_enqueue_scripts', array( $this,  'enqueue_admin_script' )
+		);
+
 		// Add a filter to the save post to inject out template into the page cache
 		add_filter(
-			'wp_insert_post_data',
-			array( $this, 'register_project_templates' )
+			'wp_insert_post_data', array( $this, 'register_project_templates' )
 		);
 
 		// Add a filter to the template include to determine if the page has our
 		// template assigned and return it's path
 		add_filter(
-			'template_include',
-			array( $this, 'view_project_template')
+			'template_include', array( $this, 'view_project_template')
 		);
 
 		// Add your templates to this array.
@@ -118,6 +92,39 @@ class PageTemplater {
 		$posts_templates = array_merge( $posts_templates, $this->templates );
 		return $posts_templates;
 	}
+
+	public function metabox_hide() {
+		global $post;
+
+		$post_types = array( 'post', 'page', 'interactive_article' );
+
+	    # Isolate to specific post types
+	    if( in_array( $post->post_type, $post_types ) ) {
+
+	        # ID of the CMB2 metabox
+	        $metabox_selector_id = 'int_article_cmb_box';
+
+	        echo '
+	            <style type="text/css">
+	                /* Hide your metabox so there is no latency flash of your metabox before being hidden */
+	                #' . $metabox_selector_id  . ' {display:none;}
+	            </style>
+	        ';
+	    }
+	}
+
+	/*
+		JS scripts for WP admin
+	*/
+	public function enqueue_admin_script($hook) {
+
+	    if ( in_array( $hook, array( 'post.php', 'post-new.php' ) ) ) {
+	    	wp_enqueue_script( 'interactive-page-templater', $this->url . 'js/page-templater.js' );
+	    }
+
+	    return;
+	}
+
 
 	/**
 	 * Adds our template to the pages cache in order to trick WordPress
@@ -174,9 +181,9 @@ class PageTemplater {
 		}
 
 		// Allows filtering of file path
-		$filepath = apply_filters( 'page_templater_plugin_dir_path', plugin_dir_path( __FILE__ ) );
+		$filepath = apply_filters( 'page_templater_plugin_dir_path', $this->path );
 
-		$file =  $filepath . get_post_meta(
+		$file = $filepath . get_post_meta(
 			$post->ID, '_wp_page_template', true
 		);
 
@@ -191,5 +198,18 @@ class PageTemplater {
 		return $template;
 	}
 
+	/**
+	 * Returns a singleton instance for the class
+	 *
+	 * @static
+	 * @return Page_Templater
+	 */
+	public static function instance() {
+
+		if ( !isset( self::$instance ) ) {
+			self::$instance = new Page_Templater();
+		}
+
+		return self::$instance;
+	}
 }
-add_action( 'plugins_loaded', array( 'PageTemplater', 'get_instance' ) );
