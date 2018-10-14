@@ -25,6 +25,10 @@ https://www.theversed.com/88688/krav-maga-the-peacekeeper
 ... * Text content
 7. Publish article
 
+## Instructions
+
+https://github.com/clickonmedia/interactive-longform-articles/wiki/Instructions
+
 ### Settings
 
 * In Settings > Interactive Longform Articles, you can:
@@ -32,11 +36,7 @@ https://www.theversed.com/88688/krav-maga-the-peacekeeper
 ... * Enable optional sections
 ... * Add Google Analytics Event tracking
 
-### Text formatting
-
-* In text editor, click 'Toolbar Toggle' to reveal custom text formatting options under the 'Formats' dropdown.
-
-### Optional settings
+### Optional features
 
 #### Custom logo
 
