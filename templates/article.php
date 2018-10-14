@@ -17,6 +17,7 @@
 
 	<?php
 	
+		// Add interactive article sections to the HTML output
 		$sections = get_post_meta( get_the_ID(), 'int_article_sections', true );
 
 		if ( ! empty( $sections ) ) {
@@ -136,7 +137,6 @@
 				$content = apply_filters( 'the_content', $content );
 
 				?>
-
 					<div class="interactive-section <?php echo $type; ?> <?php echo $color; ?> transparent">
 						<?php echo $progress; ?>
 						<?php echo $background; ?>
@@ -146,7 +146,6 @@
 							</div>
 						</div>
 					</div>
-
 				<?php
 			}
 		}

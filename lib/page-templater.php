@@ -86,7 +86,6 @@ class Page_Templater {
 
 	/**
 	 * Adds our template to the page dropdown for v4.7+
-	 *
 	 */
 	public function add_new_template( $posts_templates ) {
 		$posts_templates = array_merge( $posts_templates, $this->templates );
@@ -113,9 +112,9 @@ class Page_Templater {
 	    }
 	}
 
-	/*
-		JS scripts for WP admin
-	*/
+	/**
+	 * JS scripts for WP admin
+	 */
 	public function enqueue_admin_script($hook) {
 
 	    if ( in_array( $hook, array( 'post.php', 'post-new.php' ) ) ) {
@@ -124,7 +123,6 @@ class Page_Templater {
 
 	    return;
 	}
-
 
 	/**
 	 * Adds our template to the pages cache in order to trick WordPress
@@ -206,7 +204,7 @@ class Page_Templater {
 	 */
 	public static function instance() {
 
-		if ( !isset( self::$instance ) ) {
+		if ( ! isset( self::$instance ) ) {
 			self::$instance = new Page_Templater();
 		}
 

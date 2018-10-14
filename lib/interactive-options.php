@@ -6,7 +6,7 @@ Class Interactive_Options {
 	const TEXT_DOMAIN = 'interactive-longform-articles';
 
 	/**
-	 * A reference to an instance of this class.
+	 *	A reference to an instance of this class.
 	 */
 	private static $instance;
 
@@ -15,6 +15,9 @@ Class Interactive_Options {
 		add_action( 'admin_menu', array( $this, 'add_options_page' ) );
 	}
 
+	/**
+	 *	Initialize settings page
+	 */
 	public function init_options_page() {
 
 		// Page
@@ -53,58 +56,58 @@ Class Interactive_Options {
 		}
 	}
 
-	/*
-		Interactive post type input
-	*/
+	/**
+	 * 	Interactive post type option
+	 */
 	public function display_as_post_type() {
-		$field = get_option('int_option_enable_post_type');
+		$field = get_option( 'int_option_enable_post_type' );
 		$checked = empty( $field ) ? '' : 'checked';
 
 		echo '<input type="checkbox" id="int_option_enable_post_type" name="int_option_enable_post_type" value="1" ' . $checked . ' />';
 	}
 
-	/*
-		Downloads input
-	*/
+	/**
+	 * 	Downloads option
+	 */
 	public function display_downloads_section() {
-		$field = get_option('int_option_display_downloads');
+		$field = get_option( 'int_option_display_downloads' );
 		$checked = empty( $field ) ? '' : 'checked';
 
 		echo '<input type="checkbox" id="int_option_display_downloads" name="int_option_display_downloads" value="1" ' . $checked . ' />';
 	}
 
-	/*
-		Google Analytics input
-	*/
+	/**
+	 * 	Google Analytics option
+	 */
 	public function enable_google_analytics() {
-		$field = get_option('int_option_google_analytics');
+		$field = get_option( 'int_option_google_analytics' );
 		$checked = empty( $field ) ? '' : 'checked';
 
 		echo '<input type="checkbox" id="int_option_google_analytics" name="int_option_google_analytics" value="1" ' . $checked . ' />';
 	}
 
-	/*
-		Google Analytics Tracker input
-	*/
+	/**
+	 * 	Google Analytics Tracker
+	 */
 	public function tracker_name() {
-		$name = sanitize_text_field( get_option('int_option_tracker_name') );
+		$name = sanitize_text_field( get_option( 'int_option_tracker_name' ) );
 
 		echo '<input type="text" id="int_option_tracker_name" name="int_option_tracker_name" value="' . $name . '"  /> (Leave empty if none exists).<br>';
 	}
 
-	/*
-		Progress indicator color input
-	*/
+	/**
+	 * 	Progress indicator color
+	 */
 	public function progress_color() {
-		$color = sanitize_text_field( get_option('int_option_progress_color') );
+		$color = sanitize_text_field( get_option( 'int_option_progress_color' ) );
 		$color = empty( $color ) ? '#333' : $color;
 
 		echo '<input type="text" id="int_option_progress_color" name="int_option_progress_color" value="' . $color . '"  /> (Shown on sections that have no content)';
 	}
 
-	/*
-		Add settings page
-	*/
+	/**
+	 * 	Add settings page
+	 */
 	public function add_options_page() {
 		add_options_page(
 			__( 'Interactive Longform Article Options', $this::TEXT_DOMAIN ),
@@ -115,9 +118,9 @@ Class Interactive_Options {
 		);
 	}
 
-	/*
-		Display settings page
-	*/
+	/**
+	 * 	Settings page markup
+	 */
 	public function display_options_page() {
 	?>
 		<div class="wrap">
@@ -135,11 +138,11 @@ Class Interactive_Options {
 	 * Returns a singleton instance for the class
 	 *
 	 * @static
-	 * @return Page_Templater
+	 * @return Interactive_Options
 	 */
 	public static function instance() {
 
-		if ( !isset( self::$instance ) ) {
+		if ( ! isset( self::$instance ) ) {
 			self::$instance = new Interactive_Options();
 		}
 

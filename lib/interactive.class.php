@@ -39,23 +39,32 @@ class Interactive {
 		register_activation_hook( __FILE__, array( $this, 'longform_rewrite_flush' ) );
 	}
 
+	/**
+	 * Setup frontend features
+	 */
 	public function setup_frontend() {
 		add_action( 'rest_api_init', array( $this, 'setup_rest_api_data' ) );
 		add_filter( 'single_template', array( $this, 'article_custom_template' ) );
 	}
 
+	/**
+	 * Setup backend features
+	 */
 	public function setup_backend() {
 		add_filter( 'mce_buttons_2', array( $this, 'tiny_mce_buttons_bottom') );
 	}
 
+	/**
+	 * Enqueue scripts
+	 */
 	public function enqueue_scripts() {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_frontend_scripts' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
 	}
 
-	/*
-		Utility function for checking when the current post is interactive
-	*/
+	/**
+	 * Utility function for checking when the current post is interactive
+	 */
 	public function is_interactive_article() {
 		global $post;
 
@@ -72,9 +81,9 @@ class Interactive {
 	    return false;
 	}
 
-	/*
-		Utility function for checking when the post uses the interactive-list shortcode
-	*/
+	/**
+	 * Utility function for checking when the post uses the interactive-list shortcode
+	 */
 	public function has_shortcode() {
 		global $post;
 
@@ -83,9 +92,9 @@ class Interactive {
 	    return has_shortcode( serialize( $sections ), $this::SHORTCODE );
 	}
 
-	/*
-		JS scripts for the interactive article
-	*/
+	/**
+	 * Enqueue frontend scripts and styles for the interactive article
+	 */
 	public function enqueue_frontend_scripts( $hook ) {
 
 	    if ( $this->is_interactive_article() ) {
@@ -132,9 +141,9 @@ class Interactive {
 	    }
 	}
 
-	/*
-		JS scripts for WP admin
-	*/
+	/**
+	 * Enqueue JS scripts for WP admin
+	 */
 	public function enqueue_admin_scripts($hook) {
 
 	    if ( in_array( $hook, array( 'post.php', 'post-new.php' ) ) ) {
@@ -144,6 +153,9 @@ class Interactive {
 	    return;
 	}
 
+	/**
+	 * Page templater to enable selecting the "interactive article" page template
+	 */
 	public function page_templater() {
 		require_once __DIR__ . '/page-templater.php';
 		Page_Templater::instance();
@@ -179,15 +191,15 @@ class Interactive {
 	}
 
 	/**
-	 * Adds a custom CMB2 field type for range input
+	 * 	Adds a custom CMB2 field type for range input
 	 *
-	 * @param  object $field             The CMB2_Field type object.
-	 * @param  string $value             The saved (and escaped) value.
-	 * @param  int    $object_id         The current post ID.
-	 * @param  string $object_type       The current object type.
-	 * @param  object $field_type_object The CMB2_Types object.
+	 * 	@param  object $field             The CMB2_Field type object.
+	 * 	@param  string $value             The saved (and escaped) value.
+	 * 	@param  int    $object_id         The current post ID.
+	 * 	@param  string $object_type       The current object type.
+	 * 	@param  object $field_type_object The CMB2_Types object.
 	 *
-	 * @return void
+	 * 	@return void
 	 */
 	public function cmb2_render_range_input_field_type( $field, $escaped_value, $object_id, $object_type, $field_type_object ) {
 
@@ -199,9 +211,9 @@ class Interactive {
 		echo $html;
 	}
 
-	/*
-		Use custom template for interactive_article custom post type
-	*/
+	/**
+	 * Use custom template for interactive_article custom post type
+	 */
 	public function article_custom_template( $single ) {
 
 	    global $wp_query, $post;
@@ -218,7 +230,7 @@ class Interactive {
 	}
 
 	/**
-	 *  Add custom REST API endpoint for detecting an interactive article
+	 * Add custom REST API endpoint for detecting an interactive article
 	 */
 	public function setup_rest_api_data(){
 
@@ -551,7 +563,7 @@ class Interactive {
 			    'dfw' => false, // replace the default fullscreen with DFW (needs specific css)
 			    'tinymce' => array(
 			    	'style_formats' => json_encode( $style_formats ),
-			    	'block_formats' => "Paragraph=p; Title=h2;",
+			    	'block_formats' => 'Paragraph=p; Title=h2;',
 			    	'content_css' => $editor_css_black,
 			    	'toolbar' => 'styleselect'
 			    ),  // load TinyMCE, can be used to pass settings directly to TinyMCE using an array()
@@ -718,9 +730,9 @@ class Interactive {
 		return $timestamp;
 	}
 
-	/*
-		Add interactive article post type
-	*/
+	/**
+	 * Add interactive article post type
+	 */
 	public function create_article_post_type() {
 
 		if( ! empty( get_option('int_option_enable_post_type') ) ) {
