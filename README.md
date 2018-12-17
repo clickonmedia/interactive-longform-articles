@@ -8,7 +8,7 @@ Interactive multimedia articles, with a background scroll effect. Wordpress plug
 
 https://www.theversed.com/88510/meet-the-extraordinary-racing-driver-who-went-from-navy-to-nascar
 
-https://www.theversed.com/90093/vague-a-lame-waves-of-the-soul
+https://www.theversed.com/92717/swim-wild-meet-the-hudson-brothers
 
 https://www.theversed.com/88688/krav-maga-the-peacekeeper
 
