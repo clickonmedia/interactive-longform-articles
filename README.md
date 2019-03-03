@@ -6,7 +6,7 @@ Interactive multimedia articles, with a background scroll effect. Wordpress plug
 
 ## Examples
 
-https://www.theversed.com/88510/meet-the-extraordinary-racing-driver-who-went-from-navy-to-nascar
+https://www.theversed.com/91272/ascender-one-sailors-journey-reach-new-heights
 
 https://www.theversed.com/92717/swim-wild-meet-the-hudson-brothers
 
