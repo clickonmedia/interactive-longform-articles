@@ -29,6 +29,9 @@ https://www.theversed.com/88688/krav-maga-the-peacekeeper
 
 https://github.com/clickonmedia/interactive-longform-articles/wiki/Instructions
 
+This plugin does not yet support the new Gutenberg editor in WP 5.0 and up. To disable Gutenberg, please take a look at:
+https://kinsta.com/blog/disable-gutenberg-wordpress-editor
+
 ### Settings
 
 * In Settings > Interactive Longform Articles, you can:
