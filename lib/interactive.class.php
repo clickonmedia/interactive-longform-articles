@@ -1,6 +1,6 @@
 <?php
 class Interactive {
-	
+
 	const POST_TYPE = 'interactive_article';
 	const TEXT_DOMAIN = 'interactive-longform-articles';
 	const SHORTCODE = 'interactive-list';
@@ -167,10 +167,10 @@ class Interactive {
 	 * 	https://github.com/CMB2/CMB2/wiki
 	 */
 	public function setup_metaboxes() {
-		require_once $this->path . '/cmb2/init.php';
+		require_once $this->path . '/lib/cmb2/init.php';
 
 
-		add_action( 
+		add_action(
 			'cmb2_init',
 			array( $this, 'cmb2_metabox_register')
 		);
@@ -183,7 +183,7 @@ class Interactive {
 		);
 
 		add_filter(
-			'cmb2_sanitize_range_input', 
+			'cmb2_sanitize_range_input',
 			array( $this, 'cmb2_sanitize_range_input_callback' ),
 			10,
 			2
