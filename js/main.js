@@ -3,23 +3,18 @@
 
 	var $window = $( window );
 	var $document = $( document );
-	var $header = $('.interactive-header');
-	var $section = $('.interactive-section');
+	var $header = $( '.interactive-header' );
+	var $section = $( '.interactive-section' );
 
-	// initial first screen
+	// Initial first screen
 	var index = Math.floor( $window.scrollTop() / $window.height() );
 	var progressIndex = 0;
-	var active;
-	var breakpoint;
-	var prev;
-	var next;
-	var start;
+	var active, breakpoint, prev, next, start;
 
 	var showCurrentBackground = function() {
 
 		breakpoint = $window.scrollTop() + $window.height() / 2;
-
-		prev = (index > 0) ? index - 1 : 0;
+		prev = ( index > 0 ) ? index - 1 : 0;
 		next = index + 1;
 
 		// Detect scroll to next section
@@ -79,7 +74,7 @@
 		$header.toggleClass( 'fixed', midpoint );
 
 		// End zone needs to be slightly earlier for mobile
-		var end_zone = $window.width() < 768 ? ($window.height() * 1.25) : ($window.height() * 1.05);
+		var end_zone = $window.width() < 768 ? ( $window.height() * 1.25 ) : ( $window.height() * 1.05 );
 
 		var end_of_article = $document.height() - $window.scrollTop() < end_zone;
 		var start_of_article = $window.scrollTop() < $window.height();
@@ -89,7 +84,6 @@
 		$header.toggleClass( 'opaque', show_header );
 	}
 
-
 	var setupBackgroundVideo = function() {
 		var screen = $window.width();
 
@@ -97,13 +91,12 @@
 			var $this = $( this );
 			var mobile = screen <= 768;
 
-			// Display animated GIF on desktop
+			// Display animated GIF on mobile
 			if( mobile ) {
-				$this.addClass('hidden').closest('.interactive-background').addClass('gif').css( 'background-image', 'url(' + $this.data( 'src-xs' ) + ')' );
+				$this.addClass( 'hidden' ).closest( '.interactive-background' ).addClass( 'gif' ).css( 'background-image', 'url(' + $this.data( 'src-xs' ) + ')' );
 
 			// Display appropriate sized video on desktop
 			} else {
-
 				var size = ( screen < 1280 ) ? 'src-md' : 'src-xl';
 				$this.attr( 'src', $this.data( size ) );
 			}
@@ -144,19 +137,19 @@
 
 		var $current = $section.eq( index );
 
-		if( $current.find( 'progress' ).length ) {
+		if ( $current.find( 'progress' ).length ) {
 
 		    var getMaxValue = function() {
 		        return $current.height();
 		    }
 
-		    var getProgressValue = function(){
-		        return $( window ).scrollTop() - $current.position().top + ($current.height() / 2);
+		    var getProgressValue = function() {
+		        return $( window ).scrollTop() - $current.position().top + ( $current.height() / 2 );
 		    }
 
 		    // Check browser support
-		    if ( 'max' in document.createElement('progress') ) {
-		        $current.find('progress').attr({ max: getMaxValue(), value: getProgressValue() });
+		    if ( 'max' in document.createElement( 'progress' ) ) {
+		        $current.find( 'progress' ).attr({ max: getMaxValue(), value: getProgressValue() });
 		    }
 		}
 	}
@@ -166,16 +159,16 @@
 		// Set the start time for GA tracking
 		start = Date.now();
 
-		$('html').addClass( 'interactive' );
+		$( 'html' ).addClass( 'interactive' );
 
 		// Display scroll icon
-		$('.js-scroll-icon').removeClass( 'transparent' );
+		$( '.js-scroll-icon' ).removeClass( 'transparent' );
 
 		// Flexslider - Related articles list
-		if ( $('.flexslider').length > 0 ) {
+		if ( $( '.flexslider' ).length > 0 ) {
 
-			$('.flexslider').flexslider({
-				animation: "slide",
+			$( '.flexslider' ).flexslider({
+				animation: 'slide',
 			    itemWidth: 260,
 			    itemMargin: 5,
 			    startAt: 0
@@ -191,12 +184,13 @@
 
 		var throttleBackground = _.throttle( showCurrentBackground, 100 );
 		var throttleHeader = _.throttle( showHeader, 100 );
+		var throttleProgress = _.throttle( setSectionProgress, 10 );
 
 		// Scroll actions
 		$window.on( 'scroll touchmove', function() {
 			throttleBackground();
 			throttleHeader();
-			setSectionProgress();
+			throttleProgress();
 		});
 
 		var throttleResize = _.throttle( function() {

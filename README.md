@@ -2,47 +2,72 @@
 
 Interactive multimedia articles, with a background scroll effect. Wordpress plugin for for longform journalism.
 
+![Screencast](https://github.com/clickonmedia/screenshots/raw/master/interactive-480-15s-10fps.gif)
+
 ## Examples
 
-https://www.theversed.com/88510/meet-the-extraordinary-racing-driver-who-went-from-navy-to-nascar
+https://www.theversed.com/88874/wavemaker-the-road-to-recovery
 
-https://www.theversed.com/90093/vague-a-lame-waves-of-the-soul
+https://www.theversed.com/91272/ascender-one-sailors-journey-reach-new-heights
 
 https://www.theversed.com/88688/krav-maga-the-peacekeeper
 
 ## Usage
 
 1. Upload the unzipped plugin files to the `/wp-content/plugins/` directory, or install the plugin through the WordPress plugins screen directly.
-2. Activate the plugin through the 'Plugins' screen in WordPress
-3. Go to Settings > Interactive Longform Articles
-⋅⋅⋅ * Enable interative articles for the relevant post types
-⋅⋅⋅ * Configure other settings (optional)
-4. Add a new post and select "Enable interactive article"
-5. Add sections for the article. For each section, choose:
+2. Activate the plugin in Plugins section in Wordpress
+3. Go to Settings > Interactive Longform Articles and adjust plugin settings
+4. Go to Settings > Permalinks and click "Save"
+5. Add a new post or page, and select "Interactive article" as the page template
+6. Add sections for the article. For each section, choose:
 ... * Section type
 ... * Background
 ... * Text content
-6. Publish article
+7. Publish article
+
+## Instructions
+
+https://github.com/clickonmedia/interactive-longform-articles/wiki/Instructions
+
+This plugin does not yet support the new Gutenberg editor in WP 5.0 and up. To disable Gutenberg, please take a look at:
+https://kinsta.com/blog/disable-gutenberg-wordpress-editor
+
+### Settings
+
+* In Settings > Interactive Longform Articles, you can:
+... * Enable Interactive Articles as a separate post type
+... * Enable optional sections
+... * Add Google Analytics Event tracking
+
+### Optional features
+
+#### Custom logo
+
+* A custom logo can be added by enabling Custom Logo for the theme: https://developer.wordpress.org/themes/functionality/custom-logo
+
+#### Header and footer
+
+* Default header and footer can be customized by including a header.php or footer.php template in  "interactive" directory in the theme
+
+#### Shortcode
+
+* A carousel list of interactive articles can be added by using shortcode [interactive-list max="3"]. "Max" parameter indicates the maximum amount of articles listed. Requires that featured images are set for all articles.
 
 ## Requirements
 
 * Wordpress 3.0+
-* Advanced Custom Fields Pro: https://www.advancedcustomfields.com/pro
 
 ## Development
 
 ```
 npm install
+gulp default
 gulp watch
 ```
 
 The plugin uses SASS for styling. The files can be found at the /sass directory.
 
 https://sass-lang.com/guide
-
-## Miscellaneous
-
-add_theme_support( 'custom-logo' );
 
 ## License
 

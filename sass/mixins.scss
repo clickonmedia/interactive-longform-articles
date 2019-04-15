@@ -1,0 +1,206 @@
+/* --------------------------------
+
+Mixins
+
+-------------------------------- */
+
+@mixin border-radius($radius: .25rem) {
+    -webkit-border-radius: $radius;
+    -moz-border-radius: $radius;
+    border-radius: $radius;
+}
+
+@mixin border-top-radius($radius: .25rem) {
+    -webkit-border-top-left-radius: $radius;
+    -moz-border-radius-topleft: $radius;
+    border-top-left-radius: $radius;
+    -webkit-border-top-right-radius: $radius;
+    -moz-border-radius-topright: $radius;
+    border-top-right-radius: $radius;
+}
+
+@mixin border-top-left-radius($radius: .25rem) {
+    -webkit-border-top-left-radius: $radius;
+    -moz-border-radius-topleft: $radius;
+    border-top-left-radius: $radius;
+}
+
+@mixin border-top-right-radius($radius: .25rem) {
+    -webkit-border-top-right-radius: $radius;
+    -moz-border-radius-topright: $radius;
+    border-top-right-radius: $radius;
+}
+
+@mixin border-bottom-radius($radius: .25rem) {
+    -webkit-border-bottom-left-radius: $radius;
+    -moz-border-radius-bottomleft: $radius;
+    border-bottom-left-radius: $radius;
+    -webkit-border-bottom-right-radius: $radius;
+    -moz-border-radius-bottomright: $radius;
+    border-bottom-right-radius: $radius;
+}
+
+@mixin border-bottom-left-radius($radius: .25rem) {
+    -webkit-border-bottom-left-radius: $radius;
+    -moz-border-radius-bottomleft: $radius;
+    border-bottom-left-radius: $radius;
+}
+
+@mixin border-bottom-right-radius($radius: .25rem) {
+    -webkit-border-bottom-right-radius: $radius;
+    -moz-border-radius-bottomright: $radius;
+    border-bottom-right-radius: $radius;
+}
+
+@mixin box-shadow($values...) {
+	-webkit-box-shadow: $values;
+	-moz-box-shadow: $values;
+	box-shadow: $values;
+}
+
+@mixin text-shadow($values...) {
+	-webkit-text-shadow: $values;
+	-moz-text-shadow: $values;
+	text-shadow: $values;
+}
+
+@mixin background-fade-degree($degrees, $values) {
+	$legacy: $degrees - 180;
+	background: -webkit-linear-gradient(#{$legacy}deg, #{$values});
+	background: -o-linear-gradient(#{$legacy}deg, #{$values});
+	background: -moz-linear-gradient(#{$legacy}deg, #{$values});
+	background: linear-gradient(#{$degrees}deg, #{$values}); 
+}
+
+@mixin background-fade-right($startColor, $endColor) {
+	background: -webkit-linear-gradient(left, $startColor 0%, $endColor 100%);
+	background: -o-linear-gradient(left, $startColor 0%, $endColor 100%);
+	background: -moz-linear-gradient(left, $startColor 0%, $endColor 100%);
+	background: linear-gradient(to right, $startColor 0%, $endColor 100%);
+}
+
+@mixin background-fade-up($startColor, $endColor) {
+	background: -webkit-linear-gradient(bottom, $startColor 0%, $endColor 100%);
+	background: -o-linear-gradient(bottom, $startColor 0%, $endColor 100%);
+	background: -moz-linear-gradient(bottom, $startColor 0%, $endColor 100%);
+	background: linear-gradient(to top, $startColor 0%, $endColor 100%);
+}
+
+@mixin background-fade-down($startColor, $endColor) {
+	background: -webkit-linear-gradient(top, $startColor 0%, $endColor 100%);
+	background: -o-linear-gradient(top, $startColor 0%, $endColor 100%);
+	background: -moz-linear-gradient(top, $startColor 0%, $endColor 100%);
+	background: linear-gradient(to bottom, $startColor 0%, $endColor 100%);
+}
+
+@mixin transition($values...) {
+    -webkit-transition: $values;
+    -moz-transition: $values;
+    -o-transition: $values;
+    transition: $values;
+}
+
+@mixin translateX($value) {
+  -webkit-transform: translateX($value);
+     -moz-transform: translateX($value);
+      -ms-transform: translateX($value);
+          transform: translateX($value);
+}
+
+@mixin translateY($value) {
+  -webkit-transform: translateY($value);
+     -moz-transform: translateY($value);
+      -ms-transform: translateY($value);
+          transform: translateY($value);
+}
+
+@mixin translate($value) {
+  -webkit-transform: translate($value);
+     -moz-transform: translate($value);
+      -ms-transform: translate($value);
+          transform: translate($value);
+}
+
+@mixin scale($value) {
+  -webkit-transform: scale($value);
+     -moz-transform: scale($value);
+      -ms-transform: scale($value);
+          transform: scale($value);
+}
+
+@mixin rotate($value) {
+  -webkit-transform: rotate($value);
+     -moz-transform: rotate($value);
+      -ms-transform: rotate($value);
+          transform: rotate($value);
+}
+
+@mixin invert($value) {
+	filter: invert($value);
+	-webkit-filter: invert($value);
+}
+
+@mixin user-select($value) {
+    user-select: $value;
+    -moz-user-select: $value;
+    -khtml-user-select: $value;
+    -webkit-user-select: $value;
+    -o-user-select: $value;
+}
+
+@mixin placeholder($color) {
+    &::-webkit-input-placeholder {
+      color: $color;
+    }
+    &::-moz-placeholder {
+      color: $color;
+    }
+    &:-ms-input-placeholder {
+      color: $color;
+    }
+    &:-moz-placeholder {
+      color: $color;
+    }
+}
+
+@mixin bg-fade($color, $amount){
+	background-color: $color;
+	background-color: rgba($color, $amount);
+}
+
+@mixin text-decoration-color($color) {
+	-moz-text-decoration-color: $color;
+	-webkit-text-decoration-color: $color;
+	text-decoration-color: $color;
+}
+
+@mixin appearance($value) {
+	-webkit-appearance: $value;
+	appearance: $value;
+}
+
+@mixin line-clamp($rows) {
+	display: -webkit-box;
+	overflow: hidden;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: $rows;
+}
+
+@mixin clearfix {
+    &::after {
+        clear: both;
+        content: "";
+        display: block;
+    }
+}
+
+@mixin break-word {
+	-ms-word-wrap: break-word;
+	word-wrap: break-word;
+}
+
+// antialiasing mode font rendering
+@mixin font-smoothing {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}

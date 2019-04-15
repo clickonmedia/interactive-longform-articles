@@ -41,6 +41,4 @@ https://www.theversed.com/88688/krav-maga-the-peacekeeper
 
 == Requirements ==
 
-Advanced Custom Fields Pro plugin:
-https://www.advancedcustomfields.com/pro
-
+Wordpress 3.0+

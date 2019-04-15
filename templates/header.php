@@ -1,8 +1,6 @@
 <?php
 /**
- * The header for our theme.
- *
- * Displays all of the <head> section and everything up till <div id="content">
+ * Default header template
  *
  * @package understrap
  */
@@ -38,12 +36,12 @@
 	<a href="/" class="brand"><?php echo $brand; ?></a>
 
 	<div class="social-share">
-		<a class="fab fa-twitter"
+		<a class="link ia-icon twitter ia-icon-twitter"
 			href="https://twitter.com/intent/tweet?url=<?php echo urlencode( get_the_permalink() ); ?>&text=<?php echo urlencode( wp_title() ); ?>"
 			target="_blank">
 		</a>
 
-		<a class="fab fa-facebook"
+		<a class="link ia-icon facebook ia-icon-facebook-official"
 			href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode( get_the_permalink() ); ?>"
 			target="_blank" >
 		</a>
