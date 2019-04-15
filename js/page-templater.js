@@ -1,5 +1,5 @@
 
-;(function( $ ) {
+;(function( window, document, $ ) {
 
 	var getUrlParameter = function( sParam ) {
 	    var sPageURL = decodeURIComponent( window.location.search.substring(1) );
@@ -46,4 +46,4 @@
         });
     });
 
-})( window.jQuery );
+})( window, document, window.jQuery );

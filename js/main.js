@@ -1,5 +1,5 @@
 
-;(function( $ ) {
+;(function( window, document, $, _ ) {
 
 	var $window = $( window );
 	var $document = $( document );
@@ -210,4 +210,4 @@
 		});
 	});
 
-})( window.jQuery );
+})( window, document, window.jQuery, window._ );

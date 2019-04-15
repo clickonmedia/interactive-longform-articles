@@ -108,13 +108,13 @@ class Interactive {
 	    	wp_enqueue_style( 'interactive-longform-styles', $this->url . '/css/style.min.css', false, $plugin_data['Version'] );
 
 		    // Enqueue scripts
-			wp_enqueue_script( 'jquery', $this->url . '/js/jquery-3.3.1.min.js', array(), false, true );
-		    wp_enqueue_script( 'lodash', $this->url . '/js/lodash.min.js', array(), false, true );
+			wp_enqueue_script( 'jquery' );
+		    wp_enqueue_script( 'underscore' );
 
 		    if( $this->has_shortcode() ) {
 	    		wp_enqueue_script( 'flexslider', $this->url . '/js/jquery.flexslider-min.js', array(), false, true );
 	    	}
-			wp_enqueue_script( 'interactive-longform-script', $this->url . '/js/main.js', array( 'jquery', 'lodash' ), false, true );
+			wp_enqueue_script( 'interactive-longform-script', $this->url . '/js/main.js', array( 'jquery', 'underscore' ), false, true );
 
 			// GA tracking options available via ajax_object
 			wp_localize_script(
@@ -126,7 +126,7 @@ class Interactive {
 			    )
 			);
 
-			// Inline styles
+			// Inline styles for the progress bar
 	        $color = get_option( 'int_option_progress_color' );
 	        $custom_css = "
 				.interactive-section progress[value]::-webkit-progress-value {
