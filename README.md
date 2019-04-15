@@ -20,7 +20,7 @@ https://www.theversed.com/88688/krav-maga-the-peacekeeper
 4. Go to Settings > Permalinks and click "Save"
 5. Add a new post or page, and select "Interactive article" as the page template
 6. Add sections for the article. For each section, choose:
-Section type
+  * Section type
   * Background
   * Text content
 7. Publish article
