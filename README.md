@@ -20,9 +20,9 @@ https://www.theversed.com/88688/krav-maga-the-peacekeeper
 4. Go to Settings > Permalinks and click "Save"
 5. Add a new post or page, and select "Interactive article" as the page template
 6. Add sections for the article. For each section, choose:
-⋅⋅* Section type
-⋅⋅* Background
-⋅⋅* Text content
+Section type
+  * Background
+  * Text content
 7. Publish article
 
 ## Instructions
@@ -35,9 +35,9 @@ https://kinsta.com/blog/disable-gutenberg-wordpress-editor
 ### Settings
 
 * In Settings > Interactive Longform Articles, you can:
-⋅⋅* Enable Interactive Articles as a separate post type
-⋅⋅* Enable optional sections
-⋅⋅* Add Google Analytics Event tracking
+  * Enable Interactive Articles as a separate post type
+  * Enable optional sections
+  * Add Google Analytics Event tracking
 
 ### Optional features
 
