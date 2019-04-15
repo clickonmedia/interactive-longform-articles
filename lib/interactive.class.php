@@ -22,7 +22,7 @@ class Interactive {
 	private $url;
 
 	public function  __construct() {
-		$this->path = trailingslashit( dirname( dirname( __FILE__ )         ) );
+		$this->path = trailingslashit( dirname( dirname( __FILE__ ) ) );
 		$this->url  = trailingslashit( dirname( plugins_url( '', __FILE__ ) ) );
 
 		$this->setup_metaboxes();
