@@ -57,6 +57,10 @@ https://kinsta.com/blog/disable-gutenberg-wordpress-editor
 
 * Wordpress 3.0+
 
+## Wordpress Plugin page
+
+https://wordpress.org/plugins/interactive-longform-articles/
+
 ## Development
 
 ```
