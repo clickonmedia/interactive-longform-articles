@@ -1,5 +1,5 @@
 
-;(function( window, document, $ ) {
+(function( window, document, $ ) {
 
 	var getUrlParameter = function( sParam ) {
 	    var sPageURL = decodeURIComponent( window.location.search.substring(1) );

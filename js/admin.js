@@ -1,5 +1,5 @@
 
-;(function( $ ) {
+(function( $ ) {
 
     $( document ).ready( function() {
 

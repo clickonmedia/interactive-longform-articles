@@ -1,5 +1,5 @@
 
-;(function( window, document, $, _ ) {
+(function( window, document, $, _ ) {
 
 	var $window = $( window );
 	var $document = $( document );
