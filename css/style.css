@@ -488,6 +488,15 @@ html.interactive {
   -moz-text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   text-shadow: 0 0 5px rgba(0, 0, 0, 0.2); }
 
+.interactive-section.style-white .caption, .interactive-section.style-white .caption-left, .interactive-section.style-white .caption-center, .interactive-section.style-white .caption-right {
+  -webkit-text-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  -moz-text-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.2); }
+  .interactive-section.style-white .caption p, .interactive-section.style-white .caption-left p, .interactive-section.style-white .caption-center p, .interactive-section.style-white .caption-right p {
+    -webkit-text-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    -moz-text-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.2); }
+
 .interactive-section.style-white.cover h1, .interactive-section.style-white.cover h2, .interactive-section.style-white.cover p, .interactive-section.style-white.cover p.byline, .interactive-section.style-white.cover p.intro-byline {
   -webkit-text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   -moz-text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);

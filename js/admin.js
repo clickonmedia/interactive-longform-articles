@@ -1,5 +1,5 @@
 
-(function( $ ) {
+( function( $ ) {
 
     $( document ).ready( function() {
 
@@ -161,4 +161,4 @@
         toggleAllSections();
     });
 
-})( window.jQuery );
+})( jQuery );

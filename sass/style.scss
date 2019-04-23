@@ -419,6 +419,14 @@
 			@include text-shadow( 0 0 5px rgba(0,0,0,0.2) );
 		}
 
+        .caption, .caption-left, .caption-center, .caption-right {
+            @include text-shadow(0 0 8px rgba(0,0,0,0.2));
+
+            p {
+                @include text-shadow(0 0 8px rgba(0,0,0,0.2));
+            }
+        }
+
 		// white cover
 		&.cover {
 
