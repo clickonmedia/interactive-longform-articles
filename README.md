@@ -58,7 +58,7 @@ https://kinsta.com/blog/disable-gutenberg-wordpress-editor
 
 ## Requirements
 
-* Wordpress 3.0+
+* Wordpress 3.0 - 4.*
 
 ## Wordpress Plugin page
 
