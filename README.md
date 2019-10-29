@@ -12,6 +12,9 @@ https://www.theversed.com/91272/ascender-one-sailors-journey-reach-new-heights
 
 https://www.theversed.com/88688/krav-maga-the-peacekeeper
 
+https://www.theversed.com/90435/life-preserver-meet-the-navy-airr-who-is-dedicating-his-life-to-helping-others/
+
+
 ## Usage
 
 1. Upload the unzipped plugin files to the `/wp-content/plugins/` directory, or install the plugin through the WordPress plugins screen directly.
