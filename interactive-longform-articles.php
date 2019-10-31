@@ -608,8 +608,8 @@ function interactive_acf_add_fields() {
 				array (
 					array (
 						'field' => 'field_bg_color',
-						'operator' => '==',
-						'value' => 'black',
+						'operator' => '!=',
+						'value' => 'white',
 					),
 					array (
 						'field' => 'field_bg_type',
