@@ -167,8 +167,8 @@ class Interactive {
 	 * 	https://github.com/CMB2/CMB2/wiki
 	 */
 	public function setup_metaboxes() {
-		require_once $this->path . '/lib/cmb2/init.php';
 
+		require_once $this->path . '/lib/cmb2/init.php';
 
 		add_action(
 			'cmb2_init',

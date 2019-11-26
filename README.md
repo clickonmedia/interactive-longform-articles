@@ -68,6 +68,7 @@ https://wordpress.org/plugins/interactive-longform-articles/
 
 ```
 npm install
+npm install gulp-cli -g
 gulp default
 gulp watch
 ```
