@@ -9,7 +9,7 @@
 	$custom_header = get_stylesheet_directory() . '/interactive/header.php';
 
 	if( file_exists( $custom_header ) ) {
-		die(); include( $custom_header );
+		include( $custom_header );
 	} else {
 		include( 'header.php' );
 	}
@@ -165,6 +165,7 @@
 
             array_push( $json['sections'], $section );
 
+            /*
 			?>
 				<div class="interactive-section <?php echo $type; ?> <?php echo $color; ?> transparent">
 					<?php echo $progress; ?>
@@ -176,12 +177,13 @@
 					</div>
 				</div>
 			<?php
+            */
 		}
 	}
 ?>
 
 <script>
-    var int_article_data = <?php echo json_encode( $json ); ?>;
+    var interactive_article_data = <?php echo json_encode( $json ); ?>;
 </script>
 
 

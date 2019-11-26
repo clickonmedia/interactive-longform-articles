@@ -22,7 +22,12 @@
 </head>
 <body <?php body_class(); ?>>
 
+    <div id="interactive-article-container"></div>
+
+
 <?php
+    /*
+
 	// Site branding
 	if( get_theme_mod( 'custom_logo' ) ) {
 		$logo = wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ), 'full' );
@@ -47,3 +52,4 @@
 		</a>
 	</div>
 </div>
+*/
