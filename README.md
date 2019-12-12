@@ -28,6 +28,7 @@ https://www.theversed.com/90435/life-preserver-meet-the-navy-airr-who-is-dedicat
   * Text content
 7. Publish article
 
+
 ## Instructions
 
 https://github.com/clickonmedia/interactive-longform-articles/wiki/Instructions
