@@ -99,6 +99,10 @@ class Interactive {
 
 	    if ( $this->is_interactive_article() ) {
 
+
+            wp_enqueue_script( 'interactive-longform-script', $this->url . '/js/app.js', array( 'underscore' ), false, true );
+
+            /*
 			$plugin_data = get_file_data( __FILE__, array( 'Version' => 'Version' ), false );
 
 	    	// Enqueue styles
@@ -138,6 +142,7 @@ class Interactive {
 				}
 	                ";
 	        wp_add_inline_style( 'interactive-longform-styles', $custom_css );
+            */
 	    }
 	}
 
@@ -167,8 +172,8 @@ class Interactive {
 	 * 	https://github.com/CMB2/CMB2/wiki
 	 */
 	public function setup_metaboxes() {
-		require_once $this->path . '/lib/cmb2/init.php';
 
+		require_once $this->path . '/lib/cmb2/init.php';
 
 		add_action(
 			'cmb2_init',
