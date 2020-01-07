@@ -17,30 +17,32 @@ https://www.theversed.com/90435/life-preserver-meet-the-navy-airr-who-is-dedicat
 
 ## Usage
 
-1. Upload the unzipped plugin files to the `/wp-content/plugins/` directory, or install the plugin through the WordPress plugins screen directly.
-2. Activate the plugin in Plugins section in Wordpress
-3. Go to Settings > Interactive Longform Articles and adjust plugin settings
-4. Go to Settings > Permalinks and click "Save"
-5. Add a new post or page, and select "Interactive article" as the page template
-6. Add sections for the article. For each section, choose:
-  * Section type
-  * Background
-  * Text content
-7. Publish article
+1. Upload the unzipped plugin files to the `/wp-content/plugins/` directory, or install the plugin via Wordpress CMS
+2. Activate the plugin in Plugins section in Wordpress CMS.
+3. If using WP 5.0+, disable Gutenberg Editor (see instruction below)
+4. Add a new post or page, and select "Interactive article" as the page template
+5. Create an Interactive Article (see instruction below)
+6. Publish article
 
-## Instructions
+
+### How to disable the Gutenberg editor
+
+Interactive Longform Articles doesn't currently support the Gutenberg Editor. Please see your options on disabling the editor at: https://kinsta.com/blog/disable-gutenberg-wordpress-editor
+
+
+## How to create Interactive Articles
 
 https://github.com/clickonmedia/interactive-longform-articles/wiki/Instructions
 
-This plugin does not yet support the new Gutenberg editor in WP 5.0 and up. To disable Gutenberg, please take a look at:
-https://kinsta.com/blog/disable-gutenberg-wordpress-editor
 
 ### Settings
 
-* In Settings > Interactive Longform Articles, you can:
+* There are a few optional settings you can adjust in Settings > Interactive Longform Articles:
   * Enable Interactive Articles as a separate post type
-  * Enable optional sections
+  * Enable the "downloads" section
   * Add Google Analytics Event tracking
+  * Adjust the progress indicator color
+
 
 ### Optional features
 
@@ -50,7 +52,7 @@ https://kinsta.com/blog/disable-gutenberg-wordpress-editor
 
 #### Header and footer
 
-* Default header and footer can be customized by including a header.php or footer.php template in  "interactive" directory in the theme
+* Default header and footer can be customized by including a header.php or footer.php template in a directory named "interactive" inside the theme
 
 #### Shortcode
 
@@ -59,6 +61,7 @@ https://kinsta.com/blog/disable-gutenberg-wordpress-editor
 ## Requirements
 
 * Wordpress 3.0 - 4.*
+* Wordpress 5.* with Gutenberg disabled
 
 ## Wordpress Plugin page
 
@@ -67,7 +70,7 @@ https://wordpress.org/plugins/interactive-longform-articles/
 ## Development
 
 ```
-npm install
+yarn install (or npm install)
 gulp default
 gulp watch
 ```
