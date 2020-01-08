@@ -68,8 +68,8 @@ https://wordpress.org/plugins/interactive-longform-articles/
 ## Development
 
 ```
-npm install
-npm install gulp-cli -g
+yarn install (or npm install)
+yarn global add gulp-cli  (or npm install gulp-cli -g)
 gulp default
 gulp watch
 npx babel --watch src --out-dir js --presets react-app/prod

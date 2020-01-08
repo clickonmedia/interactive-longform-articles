@@ -26,6 +26,8 @@ var App = function (_React$Component) {
         key: 'render',
         value: function render() {
 
+            console.log('interactive_article_data', interactive_article_data);
+
             if (!this.state.enabled) {
                 return React.createElement('div', null);
             }
@@ -33,7 +35,7 @@ var App = function (_React$Component) {
             return React.createElement(
                 'div',
                 null,
-                'React app'
+                'React app IV'
             );
         }
     }]);

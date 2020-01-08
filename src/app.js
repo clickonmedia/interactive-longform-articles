@@ -12,12 +12,14 @@ class App extends React.Component {
 
     render() {
 
+    	console.log('interactive_article_data', interactive_article_data);
+
         if ( ! this.state.enabled ) {
             return (<div />);
         }
 
         return (
-            <div>React app</div>
+            <div>React app IV</div>
         );
     }
 }
