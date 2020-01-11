@@ -35,7 +35,7 @@ var App = function (_React$Component) {
             return React.createElement(
                 'div',
                 null,
-                'React app IV'
+                'Interactive Longform Articles'
             );
         }
     }]);

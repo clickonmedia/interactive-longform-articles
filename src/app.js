@@ -19,7 +19,7 @@ class App extends React.Component {
         }
 
         return (
-            <div>React app IV</div>
+            <div>Interactive Longform Articles</div>
         );
     }
 }
