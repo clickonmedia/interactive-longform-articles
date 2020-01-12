@@ -12,8 +12,8 @@ const SectionList = (props) => {
 
 	return (
 		<div className={`interactive-section ${item.int_section_type} ${item.color} transparent`}>
-			<div dangerouslySetInnerHTML={{ __html: item.progress }} />;
-			<div dangerouslySetInnerHTML={{ __html: item.background }} />;
+			<div dangerouslySetInnerHTML={{ __html: item.progress }} />
+			<div dangerouslySetInnerHTML={{ __html: item.background }} />
 			<div className="interactive-text">
 				<div className="content" dangerouslySetInnerHTML={{ __html: item.content }}></div>
 			</div>
