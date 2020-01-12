@@ -70,9 +70,12 @@ https://wordpress.org/plugins/interactive-longform-articles/
 ```
 npm install
 npm install gulp-cli -g
+
 gulp default
 gulp watch
-npx babel --watch src --out-dir js --presets react-app/prod
+
+npx babel src --out-dir js
+npx webpack
 ```
 
 The plugin uses SASS for styling. The files can be found at the /sass directory.

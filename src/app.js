@@ -2,6 +2,8 @@
 
 const e = React.createElement;
 
+import SectionList from './SectionList.js';
+
 class App extends React.Component {
 
     constructor(props) {
@@ -12,6 +14,8 @@ class App extends React.Component {
 
     render() {
 
+    	const data = interactive_article_data;
+
     	console.log('interactive_article_data', interactive_article_data);
 
         if ( ! this.state.enabled ) {
@@ -19,7 +23,10 @@ class App extends React.Component {
         }
 
         return (
-            <div>Interactive Longform Articles</div>
+        	<div>
+        		<div>Interactive Longform Articles</div>
+        		<SectionList items={ data.sections } />
+        	</div>
         );
     }
 }

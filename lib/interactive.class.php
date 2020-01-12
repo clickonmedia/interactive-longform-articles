@@ -100,7 +100,7 @@ class Interactive {
 	    if ( $this->is_interactive_article() ) {
 
 
-            wp_enqueue_script( 'interactive-longform-script', $this->url . '/js/app.js', array( 'underscore' ), false, true );
+            wp_enqueue_script( 'interactive-longform-script', $this->url . '/dist/main.js', array( 'underscore' ), false, true );
 
             /*
 			$plugin_data = get_file_data( __FILE__, array( 'Version' => 'Version' ), false );
