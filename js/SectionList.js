@@ -10,7 +10,7 @@ const SectionList = props => {
 
   const item = _.first(items);
 
-  return React.createElement("div", {
+  return React.createElement(React.Fragment, null, items.map(item => React.createElement("div", {
     className: `interactive-section ${item.int_section_type} ${item.color} transparent`
   }, React.createElement("div", {
     dangerouslySetInnerHTML: {
@@ -27,7 +27,7 @@ const SectionList = props => {
     dangerouslySetInnerHTML: {
       __html: item.content
     }
-  })));
+  })))));
 };
 
 export default SectionList;

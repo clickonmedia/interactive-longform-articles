@@ -38,5 +38,5 @@ class App extends React.Component {
     }
 }
 
-const domContainer = document.querySelector(' #interactive-article-container' );
+const domContainer = document.querySelector('.interactive-article-container' );
 ReactDOM.render( e(App), domContainer );

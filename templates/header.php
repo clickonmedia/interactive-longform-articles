@@ -22,8 +22,7 @@
 </head>
 <body <?php body_class(); ?>>
 
-    <div id="interactive-article-container"></div>
-
+    <div class="interactive-article-container"></div>
 
 <?php
     /*
