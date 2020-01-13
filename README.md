@@ -59,7 +59,7 @@ https://kinsta.com/blog/disable-gutenberg-wordpress-editor
 
 ## Requirements
 
-* Wordpress 3.0 - 4.*
+* Wordpress 3+
 
 ## Wordpress Plugin page
 
@@ -74,8 +74,7 @@ npm install gulp-cli -g
 gulp default
 gulp watch
 
-npx babel src --out-dir js
-npx webpack
+npm run start
 ```
 
 The plugin uses SASS for styling. The files can be found at the /sass directory.

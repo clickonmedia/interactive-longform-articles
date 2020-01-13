@@ -3,8 +3,25 @@
   "version": "1.0.0",
   "description": "Interactive, multimedia articles for longform journalism",
   "private": true,
+  "watch": {
+    "all": {
+      "patterns": [
+        "src"
+      ],
+      "extensions": "js,jsx",
+      "ignore": "",
+      "quiet": true,
+      "legacyWatch": true,
+      "delay": 500,
+      "runOnChangeOnly": false
+    }
+  },
   "scripts": {
-    "postinstall": ""
+    "start": "npm-run-all -s all watch",
+    "all": "npm-run-all -s run-babel run-webpack",
+    "run-babel": "npx babel src --out-dir js",
+    "run-webpack": "npx webpack",
+    "watch": "npm-watch all"
   },
   "engines": {
     "npm": ">=2.1.8"
@@ -38,6 +55,8 @@
     "gulp-sequence": "^0.4.6",
     "gulp-watch": "^4.3.11",
     "lodash": "^4.17.15",
+    "npm-watch": "^0.6.0",
+    "prop-types": "^15.7.2",
     "run-sequence": "^2.2.1",
     "underscore": "^1.9.2"
   },
@@ -55,6 +74,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-react-app": "^3.1.2",
+    "npm-run-all": "^4.1.5",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10"
   }

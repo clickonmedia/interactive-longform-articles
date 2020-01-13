@@ -6,9 +6,9 @@ const SectionList = (props) => {
 
 	const { items } = props;
 
-	console.log( 'Section list items', items );
+	console.log( 'Section list', items );
 
-	const item = _.first( items );
+	const item = _.first(items);
 
 	return (
 		<div className={`interactive-section ${item.int_section_type} ${item.color} transparent`}>

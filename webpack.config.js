@@ -1,3 +1,4 @@
 module.exports = {
-	entry: './js/app.js'
+	entry: './js/App.js',
+	mode: 'development'
 };

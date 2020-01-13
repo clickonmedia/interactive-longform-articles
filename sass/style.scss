@@ -8,19 +8,18 @@
 /*
  * 	Main styling for the plugin
  */
-	html.interactive {
+
+
+	#interactive-article-container {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
 		font-size: 16px;
 		padding: 0;
-
-		body {
-			padding: 0 $padding;
-			background: $black;
-
-			// Adblocker fix
-			&.sponsored-post {
-				display: block !important;
-			}
-		}
+		padding: 0 $padding;
+		background: $black;
 	}
 
 	/*

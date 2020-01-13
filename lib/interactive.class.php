@@ -102,6 +102,13 @@ class Interactive {
 
             wp_enqueue_script( 'interactive-longform-script', $this->url . '/dist/main.js', array( 'underscore' ), false, true );
 
+			$plugin_data = get_file_data( __FILE__, array( 'Version' => 'Version' ), false );
+
+	    	// Enqueue styles
+	    	wp_enqueue_style( 'interactive-longform-styles', $this->url . '/css/style.min.css', false, $plugin_data['Version'] );
+
+	    	
+
             /*
 			$plugin_data = get_file_data( __FILE__, array( 'Version' => 'Version' ), false );
 

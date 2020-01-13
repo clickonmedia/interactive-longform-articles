@@ -159,14 +159,16 @@ Mixins
 /*
  * 	Main styling for the plugin
  */
-html.interactive {
+#interactive-article-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   font-size: 16px;
-  padding: 0; }
-  html.interactive body {
-    padding: 0 10px;
-    background: #000; }
-    html.interactive body.sponsored-post {
-      display: block !important; }
+  padding: 0;
+  padding: 0 10px;
+  background: #000; }
 
 /*
 	 * 	Interactive Header

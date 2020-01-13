@@ -1,13 +1,12 @@
 'use strict';
 
 import _ from 'lodash';
-import ErrorBoundary from './ErrorBoundary';
 
 const SectionList = props => {
   const {
     items
   } = props;
-  console.log('Section list items', items);
+  console.log('Section list', items);
 
   const item = _.first(items);
 
@@ -17,11 +16,11 @@ const SectionList = props => {
     dangerouslySetInnerHTML: {
       __html: item.progress
     }
-  }), ";", React.createElement("div", {
+  }), React.createElement("div", {
     dangerouslySetInnerHTML: {
       __html: item.background
     }
-  }), ";", React.createElement("div", {
+  }), React.createElement("div", {
     className: "interactive-text"
   }, React.createElement("div", {
     className: "content",

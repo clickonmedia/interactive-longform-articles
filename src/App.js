@@ -2,7 +2,8 @@
 
 const e = React.createElement;
 
-import SectionList from './SectionList.js';
+import AppHeader from './AppHeader';
+import SectionList from './SectionList';
 
 class App extends React.Component {
 
@@ -16,6 +17,9 @@ class App extends React.Component {
 
     	const data = interactive_article_data;
 
+    	const shareURL = window.location.href;
+    	const shareTitle = document.title;
+
     	console.log('interactive_article_data', interactive_article_data);
 
         if ( ! this.state.enabled ) {
@@ -24,7 +28,10 @@ class App extends React.Component {
 
         return (
         	<div>
-        		<div>Interactive Longform Articles</div>
+        		<AppHeader 
+        			brand="Brand name"
+        			permalink={ shareURL }
+        			title={ shareTitle } />
         		<SectionList items={ data.sections } />
         	</div>
         );
