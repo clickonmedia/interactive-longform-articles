@@ -1,17 +1,16 @@
 'use strict';
 
-import _ from 'lodash';
+import React from 'react';
 
 const SectionList = props => {
   const {
     items
   } = props;
-  console.log('Section list', items);
+  console.log('Section list', items); // const visibility = 'transparent';
 
-  const item = _.first(items);
-
+  const visibility = '';
   return React.createElement(React.Fragment, null, items.map(item => React.createElement("div", {
-    className: `interactive-section ${item.int_section_type} ${item.color} transparent`
+    className: `interactive-section ${item.int_section_type} ${item.color} ${visibility}`
   }, React.createElement("div", {
     dangerouslySetInnerHTML: {
       __html: item.progress

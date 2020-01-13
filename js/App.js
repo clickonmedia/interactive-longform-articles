@@ -1,6 +1,7 @@
 'use strict';
 
-const e = React.createElement;
+import React from 'react';
+import ReactDOM from 'react-dom';
 import AppHeader from './AppHeader';
 import SectionList from './SectionList';
 
@@ -34,4 +35,4 @@ class App extends React.Component {
 }
 
 const domContainer = document.querySelector('.interactive-article-container');
-ReactDOM.render(e(App), domContainer);
+ReactDOM.render(React.createElement(App), domContainer);
