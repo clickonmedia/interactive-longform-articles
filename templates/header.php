@@ -21,34 +21,4 @@
 	<?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
-
     <div class="interactive-article-container"></div>
-
-<?php
-    /*
-
-	// Site branding
-	if( get_theme_mod( 'custom_logo' ) ) {
-		$logo = wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ), 'full' );
-		$brand = '<img src="' . $logo[0] . '" alt="" />';
-	} else {
-		$brand = '<div class="title">' . get_bloginfo( 'name' ) . '</div>';
-	}
-?>
-
-<div class="interactive-header">
-	<a href="/" class="brand"><?php echo $brand; ?></a>
-
-	<div class="social-share">
-		<a class="link ia-icon twitter ia-icon-twitter"
-			href="https://twitter.com/intent/tweet?url=<?php echo urlencode( get_the_permalink() ); ?>&text=<?php echo urlencode( wp_title() ); ?>"
-			target="_blank">
-		</a>
-
-		<a class="link ia-icon facebook ia-icon-facebook-official"
-			href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode( get_the_permalink() ); ?>"
-			target="_blank" >
-		</a>
-	</div>
-</div>
-*/

@@ -7,12 +7,30 @@ import AppHeader from './AppHeader';
 import SectionList from './SectionList';
 
 
+const containerStyles = {
+	position: 'absolute',
+	top: 0,
+	width: '100vw',
+	height: '300vh',
+	overflowX: 'scroll'
+}
+
 class App extends React.Component {
 
     constructor(props) {
         super(props);
 
         this.state = { enabled: true };
+
+        this.handleScroll = this.handleScroll.bind(this);
+    }
+
+    componentDidMount() {
+    	console.log('cmd scroll');
+    }
+
+    handleScroll( e ) {
+    	console.log('scroll', e);
     }
 
     render() {
@@ -28,13 +46,15 @@ class App extends React.Component {
             return (<div />);
         }
 
+        const { brand, sections } = data;
+
         return (
-        	<div>
+        	<div className="inner-container" style={ containerStyles } onScroll={ this.handleScroll }>
         		<AppHeader 
-        			brand="Brand name"
+        			brand={ brand }
         			permalink={ shareURL }
         			title={ shareTitle } />
-        		<SectionList items={ data.sections } />
+        		<SectionList items={ sections } />
         	</div>
         );
     }

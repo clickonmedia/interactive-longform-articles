@@ -13,8 +13,8 @@ const SectionList = (props) => {
 
 	return (
 		<React.Fragment>
-			{ items.map( ( item ) => (
-				<div className={`interactive-section ${ item.int_section_type } ${ item.color } ${ visibility }`}>
+			{ items.map( ( item, index ) => (
+				<div key={ index } className={`interactive-section ${ item.int_section_type } ${ item.color } ${ visibility }`}>
 					<div dangerouslySetInnerHTML={{ __html: item.progress }} />
 					<div dangerouslySetInnerHTML={{ __html: item.background }} />
 					<div className="interactive-text">

@@ -9,7 +9,8 @@ const SectionList = props => {
   console.log('Section list', items); // const visibility = 'transparent';
 
   const visibility = '';
-  return React.createElement(React.Fragment, null, items.map(item => React.createElement("div", {
+  return React.createElement(React.Fragment, null, items.map((item, index) => React.createElement("div", {
+    key: index,
     className: `interactive-section ${item.int_section_type} ${item.color} ${visibility}`
   }, React.createElement("div", {
     dangerouslySetInnerHTML: {

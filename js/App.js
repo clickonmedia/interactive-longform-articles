@@ -4,6 +4,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import AppHeader from './AppHeader';
 import SectionList from './SectionList';
+const containerStyles = {
+  position: 'absolute',
+  top: 0,
+  width: '100vw',
+  height: '300vh',
+  overflowX: 'scroll'
+};
 
 class App extends React.Component {
   constructor(props) {
@@ -11,6 +18,15 @@ class App extends React.Component {
     this.state = {
       enabled: true
     };
+    this.handleScroll = this.handleScroll.bind(this);
+  }
+
+  componentDidMount() {
+    console.log('cmd scroll');
+  }
+
+  handleScroll(e) {
+    console.log('scroll', e);
   }
 
   render() {
@@ -23,12 +39,20 @@ class App extends React.Component {
       return React.createElement("div", null);
     }
 
-    return React.createElement("div", null, React.createElement(AppHeader, {
-      brand: "Brand name",
+    const {
+      brand,
+      sections
+    } = data;
+    return React.createElement("div", {
+      className: "inner-container",
+      style: containerStyles,
+      onScroll: this.handleScroll
+    }, React.createElement(AppHeader, {
+      brand: brand,
       permalink: shareURL,
       title: shareTitle
     }), React.createElement(SectionList, {
-      items: data.sections
+      items: sections
     }));
   }
 

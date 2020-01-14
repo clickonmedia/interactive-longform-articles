@@ -20,18 +20,16 @@
     /*
         Interactive articles data
     */
-    $json = [
-        'sections' => []
+    $data = [
+        'sections' => [],
+    	'brand' => array(
+	        'name' => get_bloginfo( 'name' )
+	    ),
     ];
 
-    // Site branding
-    $json['brand'] = array(
-        'name' => get_bloginfo( 'name' )
-    );
-
-    if( get_theme_mod( 'custom_logo' ) ) {
-        $logo = wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ), 'full' );
-        $json['brand']['logo'] = $logo[0];
+    if ( get_theme_mod( 'custom_logo' ) ) {
+        $logo = esc_url( wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ), 'full' ) );
+        $data['brand']['logo'] = $logo[0];
     }
 ?>
 
@@ -108,28 +106,28 @@
 					$align = $section['int_background_align'];
 
 					// Desktop BG image
-					$xl = wp_get_attachment_image_url( $section['int_background_image_id'], 'interactive-xl' );
+					$xl = esc_url( wp_get_attachment_image_url( $section['int_background_image_id'], 'interactive-xl' ) );
 
 					// Tablet BG image
-					$md = wp_get_attachment_image_url( $section['int_background_image_id'], 'large' );
+					$md = esc_url( wp_get_attachment_image_url( $section['int_background_image_id'], 'large' ) );
 
 					// Mobile BG image
 					if( empty( $section['int_background_image_mobile_id'] ) ) {
 						$xs = $md;
 						$sm = $md;
 					} else {
-						$xs = wp_get_attachment_image_url( $section['int_background_image_mobile_id'], 'interactive-sm' );
+						$xs = esc_url( wp_get_attachment_image_url( $section['int_background_image_mobile_id'], 'interactive-sm' ) );
 						$sm = $xs;
 					}
 
 					// Markup
-					$background = "<div class='interactive-background' data-bg-xs='" . $xs . "' data-bg-sm='" . $sm . "' data-bg-md='" . $md . "' data-bg-xl='" . $xl . "' style='background-position: " . $align . "; opacity: " . $opacity . "'></div>";
+					$background = '<div class="interactive-background" data-bg-xs="' . $xs . '" data-bg-sm="' . $sm . '" data-bg-md="' . $md . '" data-bg-xl="' . $xl . '" style="background-position: ' . $align . '; opacity: ' . $opacity . '"></div>';
 					break;
 
 				// Color background
 				case 'color':
 					$color = 'style-' . $section['int_background_color'];
-					$background = "<div class='interactive-background'></div>";
+					$background = '<div class="interactive-background"></div>';
 					break;
 
 				// Video background
@@ -137,7 +135,7 @@
 					$opacity = round( intval( $section['int_background_opacity'] ) / 100, 2 );
 					$align = $section['int_background_align'];
 
-					$background = "<div class='interactive-background' style='background-position: " . $align . "; opacity: " . $opacity . "'>";
+					$background = '<div class="interactive-background" style="background-position: ' . $align . '; opacity: ' . $opacity . '">';
 
 					$poster = empty( $section['int_background_video_poster'] ) ? '' : $section['int_background_video_poster'];
 					$video = empty( $section['int_background_video'] ) ? '' : $section['int_background_video'];
@@ -145,7 +143,7 @@
 
 					$background .= '<video poster="' . $poster . '" data-src-xs="' . $mobile . '" data-src-md="' . $video . '" data-src-xl="' . $video . '" preload="auto" width="16" height="9" autoplay loop muted></video>';
 
-					$background .= "</div>";
+					$background .= '</div>';
 					break;
 			}
 
@@ -163,27 +161,13 @@
             $section['background'] = $background;
             $section['content'] = $content;
 
-            array_push( $json['sections'], $section );
-
-            /*
-			?>
-				<div class="interactive-section <?php echo $type; ?> <?php echo $color; ?> transparent">
-					<?php echo $progress; ?>
-					<?php echo $background; ?>
-					<div class="interactive-text">
-						<div class="content">
-							<?php echo $content; ?>
-						</div>
-					</div>
-				</div>
-			<?php
-            */
+            array_push( $data['sections'], $section );
 		}
 	}
 ?>
 
 <script>
-    var interactive_article_data = <?php echo json_encode( $json ); ?>;
+    var interactive_article_data = <?php echo json_encode( $data ); ?>;
 </script>
 
 

@@ -45,6 +45,7 @@ class Interactive {
 	public function setup_frontend() {
 		add_action( 'rest_api_init', array( $this, 'setup_rest_api_data' ) );
 		add_filter( 'single_template', array( $this, 'article_custom_template' ) );
+		add_filter( 'body_class', array( $this, 'setup_body_classes' ) );
 	}
 
 	/**
@@ -178,7 +179,7 @@ class Interactive {
 	 *
 	 * 	https://github.com/CMB2/CMB2/wiki
 	 */
-	public function setup_metaboxes() {
+	private function setup_metaboxes() {
 
 		require_once $this->path . '/lib/cmb2/init.php';
 
@@ -213,7 +214,7 @@ class Interactive {
 	 *
 	 * 	@return void
 	 */
-	public function cmb2_render_range_input_field_type( $field, $escaped_value, $object_id, $object_type, $field_type_object ) {
+	private function cmb2_render_range_input_field_type( $field, $escaped_value, $object_id, $object_type, $field_type_object ) {
 
 		$value = empty( $escaped_value ) ? '100' : $escaped_value;
 
@@ -238,7 +239,16 @@ class Interactive {
 	    }
 
 	    return $single;
+	}
 
+	/**
+	 * Add custom CSS classes to document body
+	 */
+	public function setup_body_classes( $classes ) {
+
+		//$classes[] = 'interactive-article-container';
+
+	    return $classes;
 	}
 
 	/**
