@@ -29,14 +29,14 @@ class App extends React.Component {
     	console.log('cmd scroll');
 
     	const data = interactive_article_data;
-    	console.log( 'sections', data.sections.length );
+    	console.log( 'section data', data.sections );
 
 		// Initial first screen
-
-		// This solution would work, if sections were equal in height
-		// However, their height depends on the content
 		const sectionIndex = Math.floor( window.scrollY / window.innerHeight ); 
 		console.log('section index', sectionIndex);
+
+		const sections = document.querySelectorAll('.interactive-section');
+		console.log( 'sections', sections );
     }
 
 	// get document coordinates of the element
