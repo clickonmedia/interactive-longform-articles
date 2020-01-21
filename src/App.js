@@ -27,7 +27,24 @@ class App extends React.Component {
 
     componentDidMount() {
     	console.log('cmd scroll');
+
+    	const data = interactive_article_data;
+    	console.log( 'sections', data.sections.length );
+
+		// Initial first screen
+
+		// This solution would work, if sections were equal in height
+		// However, their height depends on the content
+		const sectionIndex = Math.floor( window.scrollY / window.innerHeight ); 
+		console.log('section index', sectionIndex);
     }
+
+	// get document coordinates of the element
+	getCoords(elem) {
+		const box = elem.getBoundingClientRect();
+
+		return box.top + window.pageYOffset;
+	}
 
     handleScroll( e ) {
     	console.log('scroll', e);

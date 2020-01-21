@@ -41,7 +41,7 @@
   "bugs": {
     "url": "https://github.com/clickonmedia/interactive-longform-articles/issues"
   },
-  "homepage": "https://understrap.com",
+  "homepage": "https://github.com/clickonmedia/interactive-longform-articles",
   "dependencies": {
     "bootstrap": "^4.3.1",
     "browser-sync": "^2.23.6",
