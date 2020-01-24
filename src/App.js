@@ -2,10 +2,10 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import _ from 'lodash';
 
-import AppHeader from './AppHeader';
-import SectionList from './SectionList';
-
+import AppHeader from './components/AppHeader';
+import SectionList from './components/SectionList';
 
 const containerStyles = {
 	position: 'absolute',
@@ -20,58 +20,78 @@ class App extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = { enabled: true };
+        this.state = {
+        	brand: {
+        		name: ''
+        	},
+        	sections: [],
+			shareURL: '',
+			shareTitle: '',
+			elements: [],
+        	currentIndex: 0
+        };
 
         this.handleScroll = this.handleScroll.bind(this);
+        this.checkVisibility = this.checkVisibility.bind(this);
     }
 
     componentDidMount() {
     	console.log('cmd scroll');
 
-    	const data = interactive_article_data;
-    	console.log( 'section data', data.sections );
-
-		// Initial first screen
-		const sectionIndex = Math.floor( window.scrollY / window.innerHeight ); 
-		console.log('section index', sectionIndex);
-
-		const sections = document.querySelectorAll('.interactive-section');
-		console.log( 'sections', sections );
-    }
-
-	// get document coordinates of the element
-	getCoords(elem) {
-		const box = elem.getBoundingClientRect();
-
-		return box.top + window.pageYOffset;
-	}
-
-    handleScroll( e ) {
-    	console.log('scroll', e);
-    }
-
-    render() {
-
-    	const data = interactive_article_data;
-
     	const shareURL = window.location.href;
     	const shareTitle = document.title;
 
-    	console.log('interactive_article_data', interactive_article_data);
+		const elements = document.querySelectorAll('.interactive-section');
+		console.log( 'elements', elements );
+		
+		this.setState({
+			shareURL,
+			shareTitle,
+			elements
+		});
+    }
 
-        if ( ! this.state.enabled ) {
-            return (<div />);
-        }
+	checkVisibility() {
+		
+		let { currentIndex, elements } = this.state;
+		console.log( 'element', currentIndex );
 
-        const { brand, sections } = data;
+		const currentElement = elements[currentIndex];
+
+		const rect = currentElement.getBoundingClientRect();
+		console.log( 'bottom', rect.bottom );
+
+		if ( rect.bottom < window.innerHeight / 2 ) {
+			console.log('change');
+
+			this.setState( ( prevState ) => {
+				return {
+					currentIndex: prevState.currentIndex + 1	
+				}
+			});
+		}
+	}
+
+    handleScroll( e ) {
+    	console.log('scroll');
+    }
+
+    render() {
+    	const data = interactive_article_data;
+
+    	const { brand, sections } = data;
+    	const { shareTitle, shareURL, currentIndex } = this.state;
+
+    	console.log( 'sections', sections );
+    	console.log( 'brand', brand );
 
         return (
-        	<div className="inner-container" style={ containerStyles } onScroll={ this.handleScroll }>
+        	<div className="inner-container" style={ containerStyles } onScroll={ _.throttle( this.checkVisibility, 50 ) }>
         		<AppHeader 
         			brand={ brand }
         			permalink={ shareURL }
         			title={ shareTitle } />
-        		<SectionList items={ sections } />
+        		<SectionList items={ sections } currentIndex={ currentIndex } />
         	</div>
         );
     }

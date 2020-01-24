@@ -2,6 +2,8 @@
 
 import React from 'react';
 import styled from 'styled-components';
+import { UI, Colors } from '../shared/Config';
+
 const InteractiveSection = styled.section`
 	width: 100%;
 	min-height: 100vh;
@@ -45,7 +47,7 @@ const InteractiveSection = styled.section`
 		bottom: 2px;
 		left: 50%;
 		font-size: 3vw;
-		color: $white;
+		color: ${Colors.white};
 		opacity: 0.9;
 		transition: opacity 0.8s ease 0.35s;
 		translateX: -50%;
@@ -61,7 +63,7 @@ const InteractiveSection = styled.section`
 	}
 
 	.content div, p, h1, h2, h6 {
-		color: $white;
+		color: ${Colors.white};
 	}
 
 	/*
@@ -73,7 +75,7 @@ const InteractiveSection = styled.section`
 			max-width: 610px;
 		    font-weight: 600;
 		    margin: 0 auto;
-		    padding: 0 $margin;
+		    padding: 0 ${UI.margin};
 		    width: 100%;
 		    text-shadow: 0 0 5px rgba(0,0,0,0.8);
 		}
@@ -104,7 +106,7 @@ const InteractiveSection = styled.section`
 	h2, p {
 		max-width: 610px;
 		margin: 0 auto;
-		padding: 0 $margin;
+		padding: 0 ${UI.margin};
 	}
 
 	h2 {
@@ -141,7 +143,7 @@ const InteractiveSection = styled.section`
 		line-height: 1.2;
 		width: 100%;
 		max-width: 610px;
-	    padding: 0 $margin;
+	    padding: 0 ${UI.margin};
 		margin-top: 1rem auto;
 		text-shadow: 0 0 5px rgba(0,0,0,0.8);
 	}
@@ -206,7 +208,7 @@ const InteractiveSection = styled.section`
 	iframe {
 		max-width: 100%;
 	    padding-top: 0;
-		margin-bottom: $margin;
+		margin-bottom: ${UI.margin};
 	}
 
 	.wp-video {
@@ -214,49 +216,53 @@ const InteractiveSection = styled.section`
 	}
 `;
 
-const SectionList = props => {
-  const {
-    items
-  } = props;
-  console.log('Section list', items); // const visibility = 'transparent';
+const SectionList = (props) => {
+	const { items, currentIndex } = props;
 
-  const visibility = '';
-  return React.createElement(React.Fragment, null, items.map((item, index) => React.createElement(InteractiveSection, {
-    key: index,
-    className: `${item.int_section_type} ${item.color} ${visibility}`
-  }, React.createElement("div", {
-    dangerouslySetInnerHTML: {
-      __html: item.progress
-    }
-  }), React.createElement("div", {
-    className: "interactive-background",
-    "data-bg-xs": item.background.xs,
-    "data-bg-sm": item.background.sm,
-    "data-bg-md": item.background.md,
-    "data-bg-xl": item.background.xl,
-    style: {
-      backgroundPosition: item.background.align,
-      opacity: item.background.opacity
-    }
-  }), item.background.video && React.createElement("video", {
-    poster: item.background.poster,
-    "data-src-xs": item.background.mobile,
-    "data-src-md": item.background.video,
-    "data-src-xl": item.background.video,
-    preload: "auto",
-    width: "16",
-    height: "9",
-    autoplay: true,
-    loop: true,
-    muted: true
-  }), React.createElement("div", {
-    className: "interactive-text"
-  }, React.createElement("div", {
-    className: "content",
-    dangerouslySetInnerHTML: {
-      __html: item.content
-    }
-  })))));
-};
+	console.log( 'SectionList', items );
 
-export default SectionList;
+	return (
+		<React.Fragment>
+			{ items.map( ( item, index ) => (
+				<InteractiveSection 
+					key={ index } 
+					className={`interactive-section ${ item.int_section_type } ${ item.color } ${ index !== currentIndex ? 'transparent' : '' }`}>
+					<div dangerouslySetInnerHTML={{ __html: item.progress }} />
+
+					<div 
+						className="interactive-background"
+						data-bg-xs={ item.background.xs }
+						data-bg-sm={ item.background.sm }
+						data-bg-md={ item.background.md }
+						data-bg-xl={ item.background.xl }
+						style={{
+							backgroundPosition: item.background.align,
+							opacity: item.background.opacity
+						}}>
+					</div>
+
+					{ item.background.video && 
+						<video 
+							poster={ item.background.poster } 
+							data-src-xs={ item.background.mobile } 
+							data-src-md={ item.background.video } 
+							data-src-xl={ item.background.video } 
+							preload="auto" 
+							width="16" 
+							height="9" 
+							autoplay 
+							loop 
+							muted>
+						</video>
+					}
+
+					<div className="interactive-text">
+						<div className="content" dangerouslySetInnerHTML={{ __html: item.content }}></div>
+					</div>
+				</InteractiveSection>
+			)) }
+		</React.Fragment>
+	);
+}
+
+export default SectionList

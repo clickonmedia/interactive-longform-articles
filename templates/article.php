@@ -47,7 +47,7 @@
 			$content = '';
 
 			// Section background
-			$background = '';
+			$background = [];
 			$progress = '';
 			$color = '';
 			$type = empty( $section['int_section_type'] ) ? 'default' : $section['int_section_type'];
@@ -120,14 +120,20 @@
 						$sm = $xs;
 					}
 
-					// Markup
-					$background = '<div class="interactive-background" data-bg-xs="' . $xs . '" data-bg-sm="' . $sm . '" data-bg-md="' . $md . '" data-bg-xl="' . $xl . '" style="background-position: ' . $align . '; opacity: ' . $opacity . '"></div>';
+					$background = [
+						'xs' => $xs,
+						'sm' => $sm,
+						'md' => $md,
+						'xl' => $xl,
+						'align' => $align,
+						'opacity' => $opacity
+					];
+
 					break;
 
 				// Color background
 				case 'color':
 					$color = 'style-' . $section['int_background_color'];
-					$background = '<div class="interactive-background"></div>';
 					break;
 
 				// Video background
@@ -135,15 +141,18 @@
 					$opacity = round( intval( $section['int_background_opacity'] ) / 100, 2 );
 					$align = $section['int_background_align'];
 
-					$background = '<div class="interactive-background" style="background-position: ' . $align . '; opacity: ' . $opacity . '">';
-
 					$poster = empty( $section['int_background_video_poster'] ) ? '' : $section['int_background_video_poster'];
 					$video = empty( $section['int_background_video'] ) ? '' : $section['int_background_video'];
 					$mobile = empty( $section['int_background_video_mobile'] ) ? '' : $section['int_background_video_mobile'];
 
-					$background .= '<video poster="' . $poster . '" data-src-xs="' . $mobile . '" data-src-md="' . $video . '" data-src-xl="' . $video . '" preload="auto" width="16" height="9" autoplay loop muted></video>';
+					$background = [
+						'poster' => $poster,
+						'mobile' => $mobile,
+						'video' => $video,
+						'align' => $align,
+						'opacity' => $opacity
+					];
 
-					$background .= '</div>';
 					break;
 			}
 

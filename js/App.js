@@ -2,8 +2,9 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import AppHeader from './AppHeader';
-import SectionList from './SectionList';
+import _ from 'lodash';
+import AppHeader from './components/AppHeader';
+import SectionList from './components/SectionList';
 const containerStyles = {
   position: 'absolute',
   top: 0,
@@ -16,56 +17,80 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      enabled: true
+      brand: {
+        name: ''
+      },
+      sections: [],
+      shareURL: '',
+      shareTitle: '',
+      elements: [],
+      currentIndex: 0
     };
     this.handleScroll = this.handleScroll.bind(this);
+    this.checkVisibility = this.checkVisibility.bind(this);
   }
 
   componentDidMount() {
     console.log('cmd scroll');
-    const data = interactive_article_data;
-    console.log('section data', data.sections); // Initial first screen
+    const shareURL = window.location.href;
+    const shareTitle = document.title;
+    const elements = document.querySelectorAll('.interactive-section');
+    console.log('elements', elements);
+    this.setState({
+      shareURL,
+      shareTitle,
+      elements
+    });
+  }
 
-    const sectionIndex = Math.floor(window.scrollY / window.innerHeight);
-    console.log('section index', sectionIndex);
-    const sections = document.querySelectorAll('.interactive-section');
-    console.log('sections', sections);
-  } // get document coordinates of the element
+  checkVisibility() {
+    let {
+      currentIndex,
+      elements
+    } = this.state;
+    console.log('element', currentIndex);
+    const currentElement = elements[currentIndex];
+    const rect = currentElement.getBoundingClientRect();
+    console.log('bottom', rect.bottom);
 
-
-  getCoords(elem) {
-    const box = elem.getBoundingClientRect();
-    return box.top + window.pageYOffset;
+    if (rect.bottom < window.innerHeight / 2) {
+      console.log('change');
+      this.setState(prevState => {
+        return {
+          currentIndex: prevState.currentIndex + 1
+        };
+      });
+    }
   }
 
   handleScroll(e) {
-    console.log('scroll', e);
+    console.log('scroll');
   }
 
   render() {
     const data = interactive_article_data;
-    const shareURL = window.location.href;
-    const shareTitle = document.title;
-    console.log('interactive_article_data', interactive_article_data);
-
-    if (!this.state.enabled) {
-      return React.createElement("div", null);
-    }
-
     const {
       brand,
       sections
     } = data;
+    const {
+      shareTitle,
+      shareURL,
+      currentIndex
+    } = this.state;
+    console.log('sections', sections);
+    console.log('brand', brand);
     return React.createElement("div", {
       className: "inner-container",
       style: containerStyles,
-      onScroll: this.handleScroll
+      onScroll: _.throttle(this.checkVisibility, 50)
     }, React.createElement(AppHeader, {
       brand: brand,
       permalink: shareURL,
       title: shareTitle
     }), React.createElement(SectionList, {
-      items: sections
+      items: sections,
+      currentIndex: currentIndex
     }));
   }
 
