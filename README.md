@@ -6,13 +6,11 @@ Interactive multimedia articles, with a background scroll effect. Wordpress plug
 
 ## Examples
 
-https://www.theversed.com/88874/wavemaker-the-road-to-recovery
+https://www.theversed.com/90435/life-preserver-meet-the-navy-airr-who-is-dedicating-his-life-to-helping-others/
 
 https://www.theversed.com/91272/ascender-one-sailors-journey-reach-new-heights
 
-https://www.theversed.com/88688/krav-maga-the-peacekeeper
-
-https://www.theversed.com/90435/life-preserver-meet-the-navy-airr-who-is-dedicating-his-life-to-helping-others/
+https://www.theversed.com/88874/wavemaker-the-road-to-recovery
 
 
 ## Usage
