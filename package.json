@@ -1,6 +1,6 @@
 {
   "name": "interactive-longform-articles",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "description": "Interactive, multimedia articles for longform journalism",
   "scripts": {
     "postinstall": ""

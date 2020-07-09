@@ -67,10 +67,12 @@ https://wordpress.org/plugins/interactive-longform-articles/
 
 ## Development
 
+Use Node 8.*
+
 ```
-yarn install (or npm install)
-gulp default
-gulp watch
+npm install
+npx gulp default
+npx gulp watch
 ```
 
 The plugin uses SASS for styling. The files can be found at the /sass directory.

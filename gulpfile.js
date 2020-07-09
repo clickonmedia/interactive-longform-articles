@@ -9,7 +9,6 @@ var cleanCSS = require('gulp-clean-css');
 var gulpSequence = require('gulp-sequence');
 var runSequence = require('run-sequence');
 
-
 // Default task
 gulp.task('default', function(callback) {
 	runSequence('sass',
