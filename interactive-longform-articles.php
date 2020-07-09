@@ -2,7 +2,7 @@
 /*
 Plugin Name: Interactive Longform Articles
 Description: Interactive multimedia articles for longform journalism
-Version:     2.1.4
+Version:     2.1.5
 Author:      CLICKON Media
 Author URI:  https://www.clickon.co
 License:     GPL3
