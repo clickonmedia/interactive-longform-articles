@@ -571,6 +571,13 @@ class Interactive {
 			),
 		);
 
+        $editor_allow_iframes = ! empty( get_option( 'int_option_allow_iframes' ) );
+
+        if ( $editor_allow_iframes ) {
+            $editor_args['sanitization_cb'] = false;
+        }
+
+
 	    $cmb->add_group_field( $group_sections, $editor_args );
 
 	    /*

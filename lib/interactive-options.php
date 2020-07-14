@@ -30,7 +30,9 @@ Class Interactive_Options {
 		// Field
 		add_settings_field( 'int_option_enable_post_type', __( 'Enable interactive articles as a post type', $this::TEXT_DOMAIN ), array( $this, 'display_as_post_type' ), $page, $section );
 
-		add_settings_field( 'int_option_display_downloads', __( 'Display downloads section', $this::TEXT_DOMAIN ), array( $this, 'display_downloads_section' ), $page, $section );
+        add_settings_field( 'int_option_display_downloads', __( 'Display downloads section', $this::TEXT_DOMAIN ), array( $this, 'display_downloads_section' ), $page, $section );
+
+        add_settings_field( 'int_option_allow_iframes', __( 'Allow iframes in text editor', $this::TEXT_DOMAIN ), array( $this, 'allow_iframes_section' ), $page, $section );
 
 		add_settings_field( 'int_option_google_analytics', __( 'Enable Google Analytics event tracking', $this::TEXT_DOMAIN ), array( $this, 'enable_google_analytics' ), $page, $section );
 
@@ -43,7 +45,8 @@ Class Interactive_Options {
 		register_setting( $page, 'int_option_enable_for_projects' );
 		register_setting( $page, 'int_option_enable_for_casestudies' );
 		register_setting( $page, 'int_option_enable_post_type' );
-		register_setting( $page, 'int_option_display_downloads' );
+        register_setting( $page, 'int_option_display_downloads' );
+        register_setting( $page, 'int_option_allow_iframes' );
 		register_setting( $page, 'int_option_google_analytics' );
 		register_setting( $page, 'int_option_tracker_name' );
 		register_setting( $page, 'int_option_progress_color' );
@@ -66,15 +69,25 @@ Class Interactive_Options {
 		echo '<input type="checkbox" id="int_option_enable_post_type" name="int_option_enable_post_type" value="1" ' . $checked . ' />';
 	}
 
-	/**
-	 * 	Downloads option
-	 */
-	public function display_downloads_section() {
-		$field = get_option( 'int_option_display_downloads' );
-		$checked = empty( $field ) ? '' : 'checked';
+    /**
+     *  Downloads option
+     */
+    public function display_downloads_section() {
+        $field = get_option( 'int_option_display_downloads' );
+        $checked = empty( $field ) ? '' : 'checked';
 
-		echo '<input type="checkbox" id="int_option_display_downloads" name="int_option_display_downloads" value="1" ' . $checked . ' />';
-	}
+        echo '<input type="checkbox" id="int_option_display_downloads" name="int_option_display_downloads" value="1" ' . $checked . ' />';
+    }
+
+    /**
+     *  Allow iframes
+     */
+    public function allow_iframes_section() {
+        $field = get_option( 'int_option_allow_iframes' );
+        $checked = empty( $field ) ? '' : 'checked';
+
+        echo '<input type="checkbox" id="int_option_allow_iframes" name="int_option_allow_iframes" value="1" ' . $checked . ' />';
+    }
 
 	/**
 	 * 	Google Analytics option

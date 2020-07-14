@@ -49,6 +49,7 @@ https://github.com/clickonmedia/interactive-longform-articles/wiki/Instructions
 * There are a few optional settings you can adjust in Settings > Interactive Longform Articles:
   * Enable Interactive Articles as a separate post type
   * Enable the "downloads" section
+  * Enable iframe embedding in text editor
   * Add Google Analytics Event tracking
   * Adjust the progress indicator color
 
